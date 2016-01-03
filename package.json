@@ -1,0 +1,58 @@
+{
+  "name": "superapi-cache",
+  "version": "0.0.0",
+  "description": "Caching module for superapi",
+  "homepage": "https://github.com/stephanebachelier/superapi-cache",
+  "author": {
+    "name": "Stéphane Bachelier",
+    "email": "stephane.bachelier@gmail.com",
+    "url": "https://github.com/stephanebachelier"
+  },
+  "files": [
+    "/dist",
+    "/lib"
+  ],
+  "main": "dist/index.js",
+  "jsnext:main": "lib/index.js",
+  "keywords": [
+    "superapi",
+    "cache",
+    "xhr",
+    "request"
+  ],
+  "standard": {
+    "ignore": [
+      "/dist"
+    ]
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "standard",
+    "codecov": "npm run test:coverage -s && codecov < coverage/lcov.info",
+    "test": "babel-tape-runner test/**.js | tap-spec",
+    "test:coverage": "babel-node node_modules/.bin/isparta cover test/",
+    "test:watch": "watch 'npm test' test lib",
+    "prebuild": "npm run clean -s",
+    "build": "babel lib --out-dir dist",
+    "build:watch": "watch 'npm run build' lib",
+    "preversion": "npm run lint -s && npm run test -s && npm run build -s",
+    "postversion": "git push origin master --follow-tags",
+    "deploy": "git pull --rebase origin master && git push origin master"
+  },
+  "repository": "https://github.com/stephanebachelier/superapi-cache",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-core": "^6.3.26",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-tape-runner": "^2.0.0",
+    "isparta": "^4.0.0",
+    "rimraf": "^2.5.0",
+    "standard": "^5.4.1",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.3.0",
+    "watch": "^0.17.1"
+  }
+}
