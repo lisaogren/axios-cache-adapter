@@ -51,3 +51,20 @@ test('hydrate success callback', t => {
       })
   })
 })
+
+test('hydrate error callback', t => {
+  return new Promise((resolve) => {
+    hydrate(req)(false)
+      .then((res) => {
+        t.error('response should not be defined on cache miss')
+
+        resolve()
+      })
+      .catch((err) => {
+        // add test in case of error
+        t.equals(err.reason, 'cache-miss', 'hydration should throw on empty cache')
+
+        resolve()
+      })
+  })
+})
