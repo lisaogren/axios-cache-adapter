@@ -1,9 +1,9 @@
 'use strict'
 
-import response from '../lib/response.js'
+import hydrate from '../lib/hydrate.js'
 import test from 'tape'
 
-test('response body', t => {
+test('hydrate response body', t => {
   // cached value
   const value = {
     body: {
@@ -15,7 +15,7 @@ test('response body', t => {
     }
   }
 
-  const _response = response(value)
+  const _response = hydrate(value)
 
   t.equal(_response.responseType, value.body.responseType, 'responseType should be correct ')
   t.equal(_response.responseText, value.body.responseText, 'responseText should be correct ')
@@ -26,7 +26,7 @@ test('response body', t => {
   t.end()
 })
 
-test('response headers', t => {
+test('hydrate response headers', t => {
   // cached value
   const value = {
     headers: {
@@ -35,7 +35,7 @@ test('response headers', t => {
     }
   }
 
-  const _response = response(value)
+  const _response = hydrate(value)
 
   t.deepEqual(_response.getAllResponseHeaders(), value.headers, 'cached response should have the getAllResponseHeaders()')
   t.equal(_response.getResponseHeader('content-type'), 'type/text', 'cached response should have the getResponseHeader()')
@@ -43,17 +43,17 @@ test('response headers', t => {
   t.end()
 })
 
-test('text response', t => {
+test('hydrate text response', t => {
   t.skip()
   t.end()
 })
 
-test('JSON response', t => {
+test('hydrate JSON response', t => {
   t.skip()
   t.end()
 })
 
-test('ArrayBuffer response', t => {
+test('hydrate ArrayBuffer response', t => {
   // instanceof ArrayBuffer
   t.skip()
   t.end()
