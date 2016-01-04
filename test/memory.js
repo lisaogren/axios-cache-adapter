@@ -1,7 +1,7 @@
 'use strict'
 
 import MemoryStore from '../lib/memory.js'
-import test from 'tape'
+import test from 'blue-tape'
 
 test('MemoryStore getItem', t => {
   const store = new MemoryStore()
