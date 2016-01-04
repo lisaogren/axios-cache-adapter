@@ -1,6 +1,7 @@
 'use strict'
 
 import superapiCache from '../lib/index.js'
+import MemoryStore from '../lib/memory.js'
 import test from 'blue-tape'
 import { spy } from 'sinon'
 
@@ -33,6 +34,21 @@ test('middleware need a store and a cache function', t => {
 
   t.end()
 })
+
+test('middleware need a store with a valid API', t => {
+  const handler = superapiCache({
+    store: {},
+    cache: function () {}
+  })
+
+  const next = () => {
+    return Promise.resolve()
+  }
+
+  t.throws(() => {
+    handler({}, next, {})
+  }, /store.getItem/, 'should throw if invalid store provided')
+
   t.end()
 })
 
