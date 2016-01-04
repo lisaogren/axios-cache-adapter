@@ -1,25 +1,25 @@
 'use strict'
 
-import hydrate from '../lib/hydrate'
+import readCache from '../lib/read-cache'
 import test from 'blue-tape'
 import req from './helpers/req'
 import response from './helpers/response'
 
-test('hydrate closure', t => {
-  const closure = hydrate({})
+test('readCache closure', t => {
+  const closure = readCache({})
 
-  t.equals(typeof closure, 'function', 'hydrate should return a closure')
+  t.equals(typeof closure, 'function', 'reading from cache should return a closure')
   t.end()
 })
 
-test('hydrate closure is a promise', t => {
-  const closure = hydrate({})
+test('readCache closure is a promise', t => {
+  const closure = readCache({})
 
-  t.ok(closure() instanceof Promise, 'hydrate should return a promise')
+  t.ok(closure() instanceof Promise, 'reading from cache should return a promise')
   t.end()
 })
 
-test('hydrate success callback', t => {
+test('readCache success callback', t => {
   const value = {
     body: {
       responseType: 'text',
@@ -37,7 +37,7 @@ test('hydrate success callback', t => {
   }
 
   return new Promise((resolve) => {
-    hydrate(req)(value)
+    readCache(req)(value)
       .then((res) => {
         t.equals(res.body, value.body.responseText, 'response should be defined')
 
@@ -52,9 +52,9 @@ test('hydrate success callback', t => {
   })
 })
 
-test('hydrate error callback', t => {
+test('readCache error callback', t => {
   return new Promise((resolve) => {
-    hydrate(req)(false)
+    readCache(req)(false)
       .then((res) => {
         t.error('response should not be defined on cache miss')
 
@@ -62,7 +62,7 @@ test('hydrate error callback', t => {
       })
       .catch((err) => {
         // add test in case of error
-        t.equals(err.reason, 'cache-miss', 'hydration should throw on empty cache')
+        t.equals(err.reason, 'cache-miss', 'reading from cache should throw on cache miss')
 
         resolve()
       })
