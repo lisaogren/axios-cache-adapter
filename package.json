@@ -29,7 +29,7 @@
     "clean": "rimraf dist",
     "lint": "standard",
     "codecov": "npm run test:coverage -s && codecov < coverage/lcov.info",
-    "test": "babel-tape-runner test/**.js | tap-spec",
+    "test": "babel-tape-runner test/*.js | tap-spec",
     "test:coverage": "babel-node node_modules/.bin/isparta cover test/",
     "test:watch": "watch 'npm test' test lib",
     "prebuild": "npm run clean -s",
