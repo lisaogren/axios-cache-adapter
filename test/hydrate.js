@@ -1,7 +1,7 @@
 'use strict'
 
 import hydrate from '../lib/hydrate'
-import test from 'tape'
+import test from 'blue-tape'
 import req from './helpers/req'
 import response from './helpers/response'
 
