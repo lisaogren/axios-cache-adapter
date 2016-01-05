@@ -44,55 +44,11 @@ test('cache read function', t => {
   t.end()
 })
 
-test('should call cache function by default', t => {
-  t.skip('disabled test')
   t.end()
-
-  const cacheFn = spy()
-  const handler = superapiCache({
-    store: new MemoryStore(),
-    cache: cacheFn
-  })
-
-  const next = () => {
-    return Promise.resolve()
-  }
-  const service = {}
-
-  return new Promise((resolve) => {
-    handler({}, next, service).then(() => {
-      t.ok(cacheFn.called, 'cache function should have been called')
-      t.ok(cacheFn.calledOnce, 'cache function should have been called once')
-
-      resolve()
-    })
-  })
 })
 
-test('disable cache', t => {
-  t.skip('disabled test')
   t.end()
 
-  const cacheFn = spy(function () {})
-  const handler = superapiCache({
-    store: {},
-    cache: cacheFn
-  })
 
-  const next = () => {
-    return Promise.resolve()
-  }
-  const service = {
-    use: {
-      cache: false
-    }
-  }
 
-  return new Promise((resolve) => {
-    handler({}, next, service).then(() => {
-      t.ok(cacheFn.notCalled, 'cache function should not have been called')
-
-      resolve()
-    })
-  })
 })
