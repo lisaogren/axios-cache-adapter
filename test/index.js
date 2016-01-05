@@ -12,27 +12,11 @@ test('middleware configuration need a store', t => {
     superapiCache()
   }, /Cache middleware need to be provided a store/, 'should throw if no store property found')
 
-  t.end()
-})
-
-test('middleware need a cache function ', t => {
-  t.throws(() => {
+  t.doesNotThrow(() => {
     superapiCache({
       store: {}
     })
-  }, /Cache middleware need a cache function/, 'should throw if no caching function provided')
-
-  t.end()
-})
-
-
-test('middleware need a store and a cache function', t => {
-  t.doesNotThrow(() => {
-    superapiCache({
-      store: {},
-      cache: function () {}
-    })
-  }, 'should not throw with a valid configuration provided')
+  }, 'should not throw with a valid store provided')
 
   t.end()
 })
