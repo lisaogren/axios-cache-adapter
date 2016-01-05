@@ -2,6 +2,8 @@
 
 import superapiCache from '../lib/index.js'
 import MemoryStore from '../lib/memory.js'
+import readCache from '../lib/read-cache'
+
 import test from 'blue-tape'
 import { spy } from 'sinon'
 
@@ -52,6 +54,11 @@ test('middleware need a store with a valid API', t => {
   t.end()
 })
 
+test('cache read function', t => {
+  t.ok(superapiCache.readCache, 'should export default readCache')
+  t.equals(superapiCache.readCache, readCache, 'readCache should be the one')
+  t.end()
+})
 
 test('should call cache function by default', t => {
   const cacheFn = spy()
