@@ -37,7 +37,7 @@ test('readCache success callback', t => {
   }
 
   return new Promise((resolve) => {
-    readCache(req)(value)
+    readCache(req)(JSON.stringify(value))
       .then((res) => {
         t.equals(res.body, value.body.responseText, 'response should be defined')
 
