@@ -32,8 +32,6 @@ test.skip('middleware need a store with a valid API', t => {
 
       resolve()
     }, /Error/, 'should throw if invalid store provided')
-  }).catch(err => {
-    console.log(err);
   })
 })
 
