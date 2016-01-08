@@ -3,9 +3,9 @@
 import superapiCache from '../lib/index.js'
 import MemoryStore from '../lib/memory.js'
 import readCache from '../lib/read-cache'
+import serialize from '../lib/serialize'
 
 import test from 'blue-tape'
-import { spy } from 'sinon'
 
 test('middleware configuration need a store', t => {
   t.throws(() => {
@@ -23,8 +23,7 @@ test('middleware configuration need a store', t => {
 
 test('middleware need a store with a valid API', t => {
   const handler = superapiCache({
-    store: {},
-    cache: function () {}
+    store: {}
   })
 
   const next = () => {
@@ -44,11 +43,8 @@ test('cache read function', t => {
   t.end()
 })
 
+test('cache serialize function', t => {
+  t.ok(superapiCache.serialize, 'should export default serialize')
+  t.equals(superapiCache.serialize, serialize, 'serialize should be the one')
   t.end()
-})
-
-  t.end()
-
-
-
 })
