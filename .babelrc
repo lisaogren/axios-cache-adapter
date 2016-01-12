@@ -4,6 +4,6 @@
   ],
   "plugins": [
     "transform-es2015-arrow-functions",
-    "add-module-exports"
+    "babel-plugin-add-module-exports"
   ]
 }
