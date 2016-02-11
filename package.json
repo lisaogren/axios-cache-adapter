@@ -33,7 +33,7 @@
     "test:coverage": "babel-node node_modules/.bin/isparta cover test/",
     "test:watch": "watch 'npm test' test lib",
     "prebuild": "npm run clean -s",
-    "compile:bundle": "WEBPACK_ENV=build webpack",
+    "compile:bundle": "WEBPACK_ENV=dev webpack && WEBPACK_ENV=build webpack",
     "compile:watch": "WEBPACK_ENV=dev webpack --progress --colors --watch",
     "build": "babel lib --out-dir dist",
     "build:watch": "watch 'npm run build' lib",
