@@ -39,7 +39,8 @@
     "build:watch": "watch 'npm run build' lib",
     "preversion": "npm run lint -s && npm run test -s && npm run build -s",
     "postversion": "git push origin master --follow-tags",
-    "deploy": "git pull --rebase origin master && git push origin master"
+    "deploy": "git pull --rebase origin master && git push origin master",
+    "publish": "npm run build && npm run compile:bundle"
   },
   "repository": "https://github.com/stephanebachelier/superapi-cache",
   "license": "MIT",
