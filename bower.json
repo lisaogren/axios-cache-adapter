@@ -1,0 +1,33 @@
+{
+  "name": "superapi-cache",
+  "version": "0.5.0",
+  "homepage": "https://github.com/stephanebachelier/superapi-cache",
+  "authors": [
+    "Stéphane Bachelier <stephane.bachelier@gmail.com>"
+  ],
+  "description": "Cache middleware for superapi",
+  "main": "dist/superapi-cache.js",
+  "moduleType": [
+    "globals",
+    "amd",
+    "node",
+    "es6"
+  ],
+  "keywords": [
+    "http",
+    "api",
+    "cache",
+    "superagent",
+    "wrapper"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "examples",
+    "lib",
+    "node_modules",
+    "package.json",
+    "test",
+    "webpack.config.js"
+  ]
+}
