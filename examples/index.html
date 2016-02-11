@@ -1,0 +1,58 @@
+<doctype html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Superapi Cache test</title>
+
+    <script src="../node_modules/bluebird/js/browser/bluebird.js"></script>
+    <script src="../node_modules/localforage/dist/localforage.js"></script>
+    <script src="../node_modules/superapi/dist/superapi.js"></script>
+    <script src="../node_modules/superagent-dist/superagent.js"></script>
+    <script src="../dist/superapi-cache.js"></script>
+    <script>
+      api = superapi.default({
+        baseUrl: 'http://localhost:3002',
+        services: {
+          person: {
+            path: '/person/:id'
+          }
+        }
+      });
+      api.withAgent(superagent);
+
+      const superapiCache = window['superapi-cache'];
+
+      localforage.setDriver([
+        localforage.WEBSQL,
+        localforage.INDEXEDDB,
+        localforage.LOCALSTORAGE
+      ]);
+
+      api.register('cache', superapiCache({
+        store: localforage,
+        key: function (req) {
+          return req.url;
+        }
+      }));
+
+      api.status(200, function (req, res) {
+        console.log('200 called for ' + req.url);
+      });
+
+      api.api.person({params: {id: 123456789}})
+        .then(function (response) {
+          console.log(response.body);
+
+          localforage.getItem('http://localhost:3002/person/123456789').then(function (value) {
+            console.log(value);
+          });
+        })
+        .catch(function (error) {
+          debugger;
+        })
+
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
