@@ -1,6 +1,6 @@
 {
   "name": "superapi-cache",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "description": "Caching module for superapi",
   "homepage": "https://github.com/stephanebachelier/superapi-cache",
   "author": {
