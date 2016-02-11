@@ -32,10 +32,12 @@ function cache() {
   }
 
   return function (req, next, service) {
-    var useCache = !service.use || service.use && service.use.cache !== false;
+    if (service) {
+      var useCache = !service.use || service.use && service.use.cache !== false;
 
-    if (!useCache) {
-      return null;
+      if (!useCache) {
+        return null;
+      }
     }
 
     var f = function f() {

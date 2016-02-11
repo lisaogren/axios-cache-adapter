@@ -1,4 +1,14 @@
 <a name="0.5.0"></a>
+# [0.5.0](https://github.com/stephanebachelier/superapi-cache/compare/0.5.0...v0.5.0) (2016-02-11)
+
+
+### Bug Fixes
+
+* **cache:** fix runtime error when no service ([33bda03](https://github.com/stephanebachelier/superapi-cache/commit/33bda03))
+
+
+
+<a name="0.5.0"></a>
 # 0.5.0 (2016-02-11)
 
 
