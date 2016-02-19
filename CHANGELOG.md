@@ -1,3 +1,13 @@
+<a name="0.5.2"></a>
+## [0.5.2](https://github.com/stephanebachelier/superapi-cache/compare/0.5.2...v0.5.2) (2016-02-19)
+
+
+### Features
+
+* **cache:** delete cache for any non get request ([54bccb7](https://github.com/stephanebachelier/superapi-cache/commit/54bccb7))
+
+
+
 <a name="0.5.1"></a>
 ## [0.5.1](https://github.com/stephanebachelier/superapi-cache/compare/0.5.1...v0.5.1) (2016-02-19)
 

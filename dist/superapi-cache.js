@@ -101,13 +101,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return null;
 	    }
 	
+	    var uuid = key(req);
+	
+	    // clear cache if method different from GET
+	    if (req.method.toLowerCase() !== 'get') {
+	      store.removeItem(uuid);
+	      return null;
+	    }
+	
 	    var f = function f() {
 	      return next().then(function (res) {
-	        return store.setItem(key(req), config.serialize(req, res));
+	        return store.setItem(uuid, config.serialize(req, res));
 	      });
 	    };
 	
-	    return store.getItem(key(req)).then(function (value) {
+	    return store.getItem(uuid).then(function (value) {
 	      return config.readCache(req, config.log)(value).catch(function (err) {
 	        // eslint-disable-line handle-callback-err
 	        f();
