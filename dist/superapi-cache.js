@@ -96,6 +96,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
+	    // do not cache request with query
+	    if (req.url.match(/\?.*$/)) {
+	      return null;
+	    }
+	
 	    var f = function f() {
 	      return next().then(function (res) {
 	        return store.setItem(key(req), config.serialize(req, res));

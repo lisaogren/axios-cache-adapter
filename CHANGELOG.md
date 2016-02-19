@@ -1,3 +1,13 @@
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/stephanebachelier/superapi-cache/compare/0.5.1...v0.5.1) (2016-02-19)
+
+
+### Features
+
+* **cache:** bypass middleware in case request has a query ([4492c05](https://github.com/stephanebachelier/superapi-cache/commit/4492c05))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/stephanebachelier/superapi-cache/compare/0.5.0...v0.5.0) (2016-02-11)
 
