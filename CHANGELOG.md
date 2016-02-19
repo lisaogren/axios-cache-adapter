@@ -1,3 +1,13 @@
+<a name="0.5.3"></a>
+## [0.5.3](https://github.com/stephanebachelier/superapi-cache/compare/0.5.3...v0.5.3) (2016-02-19)
+
+
+### Features
+
+* **cache:** add support for expiration ([9809510](https://github.com/stephanebachelier/superapi-cache/commit/9809510))
+
+
+
 <a name="0.5.2"></a>
 ## [0.5.2](https://github.com/stephanebachelier/superapi-cache/compare/0.5.2...v0.5.2) (2016-02-19)
 

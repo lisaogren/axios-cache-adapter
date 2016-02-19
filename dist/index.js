@@ -24,6 +24,7 @@ function cache() {
   var store = config.store;
   var key = config.key || cache.key;
 
+  config.maxAge = config.maxAge || 0;
   config.readCache = config.readCache || _readCache2.default;
   config.serialize = config.serialize || _serialize2.default;
 
@@ -55,7 +56,10 @@ function cache() {
 
     var f = function f() {
       return next().then(function (res) {
-        return store.setItem(uuid, config.serialize(req, res));
+        return store.setItem(uuid, {
+          expires: config.maxAge === 0 ? 0 : Date.now() + config.maxAge,
+          data: config.serialize(req, res)
+        });
       });
     };
 

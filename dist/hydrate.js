@@ -45,11 +45,12 @@ function parseHeader(str) {
 }
 
 function hydrate(value) {
-  var xhr = value.body || {};
-  var headers = parseHeader(value.headers || {});
+  var data = value.data;
+  var xhr = data.body || {};
+  var headers = parseHeader(data.headers || {});
 
   xhr.getAllResponseHeaders = function () {
-    return value.headers;
+    return data.headers;
   };
 
   xhr.getResponseHeader = function (header) {

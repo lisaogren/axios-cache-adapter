@@ -80,6 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var store = config.store;
 	  var key = config.key || cache.key;
 	
+	  config.maxAge = config.maxAge || 0;
 	  config.readCache = config.readCache || _readCache2.default;
 	  config.serialize = config.serialize || _serialize2.default;
 	
@@ -111,7 +112,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var f = function f() {
 	      return next().then(function (res) {
-	        return store.setItem(uuid, config.serialize(req, res));
+	        return store.setItem(uuid, {
+	          expires: config.maxAge === 0 ? 0 : Date.now() + config.maxAge,
+	          data: config.serialize(req, res)
+	        });
 	      });
 	    };
 	
@@ -147,7 +151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = function (req, log) {
 	  return function (value) {
 	    return new Promise(function (resolve, reject) {
-	      if (!value) {
+	      if (!value || !value.data) {
 	        log('cache-miss', req.url);
 	        var error = new Error();
 	
@@ -155,6 +159,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        error.message = 'Value not found from cache';
 	        return reject(error);
 	      }
+	
+	      var expires = value.expires;
+	      var data = value.data;
+	
+	      if (expires !== 0 && expires < Date.now()) {
+	        log('cache-stale', req.url);
+	        var error = new Error();
+	
+	        error.reason = 'cache-stale';
+	        error.message = 'Value is stale';
+	        return reject(error);
+	      }
+	
+	      // hydrate pseudo xhr from cached value
+	      req.xhr = (0, _hydrate2.default)(data);
 	
 	      // override request end callback
 	      req.callback = function (err, res) {
@@ -167,8 +186,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        resolve(res);
 	      };
 	
-	      // hydrate pseudo xhr from cached value
-	      req.xhr = (0, _hydrate2.default)(value);
 	      req.emit('end');
 	    });
 	  };
@@ -233,11 +250,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function hydrate(value) {
-	  var xhr = value.body || {};
-	  var headers = parseHeader(value.headers || {});
+	  var data = value.data;
+	  var xhr = data.body || {};
+	  var headers = parseHeader(data.headers || {});
 	
 	  xhr.getAllResponseHeaders = function () {
-	    return value.headers;
+	    return data.headers;
 	  };
 	
 	  xhr.getResponseHeader = function (header) {
