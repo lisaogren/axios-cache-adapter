@@ -121,8 +121,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return store.getItem(uuid).then(function (value) {
 	      return config.readCache(req, config.log)(value).catch(function (err) {
-	        // eslint-disable-line handle-callback-err
-	        f();
+	        // clean up cache if stale
+	        err.reason === 'cache-stale' ? store.removeItem(uuid).then(f) : f();
 	      });
 	    });
 	  };

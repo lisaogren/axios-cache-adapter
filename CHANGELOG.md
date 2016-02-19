@@ -1,3 +1,13 @@
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/stephanebachelier/superapi-cache/compare/0.6.0...v0.6.0) (2016-02-19)
+
+
+### Features
+
+* **cache:** cleanup cache entry if stale ([8129677](https://github.com/stephanebachelier/superapi-cache/commit/8129677))
+
+
+
 <a name="0.5.3"></a>
 ## [0.5.3](https://github.com/stephanebachelier/superapi-cache/compare/0.5.3...v0.5.3) (2016-02-19)
 
