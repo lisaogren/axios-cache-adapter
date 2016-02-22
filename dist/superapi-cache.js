@@ -269,12 +269,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function hydrate(value) {
-	  var data = value.data;
-	  var xhr = data.body || {};
-	  var headers = parseHeader(data.headers || {});
+	  var xhr = value.body || {};
+	  var headers = parseHeader(value.headers || {});
 	
 	  xhr.getAllResponseHeaders = function () {
-	    return data.headers;
+	    return value.headers;
 	  };
 	
 	  xhr.getResponseHeader = function (header) {

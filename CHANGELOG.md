@@ -1,3 +1,13 @@
+<a name="0.6.2"></a>
+## [0.6.2](https://github.com/stephanebachelier/superapi-cache/compare/0.6.2...v0.6.2) (2016-02-22)
+
+
+### Bug Fixes
+
+* **hydrate:** revert to reading from cached response part ([3a10d8d](https://github.com/stephanebachelier/superapi-cache/commit/3a10d8d))
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/stephanebachelier/superapi-cache/compare/0.6.1...v0.6.1) (2016-02-22)
 
