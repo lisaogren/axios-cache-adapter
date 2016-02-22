@@ -1,3 +1,14 @@
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/stephanebachelier/superapi-cache/compare/0.6.1...v0.6.1) (2016-02-22)
+
+
+### Features
+
+* **cache:** add support for path exclusion ([bafe512](https://github.com/stephanebachelier/superapi-cache/commit/bafe512))
+* **store:** default to memory store ([f7f4d58](https://github.com/stephanebachelier/superapi-cache/commit/f7f4d58))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/stephanebachelier/superapi-cache/compare/0.6.0...v0.6.0) (2016-02-19)
 

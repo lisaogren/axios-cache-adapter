@@ -68,21 +68,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _serialize2 = _interopRequireDefault(_serialize);
 	
+	var _memory = __webpack_require__(4);
+	
+	var _memory2 = _interopRequireDefault(_memory);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function cache() {
 	  var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
-	  if (!config.store) {
+	  var store = config.store || _memory2.default;
+	  var key = config.key || cache.key;
+	
+	  if (!store) {
 	    throw new Error('Cache middleware need to be provided a store.');
 	  }
-	
-	  var store = config.store;
-	  var key = config.key || cache.key;
 	
 	  config.maxAge = config.maxAge || 0;
 	  config.readCache = config.readCache || _readCache2.default;
 	  config.serialize = config.serialize || _serialize2.default;
+	
+	  config.exclude = config.exclude || [];
 	
 	  if (config.log !== false) {
 	    config.log = typeof config.log === 'function' ? config.log : console.log.bind(console);
@@ -99,6 +105,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // do not cache request with query
 	    if (req.url.match(/\?.*$/)) {
+	      return null;
+	    }
+	
+	    var found = false;
+	
+	    config.exclude.forEach(function (regexp) {
+	      if (req.url.match(regexp)) {
+	        found = true;
+	        return false;
+	      }
+	    });
+	
+	    if (found) {
 	      return null;
 	    }
 	
@@ -287,6 +306,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 	}
+	module.exports = exports['default'];
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var MemoryStore = function () {
+	  function MemoryStore() {
+	    _classCallCheck(this, MemoryStore);
+	
+	    this._store = {};
+	  }
+	
+	  _createClass(MemoryStore, [{
+	    key: "getItem",
+	    value: function getItem(key) {
+	      return Promise.resolve(this._store[key] || null);
+	    }
+	  }, {
+	    key: "setItem",
+	    value: function setItem(key, value) {
+	      this._store[key] = value;
+	      return Promise.resolve(value);
+	    }
+	  }, {
+	    key: "clear",
+	    value: function clear() {
+	      this._store = {};
+	      return Promise.resolve();
+	    }
+	  }]);
+	
+	  return MemoryStore;
+	}();
+	
+	exports.default = MemoryStore;
 	module.exports = exports['default'];
 
 /***/ }
