@@ -71,3 +71,35 @@ test('readCache cache miss', t => {
       })
   })
 })
+
+test('readCache cache stale', t => {
+  const req = new Request()
+
+  const value = {
+    expires: -1,
+    data: {
+      body: {
+        responseType: 'text',
+        responseText: 'Hello world',
+        status: 200,
+        statusText: 'OK'
+      },
+      headers: 'content-type: text/plain'
+    }
+  }
+
+  return new Promise(resolve => {
+    readCache(req, log)(value)
+      .then(res => {
+        t.error('response should not be defined on cache stale')
+
+        resolve()
+      })
+      .catch(err => {
+        // add test in case of error
+        t.equals(err.reason, 'cache-stale', 'reading a stale value from cache should throw')
+
+        resolve()
+      })
+  })
+})
