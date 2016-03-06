@@ -7,7 +7,6 @@ test('hydrate response body', t => {
   // cached value
   const value = {
     body: {
-      response: '',
       responseText: '',
       responseType: 'text',
       status: 200,
@@ -15,11 +14,10 @@ test('hydrate response body', t => {
     }
   }
 
-  const _response = hydrate(JSON.stringify(value))
+  const _response = hydrate(value)
 
   t.equal(_response.responseType, value.body.responseType, 'responseType should be correct ')
   t.equal(_response.responseText, value.body.responseText, 'responseText should be correct ')
-  t.equal(_response.response, value.body.response, 'response should be correct ')
   t.equal(_response.status, value.body.status, 'response status should be correct ')
   t.equal(_response.statusText, value.body.statusText, 'response statusText should be correct ')
 
@@ -29,16 +27,15 @@ test('hydrate response body', t => {
 test('hydrate response headers', t => {
   // cached value
   const value = {
-    headers: {
-      'content-type': 'type/text',
-      'content-length': 1234
-    }
+    headers: 'content-type: type/text\ncontent-length: 1234\n'
   }
 
-  const _response = hydrate(JSON.stringify(value))
+  const _response = hydrate(value)
+  const allHeaders = _response.getAllResponseHeaders()
+  const typeHeader = _response.getResponseHeader('content-type')
 
-  t.deepEqual(_response.getAllResponseHeaders(), value.headers, 'cached response should have the getAllResponseHeaders()')
-  t.equal(_response.getResponseHeader('content-type'), 'type/text', 'cached response should have the getResponseHeader()')
+  t.deepEqual(allHeaders, value.headers, 'cached response should have the getAllResponseHeaders()')
+  t.equal(typeHeader, 'type/text', 'cached response should have the getResponseHeader()')
 
   t.end()
 })
