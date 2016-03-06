@@ -21,7 +21,7 @@ test('readCache closure is a promise', t => {
   t.end()
 })
 
-test('readCache success callback', t => {
+test('readCache cache success', t => {
   const value = {
     expires: 0,
     data: {
@@ -53,7 +53,7 @@ test('readCache success callback', t => {
   })
 })
 
-test('readCache error callback', t => {
+test('readCache cache miss', t => {
   const req = new Request()
 
   return new Promise(resolve => {
