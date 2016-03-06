@@ -3,34 +3,39 @@ import response from './response'
 
 const log = debug('request')
 
-const req = {
-  _items: {},
+class Request {
+  constructor () {
+    this._items = {}
+    this._callback = this.callback
+  }
 
-  set: function (name, value) {
+  set (name, value) {
     this._items[name] = value
-  },
+  }
 
-  error: function () {
+  error () {
     return this._items.error || null
-  },
+  }
 
-  response: function () {
+  response () {
     log('sending response ', this._items.response || response(this) || null)
     return this._items.response || response(this) || null
-  },
+  }
 
-  callback: function (err, res) {
+  callback (err, res) {
     return err ? err : res
-  },
+  }
 
-  end: function (fn) {
-    this._callback = fn
-  },
+  // enable overriding default end callback
+  // end (fn) {
+  //   this._callback = fn
+  // }
 
   // only emit('end') is mocked
-  emit: function () {
-    this._callback(this.error(), this.response())
+  emit () {
+    log('emit')
+    this.callback(this.error(), this.response())
   }
 }
 
-export default req
+export default Request

@@ -2,8 +2,7 @@
 
 import readCache from '../lib/read-cache'
 import test from 'blue-tape'
-import req from './helpers/req'
-import response from './helpers/response'
+import Request from './helpers/req'
 
 test('readCache closure', t => {
   const closure = readCache({})
@@ -32,9 +31,7 @@ test('readCache success callback', t => {
     }
   }
 
-  req.response = function () {
-    return response(this)
-  }
+  const req = new Request()
 
   return new Promise((resolve) => {
     readCache(req)(JSON.stringify(value))
@@ -56,6 +53,8 @@ test('readCache error callback', t => {
   return new Promise((resolve) => {
     readCache(req)(false)
       .then((res) => {
+  const req = new Request()
+
         t.error('response should not be defined on cache miss')
 
         resolve()
