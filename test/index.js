@@ -1,23 +1,39 @@
 'use strict'
 
 import superapiCache from '../lib/index.js'
-import MemoryStore from '../lib/memory.js'
+import memoryStore from '../lib/memory.js'
 import readCache from '../lib/read-cache'
 import serialize from '../lib/serialize'
 
 import test from 'blue-tape'
 
-test('middleware configuration need a store', t => {
-  t.throws(() => {
-    superapiCache()
-  }, /Cache middleware need to be provided a store/, 'should throw if no store property found')
+test('middleware store', t => {
+  const config = {}
 
-  t.doesNotThrow(() => {
-    superapiCache({
-      store: {}
-    })
-  }, 'should not throw with a valid store provided')
+  superapiCache(config)
 
+  t.equals(config.store, memoryStore, 'should use the default store if none provided')
+  t.end()
+})
+
+test('middleware store', t => {
+  const dict = new Map()
+  const store = {
+    getItem: (k) => {
+      return dict.get(k)
+    },
+    setItem: (k, v) => {
+      return dict.set(k, v)
+    }
+  }
+
+  const config = {
+    store: store
+  }
+
+  superapiCache(config)
+
+  t.equals(config.store, store, 'should use the custom store provided')
   t.end()
 })
 
