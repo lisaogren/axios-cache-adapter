@@ -20,23 +20,24 @@ test('readCache closure is a promise', t => {
 
 test('readCache success callback', t => {
   const value = {
-    body: {
-      responseType: 'text',
-      responseText: 'Hello world',
-      status: 200,
-      statusText: 'OK'
-    },
-    headers: {
-      'content-type': 'text/plain'
+    expires: 0,
+    data: {
+      body: {
+        responseType: 'text',
+        responseText: 'Hello world',
+        status: 200,
+        statusText: 'OK'
+      },
+      headers: 'content-type: text/plain'
     }
   }
 
   const req = new Request()
 
   return new Promise((resolve) => {
-    readCache(req)(JSON.stringify(value))
       .then((res) => {
-        t.equals(res.body, value.body.responseText, 'response should be defined')
+    readCache(req)(value)
+        t.equals(res.body, value.data.body.responseText, 'response should be defined')
 
         resolve()
       })
