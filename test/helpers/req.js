@@ -1,5 +1,5 @@
 import debug from 'debug'
-import response from './response';
+import response from './response'
 
 const log = debug('request')
 
@@ -15,7 +15,7 @@ const req = {
   },
 
   response: function () {
-    log('sending response ', this._items.response || response(this) || null);
+    log('sending response ', this._items.response || response(this) || null)
     return this._items.response || response(this) || null
   },
 

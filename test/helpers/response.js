@@ -4,7 +4,7 @@ import { clone } from 'lodash/lang'
 const log = debug('response')
 
 function response (req) {
-  log('calling response for req', req.xhr);
+  log('calling response for req', req.xhr)
   const res = clone(req.xhr)
 
   res.body = res.responseText
