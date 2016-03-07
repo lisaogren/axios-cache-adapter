@@ -18,8 +18,10 @@ class Request {
   }
 
   response () {
-    log('sending response ', this._items.response || response(this) || null)
-    return this._items.response || response(this) || null
+    const data = this._items.response || response(this) || null
+
+    log('sending response ', data)
+    return data
   }
 
   callback (err, res) {
