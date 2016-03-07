@@ -55,8 +55,11 @@ test('miss from cache', t => {
       store: new MemoryStore()
     }
 
+    const req = new Request()
+
+    req.method = 'get'
     req.url = '/api/foo'
-    req.xhr = hydrate(JSON.stringify(fixtures))
+    req.xhr = hydrate(fixtures.data)
 
     const fetchNetwork = spy(req, 'response')
     const next = () => {
@@ -66,8 +69,8 @@ test('miss from cache', t => {
     return superapiCache(options)(req, next, {})
       .then(res => {
         t.ok(fetchNetwork.called, 'should fetch response from network')
-        t.equal(fixtures.body.status, res.status, 'should retrieve the same status from cache')
-        t.equal(fixtures.body.responseText, res.responseText, 'should retrieve the same responseText from cache')
+        t.equal(fixtures.data.body.status, res.status, 'should retrieve the same status from cache')
+        t.equal(fixtures.data.body.responseText, res.responseText, 'should retrieve the same responseText from cache')
 
         req.response.restore()
         resolve()
@@ -91,8 +94,11 @@ test('fetch network', t => {
       serialize: _serialize
     }
 
+    const req = new Request()
+
+    req.method = 'get'
     req.url = '/api/foo'
-    req.xhr = hydrate(JSON.stringify(fixtures))
+    req.xhr = hydrate(fixtures.data)
 
     const fetchNetwork = spy(req, 'response')
     const next = () => {
@@ -107,8 +113,8 @@ test('fetch network', t => {
           .then((value) => {
             t.ok(value, 'it should have copy the response in the cache')
             t.ok(_serialize.called, 'it should have serialized the response in the cache')
-            t.equal(value.body.status, res.status, 'it should have the same status from network')
-            t.equal(value.body.responseText, res.responseText, 'it should have the same responseText from network')
+            t.equal(value.data.body.status, res.status, 'it should have the same status from network')
+            t.equal(value.data.body.responseText, res.responseText, 'it should have the same responseText from network')
             const type = res.getResponseHeader('content-type')
 
             t.equal(value.headers['content-type'], type, 'it should have the same responseText from network')
@@ -117,8 +123,7 @@ test('fetch network', t => {
             resolve()
           })
 
-      }).catch(err => {
-        console.log(err)
+      }).catch(err => { // eslint-disable-line handle-callback-err
         t.fail('should not throw error')
 
         req.response.restore()
