@@ -77,18 +77,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	function cache() {
 	  var config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
-	  var store = config.store || _memory2.default;
+	  config.store = config.store || _memory2.default;
 	  var key = config.key || cache.key;
-	
-	  if (!store) {
-	    throw new Error('Cache middleware need to be provided a store.');
-	  }
 	
 	  config.maxAge = config.maxAge || 0;
 	  config.readCache = config.readCache || _readCache2.default;
 	  config.serialize = config.serialize || _serialize2.default;
 	
-	  config.exclude = config.exclude || [];
+	  config.exclude = config.exclude || {};
+	  config.exclude.query = config.exclude.query || true;
+	  config.exclude.paths = config.exclude.paths || [];
 	
 	  if (config.log !== false) {
 	    config.log = typeof config.log === 'function' ? config.log : console.log.bind(console);
@@ -104,13 +102,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    // do not cache request with query
-	    if (req.url.match(/\?.*$/)) {
+	    if (config.exclude.query && req.url.match(/\?.*$/)) {
 	      return null;
 	    }
 	
 	    var found = false;
 	
-	    config.exclude.forEach(function (regexp) {
+	    config.exclude.paths.forEach(function (regexp) {
 	      if (req.url.match(regexp)) {
 	        found = true;
 	        return false;
@@ -125,23 +123,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    // clear cache if method different from GET
 	    if (req.method.toLowerCase() !== 'get') {
-	      store.removeItem(uuid);
+	      config.store.removeItem(uuid);
 	      return null;
 	    }
 	
 	    var f = function f() {
 	      return next().then(function (res) {
-	        return store.setItem(uuid, {
+	        return config.store.setItem(uuid, {
 	          expires: config.maxAge === 0 ? 0 : Date.now() + config.maxAge,
 	          data: config.serialize(req, res)
 	        });
 	      });
 	    };
 	
-	    return store.getItem(uuid).then(function (value) {
+	    return config.store.getItem(uuid).then(function (value) {
 	      return config.readCache(req, config.log)(value).catch(function (err) {
 	        // clean up cache if stale
-	        err.reason === 'cache-stale' ? store.removeItem(uuid).then(f) : f();
+	        err.reason === 'cache-stale' ? config.store.removeItem(uuid).then(f) : f();
 	      });
 	    });
 	  };
@@ -242,18 +240,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	*/
 	
 	// borrow from superagent
-	function trim(s) {
+	function trim() {
+	  var s = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	
 	  return ''.trim ? s.trim(s) : s.replace(/(^\s*|\s*$)/g, '');
 	}
 	
 	// borrow from superagent
-	function parseHeader(str) {
+	function parseHeaders() {
+	  var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	
 	  var lines = str.split(/\r?\n/);
 	  var fields = {};
-	  var index;
-	  var line;
-	  var field;
-	  var val;
+	  var index = undefined;
+	  var line = undefined;
+	  var field = undefined;
+	  var val = undefined;
 	
 	  lines.pop(); // trailing CRLF
 	
@@ -270,7 +272,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function hydrate(value) {
 	  var xhr = value.body || {};
-	  var headers = parseHeader(value.headers || {});
+	  var headers = parseHeaders(value.headers);
 	
 	  xhr.getAllResponseHeaders = function () {
 	    return value.headers;

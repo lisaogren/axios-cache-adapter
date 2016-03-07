@@ -1,3 +1,22 @@
+<a name="0.6.3"></a>
+## [0.6.3](https://github.com/stephanebachelier/superapi-cache/compare/0.6.3...v0.6.3) (2016-03-07)
+
+
+### Bug Fixes
+
+* **e2e:** fix hit cache test ([d58cd9d](https://github.com/stephanebachelier/superapi-cache/commit/d58cd9d))
+* **helper:** add missing xhr field ([6f0eb8e](https://github.com/stephanebachelier/superapi-cache/commit/6f0eb8e))
+* **helper:** assign result to variable ([5f67e3b](https://github.com/stephanebachelier/superapi-cache/commit/5f67e3b))
+* **hydrate:** remove applied default value ([96d7b53](https://github.com/stephanebachelier/superapi-cache/commit/96d7b53))
+
+### Features
+
+* **exclude:** reorganize exclude option ([c4cd458](https://github.com/stephanebachelier/superapi-cache/commit/c4cd458))
+* **hydrate:** use empty string as default value ([3c9f0ac](https://github.com/stephanebachelier/superapi-cache/commit/3c9f0ac))
+* **readCache:** add test for stale value ([2bec9e7](https://github.com/stephanebachelier/superapi-cache/commit/2bec9e7))
+
+
+
 <a name="0.6.2"></a>
 ## [0.6.2](https://github.com/stephanebachelier/superapi-cache/compare/0.6.2...v0.6.2) (2016-02-22)
 

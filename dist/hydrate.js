@@ -18,18 +18,22 @@ value should have the following format
 */
 
 // borrow from superagent
-function trim(s) {
+function trim() {
+  var s = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
   return ''.trim ? s.trim(s) : s.replace(/(^\s*|\s*$)/g, '');
 }
 
 // borrow from superagent
-function parseHeader(str) {
+function parseHeaders() {
+  var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
   var lines = str.split(/\r?\n/);
   var fields = {};
-  var index;
-  var line;
-  var field;
-  var val;
+  var index = undefined;
+  var line = undefined;
+  var field = undefined;
+  var val = undefined;
 
   lines.pop(); // trailing CRLF
 
@@ -46,7 +50,7 @@ function parseHeader(str) {
 
 function hydrate(value) {
   var xhr = value.body || {};
-  var headers = parseHeader(value.headers || {});
+  var headers = parseHeaders(value.headers);
 
   xhr.getAllResponseHeaders = function () {
     return value.headers;
