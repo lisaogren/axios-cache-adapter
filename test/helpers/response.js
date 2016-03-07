@@ -9,9 +9,7 @@ function response (req) {
 
   res.body = res.responseText
   res.headers = req.xhr.getAllResponseHeaders()
-
-  log(res.body)
-  log(res.headers)
+  res.xhr = req.xhr
 
   return res
 }
