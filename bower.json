@@ -6,7 +6,7 @@
     "Stéphane Bachelier <stephane.bachelier@gmail.com>"
   ],
   "description": "Cache middleware for superapi",
-  "main": "dist/superapi-cache.js",
+  "main": "dist/umd/superapi-cache.js",
   "moduleType": [
     "globals",
     "amd",
