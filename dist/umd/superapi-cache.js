@@ -129,6 +129,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var f = function f() {
 	      return next().then(function (res) {
+	        var type = res.status / 100 | 0;
+	
+	        // only cache 2xx response
+	        if (type !== 2) {
+	          return res;
+	        }
+	
 	        return config.store.setItem(uuid, {
 	          expires: config.maxAge === 0 ? 0 : Date.now() + config.maxAge,
 	          data: config.serialize(req, res)

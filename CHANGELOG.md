@@ -1,3 +1,13 @@
+<a name="0.7.1"></a>
+## [0.7.1](https://github.com/stephanebachelier/superapi-cache/compare/0.7.1...v0.7.1) (2016-03-16)
+
+
+### Features
+
+* **cache:** exclude all non 2xx response from being cached ([0924943](https://github.com/stephanebachelier/superapi-cache/commit/0924943))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/stephanebachelier/superapi-cache/compare/0.7.0...v0.7.0) (2016-03-10)
 
