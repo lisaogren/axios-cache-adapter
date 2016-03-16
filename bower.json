@@ -17,6 +17,8 @@
     "http",
     "api",
     "cache",
+    "middleware",
+    "superapi",
     "superagent",
     "wrapper"
   ],
