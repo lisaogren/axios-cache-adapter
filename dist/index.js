@@ -16,6 +16,10 @@ var _memory = require('./memory');
 
 var _memory2 = _interopRequireDefault(_memory);
 
+var _exclude = require('./exclude');
+
+var _exclude2 = _interopRequireDefault(_exclude);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function cache() {
@@ -31,35 +35,14 @@ function cache() {
   config.exclude = config.exclude || {};
   config.exclude.query = config.exclude.query || true;
   config.exclude.paths = config.exclude.paths || [];
+  config.exclude.filter = null;
 
   if (config.log !== false) {
     config.log = typeof config.log === 'function' ? config.log : console.log.bind(console);
   }
 
   return function (req, next, service) {
-    if (service) {
-      var useCache = !service.use || service.use && service.use.cache !== false;
-
-      if (!useCache) {
-        return null;
-      }
-    }
-
-    // do not cache request with query
-    if (config.exclude.query && req.url.match(/\?.*$/)) {
-      return null;
-    }
-
-    var found = false;
-
-    config.exclude.paths.forEach(function (regexp) {
-      if (req.url.match(regexp)) {
-        found = true;
-        return false;
-      }
-    });
-
-    if (found) {
+    if ((0, _exclude2.default)(req, service, config.exclude)) {
       return null;
     }
 

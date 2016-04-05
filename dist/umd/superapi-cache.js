@@ -72,6 +72,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _memory2 = _interopRequireDefault(_memory);
 	
+	var _exclude = __webpack_require__(5);
+	
+	var _exclude2 = _interopRequireDefault(_exclude);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function cache() {
@@ -87,35 +91,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  config.exclude = config.exclude || {};
 	  config.exclude.query = config.exclude.query || true;
 	  config.exclude.paths = config.exclude.paths || [];
+	  config.exclude.filter = null;
 	
 	  if (config.log !== false) {
 	    config.log = typeof config.log === 'function' ? config.log : console.log.bind(console);
 	  }
 	
 	  return function (req, next, service) {
-	    if (service) {
-	      var useCache = !service.use || service.use && service.use.cache !== false;
-	
-	      if (!useCache) {
-	        return null;
-	      }
-	    }
-	
-	    // do not cache request with query
-	    if (config.exclude.query && req.url.match(/\?.*$/)) {
-	      return null;
-	    }
-	
-	    var found = false;
-	
-	    config.exclude.paths.forEach(function (regexp) {
-	      if (req.url.match(regexp)) {
-	        found = true;
-	        return false;
-	      }
-	    });
-	
-	    if (found) {
+	    if ((0, _exclude2.default)(req, service, config.exclude)) {
 	      return null;
 	    }
 	
@@ -360,6 +343,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 	
 	exports.default = MemoryStore;
+	module.exports = exports['default'];
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = exclude;
+	function exclude(req, service) {
+	  var exclusions = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	
+	  if (service) {
+	    if (service.use && service.use.cache === false) {
+	      return true;
+	    }
+	  }
+	
+	  if (typeof exclusions.filter === 'function' && !exclusions.filter(req)) {
+	    return true;
+	  }
+	
+	  // do not cache request with query
+	  if (exclusions.query && req.url.match(/\?.*$/)) {
+	    return true;
+	  }
+	
+	  var found = false;
+	  var paths = exclusions.paths || [];
+	
+	  paths.forEach(function (regexp) {
+	    if (req.url.match(regexp)) {
+	      found = true;
+	      return found;
+	    }
+	  });
+	
+	  if (found) {
+	    return true;
+	  }
+	
+	  // All rules explained. fo not rewrite regexp.
+	  return false;
+	}
 	module.exports = exports['default'];
 
 /***/ }
