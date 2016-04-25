@@ -87,6 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  config.maxAge = config.maxAge || 0;
 	  config.readCache = config.readCache || _readCache2.default;
 	  config.serialize = config.serialize || _serialize2.default;
+	  config.clearOnStale = config.clearOnStale !== undefined ? config.clearOnStale : true;
 	
 	  config.exclude = config.exclude || {};
 	  config.exclude.query = config.exclude.query || true;
@@ -129,7 +130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return config.store.getItem(uuid).then(function (value) {
 	      return config.readCache(req, config.log)(value).catch(function (err) {
 	        // clean up cache if stale
-	        err.reason === 'cache-stale' ? config.store.removeItem(uuid).then(f) : f();
+	        return config.clearOnStale && err.reason === 'cache-stale' ? config.store.removeItem(uuid).then(f) : f();
 	      });
 	    });
 	  };

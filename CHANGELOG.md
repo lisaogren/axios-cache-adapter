@@ -1,3 +1,17 @@
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/stephanebachelier/superapi-cache/compare/0.9.0...v0.9.0) (2016-04-25)
+
+
+### Bug Fixes
+
+* **cache:** return promise to not break promise chain ([2724ee7](https://github.com/stephanebachelier/superapi-cache/commit/2724ee7))
+
+### Features
+
+* **cache:** add flag to choose cache strategy if stale ([d228174](https://github.com/stephanebachelier/superapi-cache/commit/d228174))
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/stephanebachelier/superapi-cache/compare/0.8.0...v0.8.0) (2016-04-05)
 
