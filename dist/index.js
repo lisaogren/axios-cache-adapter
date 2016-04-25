@@ -74,7 +74,7 @@ function cache() {
     return config.store.getItem(uuid).then(function (value) {
       return config.readCache(req, config.log)(value).catch(function (err) {
         // clean up cache if stale
-        return config.clearOnStale && err.reason === 'cache-stale' ? config.store.removeItem(uuid).then(f) : f();
+        config.clearOnStale && err.reason === 'cache-stale' ? config.store.removeItem(uuid).then(f) : f();
       });
     });
   };
