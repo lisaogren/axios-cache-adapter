@@ -53,7 +53,7 @@ function cache() {
     // We should exclude HEAD
     var method = req.method.toLowerCase();
 
-    if (method !== 'get' || method !== 'head') {
+    if (method !== 'get' && method !== 'head') {
       config.store.removeItem(uuid);
       return null;
     }

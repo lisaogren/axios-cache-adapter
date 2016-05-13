@@ -1,3 +1,13 @@
+<a name="0.10.2"></a>
+## [0.10.2](https://github.com/stephanebachelier/superapi-cache/compare/0.10.2...v0.10.2) (2016-05-13)
+
+
+### Bug Fixes
+
+* **cache:** remove cache entry for non HEAD or GET request ([08b0c2e](https://github.com/stephanebachelier/superapi-cache/commit/08b0c2e))
+
+
+
 <a name="0.10.1"></a>
 ## [0.10.1](https://github.com/stephanebachelier/superapi-cache/compare/0.10.1...v0.10.1) (2016-05-13)
 
