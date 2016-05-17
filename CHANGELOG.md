@@ -1,3 +1,13 @@
+<a name="0.10.3"></a>
+## [0.10.3](https://github.com/stephanebachelier/superapi-cache/compare/0.10.3...v0.10.3) (2016-05-17)
+
+
+### Bug Fixes
+
+* **cache:** do not process HEAD requests ([1d41e98](https://github.com/stephanebachelier/superapi-cache/commit/1d41e98))
+
+
+
 <a name="0.10.2"></a>
 ## [0.10.2](https://github.com/stephanebachelier/superapi-cache/compare/0.10.2...v0.10.2) (2016-05-13)
 

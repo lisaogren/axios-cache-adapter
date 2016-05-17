@@ -109,7 +109,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // We should exclude HEAD
 	    var method = req.method.toLowerCase();
 	
-	    if (method !== 'get' && method !== 'head') {
+	    if (method === 'head') {
+	      return null;
+	    }
+	
+	    if (method !== 'get') {
 	      config.store.removeItem(uuid);
 	      return null;
 	    }
