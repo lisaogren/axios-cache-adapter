@@ -71,6 +71,11 @@ function cache() {
           return res;
         }
 
+        // exclude binary response from cache
+        if (['arraybuffer', 'blob'].indexOf(res.responseType) >= -1) {
+          return res;
+        }
+
         return config.store.setItem(uuid, {
           expires: config.maxAge === 0 ? 0 : Date.now() + config.maxAge,
           data: config.serialize(req, res)
