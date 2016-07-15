@@ -132,8 +132,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return res;
 	        }
 	
+	        var expiration = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
+	        var serviceExpiration = service.use !== undefined && service.use.cache !== undefined && service.use.cache.expiration !== undefined;
+	
+	        if (serviceExpiration) {
+	          expiration = Date.now() + serviceExpiration;
+	          config.log('override expiration to use ' + expiration);
+	        }
+	
 	        return config.store.setItem(uuid, {
-	          expires: config.maxAge === 0 ? 0 : Date.now() + config.maxAge,
+	          expires: expiration,
 	          data: config.serialize(req, res)
 	        });
 	      });
