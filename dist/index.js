@@ -77,10 +77,10 @@ function cache() {
         }
 
         var expiration = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
-        var serviceExpiration = service.use !== undefined && service.use.cache !== undefined && service.use.cache.expiration !== undefined;
+        var hasServiceExpiration = service.use !== undefined && service.use.cache !== undefined && service.use.cache.expiration !== undefined;
 
-        if (serviceExpiration) {
-          expiration = Date.now() + serviceExpiration;
+        if (hasServiceExpiration) {
+          expiration = Date.now() + service.use.cache.expiration;
           config.log('override expiration to use ' + expiration);
         }
 
