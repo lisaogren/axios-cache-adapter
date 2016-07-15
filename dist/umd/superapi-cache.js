@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        // exclude binary response from cache
-	        if (['arraybuffer', 'blob'].indexOf(res.responseType) >= -1) {
+	        if (['arraybuffer', 'blob'].indexOf(res.responseType) > -1) {
 	          return res;
 	        }
 	
