@@ -42,12 +42,15 @@ function cache() {
     config.log = typeof config.log === 'function' ? config.log : console.log.bind(console);
   }
 
-  return function (req, next, service) {
+  return function (req, next) {
+    var service = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
     if ((0, _exclude2.default)(req, service, config.exclude)) {
       return null;
     }
 
     var uuid = key(req);
+    var options = service.cache || {};
 
     // clear cache if method different from GET.
     // We should exclude HEAD
@@ -77,10 +80,10 @@ function cache() {
         }
 
         var expiration = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
-        var hasServiceExpiration = service.use !== undefined && service.use.cache !== undefined && service.use.cache.expiration !== undefined;
+        var hasServiceExpiration = options.expiration !== undefined;
 
         if (hasServiceExpiration) {
-          expiration = Date.now() + service.use.cache.expiration;
+          expiration = Date.now() + options.expiration;
           config.log('override expiration to use ' + expiration);
         }
 
