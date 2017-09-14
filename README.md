@@ -1,40 +1,32 @@
+# axios-cache-adapter
 
+> Caching module for axios
 
-# superapi-cache
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Codecov Status][codecov-image]][codecov-url]
+Integrated to [axios-cache-request](https://github.com/RasCarlito/axios-cache-request).
 
-> Caching module for superapi
+Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache) by @stephanebachelier
 
 ## Install
 
 ```sh
-npm install --save superapi-cache
+npm install --save axios-cache-adapter
 ```
 
 ## Usage
 
 ```js
-import superapiCache from "superapi-cache"
+import axios from 'axios'
+import axiosCacheAdapter from 'axios-cache-adapter'
 
-superapiCache()
+axios({
+  url: 'http://some-rest.api/url',
+  method: 'get',
+  adapter: axiosCacheAdapter
+}).then(response => {
+  // Do something fantastic with response.data \o/
+})
 ```
 
 ## License
 
-MIT © [Stéphane Bachelier](https://github.com/stephanebachelier)
-
-[npm-url]: https://npmjs.org/package/superapi-cache
-[npm-image]: https://img.shields.io/npm/v/superapi-cache.svg?style=flat
-
-[travis-url]: https://travis-ci.org/stephanebachelier/superapi-cache
-[travis-image]: https://img.shields.io/travis/stephanebachelier/superapi-cache.svg?style=flat
-
-[codecov-url]: https://codecov.io/github/stephanebachelier/superapi-cache
-[codecov-image]: https://img.shields.io/codecov/c/github/stephanebachelier/superapi-cache.svg?style=flat
-
-[depstat-url]: https://david-dm.org/stephanebachelier/superapi-cache
-[depstat-image]: https://david-dm.org/stephanebachelier/superapi-cache.svg?style=flat
-[download-badge]: http://img.shields.io/npm/dm/superapi-cache.svg?style=flat
-
+MIT © [Carl Ogren](https://github.com/RasCarlito)
