@@ -1,11 +1,5 @@
 
-export default function exclude (req, service, exclusions = {}) {
-  if (service) {
-    if (service.use && service.use.cache === false) {
-      return true
-    }
-  }
-
+export default function exclude (req, exclusions = {}) {
   if ((typeof exclusions.filter === 'function') && !exclusions.filter(req)) {
     return true
   }

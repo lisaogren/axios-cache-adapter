@@ -1,4 +1,4 @@
-import hydrate from './hydrate'
+// import hydrate from './hydrate'
 
 export default function (req, log) {
   return function (value) {
@@ -23,21 +23,21 @@ export default function (req, log) {
         return reject(error)
       }
 
-      // hydrate pseudo xhr from cached value
-      req.xhr = hydrate(data)
+      // // hydrate pseudo xhr from cached value
+      // req.xhr = hydrate(data)
+      //
+      // // override request end callback
+      // req.callback = (err, res) => {
+      //   log('cache-hit', req.url)
+      //
+      //   if (err) {
+      //     return reject(err, res)
+      //   }
+      //
+      //   resolve(res)
+      // }
 
-      // override request end callback
-      req.callback = (err, res) => {
-        log('cache-hit', req.url)
-
-        if (err) {
-          return reject(err, res)
-        }
-
-        resolve(res)
-      }
-
-      req.emit('end')
+      return resolve(data)
     })
   }
 }

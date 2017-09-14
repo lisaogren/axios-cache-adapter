@@ -1,21 +1,20 @@
 {
-  "name": "superapi-cache",
-  "version": "0.12.0",
-  "description": "Caching module for superapi",
-  "homepage": "https://github.com/stephanebachelier/superapi-cache",
+  "name": "axios-cache-adapter",
+  "version": "1.0.0",
+  "description": "Caching module for axios",
+  "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "author": {
-    "name": "Stéphane Bachelier",
-    "email": "stephane.bachelier@gmail.com",
-    "url": "https://github.com/stephanebachelier"
+    "name": "Carl Ogren",
+    "email": "rascarlito@gmail.com",
+    "url": "https://github.com/RasCarlito"
   },
   "files": [
     "/dist",
     "/lib"
   ],
-  "main": "dist/index.js",
-  "jsnext:main": "lib/index.js",
+  "main": "dist/cache.js",
   "keywords": [
-    "superapi",
+    "axios",
     "cache",
     "xhr",
     "request"
@@ -28,19 +27,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "lint": "standard",
-    "codecov": "npm run test:coverage -s && codecov < coverage/lcov.info",
-    "test": "babel-tape-runner test/*.js | tap-spec",
-    "test:coverage": "babel-node node_modules/.bin/isparta cover test/",
-    "test:watch": "watch 'npm test' test lib",
-    "prebuild": "npm run clean -s",
-    "compile:bundle": "WEBPACK_ENV=dev webpack && WEBPACK_ENV=build webpack",
-    "compile:watch": "WEBPACK_ENV=dev webpack --progress --colors --watch",
-    "build": "babel lib --out-dir dist",
-    "build:watch": "watch 'npm run build' lib",
-    "preversion": "npm run lint -s && npm run test -s && npm run build -s",
-    "postversion": "git push origin master --follow-tags",
-    "deploy": "git pull --rebase origin master && git push origin master",
-    "bundle": "npm run build && npm run compile:bundle"
+    "build": "rollup -c rollup.config.js"
   },
   "repository": "https://github.com/stephanebachelier/superapi-cache",
   "license": "MIT",
@@ -63,6 +50,9 @@
     "localforage": "^1.3.1",
     "lodash": "^3.10.1",
     "rimraf": "^2.5.0",
+    "rollup": "^0.49.3",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-uglify": "^2.0.1",
     "sinon": "^1.17.2",
     "standard": "^5.4.1",
     "superagent-dist": "^1.6.2",
