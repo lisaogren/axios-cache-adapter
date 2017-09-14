@@ -1,3 +1,6 @@
+import axios from 'axios'
+import settle from 'axios/lib/core/settle'
+
 import partial from 'lodash/partial'
 
 import readCache from './read-cache'
@@ -89,7 +92,30 @@ function setupCache (config = {}) {
     })
   }
 
-  return request
+  function adapter (config) {
+    console.log(config)
+
+    return new Promise((resolve, reject) => {
+      return request(config)
+        .then(response => {
+          console.log('[request] Settling', response)
+
+          return settle(resolve, reject, response)
+        })
+        .catch(response => {
+          console.log('[request] Caught cache reading', response)
+
+          return axios.defaults.adapter(config)
+            .then(response)
+            .then(res => settle(resolve, reject, res))
+        })
+    })
+  }
+
+  return {
+    request,
+    adapter
+  }
 }
 
 setupCache.readCache = readCache

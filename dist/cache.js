@@ -1,26 +1,15 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('lodash/partial'), require('lodash/omit')) :
-	typeof define === 'function' && define.amd ? define(['lodash/partial', 'lodash/omit'], factory) :
-	(global.axiosCacheAdapter = factory(global.partial,global.omit));
-}(this, (function (partial,omit) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('axios'), require('axios/lib/core/settle'), require('lodash/partial'), require('lodash/omit')) :
+	typeof define === 'function' && define.amd ? define(['axios', 'axios/lib/core/settle', 'lodash/partial', 'lodash/omit'], factory) :
+	(global.axiosCacheAdapter = factory(global.axios,global.settle,global.partial,global.omit));
+}(this, (function (axios,settle,partial,omit) { 'use strict';
 
+axios = axios && axios.hasOwnProperty('default') ? axios['default'] : axios;
+settle = settle && settle.hasOwnProperty('default') ? settle['default'] : settle;
 partial = partial && partial.hasOwnProperty('default') ? partial['default'] : partial;
 omit = omit && omit.hasOwnProperty('default') ? omit['default'] : omit;
 
-/**
-value should have the following format
-{
-  body: {
-    responseType: '',
-    responseText: value,
-    status: '',
-    statusText: ''
-  },
-  headers: ''
-}
-*/
-
-// borrow from superagent
+// import hydrate from './hydrate'
 
 var readCache = function (req, log) {
   return function (value) {
@@ -203,7 +192,30 @@ function setupCache (config) {
     })
   }
 
-  return request
+  function adapter (config) {
+    console.log(config);
+
+    return new Promise(function (resolve, reject) {
+      return request(config)
+        .then(function (response) {
+          console.log('[request] Settling', response);
+
+          return settle(resolve, reject, response)
+        })
+        .catch(function (response) {
+          console.log('[request] Caught cache reading', response);
+
+          return axios.defaults.adapter(config)
+            .then(response)
+            .then(function (res) { return settle(resolve, reject, res); })
+        })
+    })
+  }
+
+  return {
+    request: request,
+    adapter: adapter
+  }
 }
 
 setupCache.readCache = readCache;
