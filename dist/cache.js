@@ -147,29 +147,28 @@ function setupCache (config) {
   function request (req) {
     console.log('[cache.request] Starting cache execution', req);
 
-    if (exclude(req, config.exclude)) {
-      return null
-    }
-
     var uuid = key(req);
+    var next = partial(response, req, uuid);
+
+    if (exclude(req, config.exclude)) {
+      return Promise.reject(next)
+    }
 
     // clear cache if method different from GET.
     // We should exclude HEAD
     var method = req.method.toLowerCase();
 
     if (method === 'head') {
-      return null
+      return Promise.reject(next)
     }
 
     if (method !== 'get') {
       config.store.removeItem(uuid);
-      return null
+      return Promise.reject(next)
     }
 
     return config.store.getItem(uuid).then(function (value) {
       console.log('[cache.request]', uuid, value);
-
-      var next = partial(response, req, uuid);
 
       return config.readCache(req, config.log)(value)
         .then(function (data) {
