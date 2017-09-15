@@ -2,8 +2,6 @@
 
 > Caching module for axios
 
-Integrated to [axios-cache-request](https://github.com/RasCarlito/axios-cache-request).
-
 Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache) by @stephanebachelier
 
 ## Install
@@ -18,10 +16,17 @@ npm install --save axios-cache-adapter
 import axios from 'axios'
 import axiosCacheAdapter from 'axios-cache-adapter'
 
-axios({
+const cache = axiosCacheAdapter({
+  maxAge: 15 * 60 * 1000
+})
+
+const api = axios.create({
+  adapter: cache.adapter
+})
+
+api({
   url: 'http://some-rest.api/url',
-  method: 'get',
-  adapter: axiosCacheAdapter
+  method: 'get'
 }).then(response => {
   // Do something fantastic with response.data \o/
 })
