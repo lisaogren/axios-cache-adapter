@@ -2,6 +2,7 @@ import axios from 'axios'
 import settle from 'axios/lib/core/settle'
 
 import partial from 'lodash/partial'
+import extend from 'lodash/extend'
 
 import readCache from './read-cache'
 import serialize from './serialize'
@@ -10,7 +11,7 @@ import exclude from './exclude'
 
 function setupCache (config = {}) {
   config.store = config.store || new MemoryStore()
-  const key = config.key || setupCache.key
+  const key = config.key || getKey
 
   config.maxAge = config.maxAge || 0
   config.readCache = config.readCache || readCache
@@ -45,8 +46,6 @@ function setupCache (config = {}) {
   }
 
   function request (req) {
-    console.log('[cache.request] Starting cache execution', req)
-
     const uuid = key(req)
     const next = partial(response, req, uuid)
 
@@ -68,12 +67,8 @@ function setupCache (config = {}) {
     }
 
     return config.store.getItem(uuid).then(value => {
-      console.log('[cache.request]', uuid, value)
-
       return config.readCache(req, config.log)(value)
         .then(data => {
-          console.log('[cache.readCache]', data)
-
           data.config = req
           data.request = { fromCache: true }
 
@@ -92,18 +87,10 @@ function setupCache (config = {}) {
   }
 
   function adapter (config) {
-    console.log(config)
-
     return new Promise((resolve, reject) => {
       return request(config)
-        .then(response => {
-          console.log('[request] Settling', response)
-
-          return settle(resolve, reject, response)
-        })
+        .then(response => settle(resolve, reject, response))
         .catch(response => {
-          console.log('[request] Caught cache reading', response)
-
           return axios.defaults.adapter(config)
             .then(response)
             .then(res => settle(resolve, reject, res))
@@ -112,16 +99,35 @@ function setupCache (config = {}) {
   }
 
   return {
-    request,
-    adapter
+    adapter,
+    readCache,
+    serialize
   }
 }
 
-setupCache.readCache = readCache
-setupCache.serialize = serialize
+const defaultOptions = {
+  cache: {
+    maxAge: 15 * 60 * 1000
+  }
+}
 
-setupCache.key = function (req) {
+function setup (options) {
+  options = extend({}, defaultOptions, options)
+
+  const cache = setupCache(options.cache)
+
+  const request = axios.create({
+    adapter: cache.adapter
+  })
+
+  return request
+}
+
+function getKey (req) {
   return req.url
 }
 
-export default setupCache
+export default {
+  setupCache,
+  setup
+}

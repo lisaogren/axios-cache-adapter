@@ -1,16 +1,18 @@
 /* globals test expect */
 
-const axios = require('axios')
+// const axios = require('axios')
 const isFunction = require('lodash/isFunction')
 
-const setupCache = require('../dist/cache')
-const cache = setupCache({
-  maxAge: 15 * 60 * 1000
-})
+const { setup, setupCache } = require('../dist/cache')
+// const cache = setupCache({
+//   maxAge: 15 * 60 * 1000
+// })
+//
+// const api = axios.create({
+//   adapter: cache.adapter
+// })
 
-const api = axios.create({
-  adapter: cache.adapter
-})
+const api = setup()
 
 test('Required lib', () => {
   expect(isFunction(setupCache)).toBeTruthy()

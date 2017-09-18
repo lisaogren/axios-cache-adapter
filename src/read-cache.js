@@ -37,6 +37,8 @@ export default function (req, log) {
       //   resolve(res)
       // }
 
+      log('cache-hit', req.url)
+
       return resolve(data)
     })
   }

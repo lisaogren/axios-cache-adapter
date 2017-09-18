@@ -1,4 +1,3 @@
-
 export default function exclude (req, exclusions = {}) {
   if ((typeof exclusions.filter === 'function') && !exclusions.filter(req)) {
     return true

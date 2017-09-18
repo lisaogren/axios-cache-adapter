@@ -1,12 +1,12 @@
 {
-  "name": "superapi-cache",
-  "version": "0.12.0",
-  "homepage": "https://github.com/stephanebachelier/superapi-cache",
+  "name": "axios-cache-adapter",
+  "version": "1.0.0",
+  "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "authors": [
-    "Stéphane Bachelier <stephane.bachelier@gmail.com>"
+    "Carl Ogren <rascarlito@gmail.com>"
   ],
-  "description": "Cache middleware for superapi",
-  "main": "dist/umd/superapi-cache.js",
+  "description": "Cache middleware for axios",
+  "main": "dist/cache.js",
   "moduleType": [
     "globals",
     "amd",
@@ -14,22 +14,17 @@
     "es6"
   ],
   "keywords": [
-    "http",
-    "api",
+    "axios",
     "cache",
-    "middleware",
-    "superapi",
-    "superagent",
-    "wrapper"
+    "xhr",
+    "request"
   ],
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "examples",
     "lib",
     "node_modules",
     "package.json",
-    "test",
-    "webpack.config.js"
+    "test"
   ]
 }

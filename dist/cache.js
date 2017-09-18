@@ -1,12 +1,13 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('axios'), require('axios/lib/core/settle'), require('lodash/partial'), require('lodash/omit')) :
-	typeof define === 'function' && define.amd ? define(['axios', 'axios/lib/core/settle', 'lodash/partial', 'lodash/omit'], factory) :
-	(global.axiosCacheAdapter = factory(global.axios,global.settle,global.partial,global.omit));
-}(this, (function (axios,settle,partial,omit) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('axios'), require('axios/lib/core/settle'), require('lodash/partial'), require('lodash/extend'), require('lodash/omit')) :
+	typeof define === 'function' && define.amd ? define(['axios', 'axios/lib/core/settle', 'lodash/partial', 'lodash/extend', 'lodash/omit'], factory) :
+	(global.axiosCacheAdapter = factory(global.axios,global.settle,global.partial,global.extend,global.omit));
+}(this, (function (axios,settle,partial,extend,omit) { 'use strict';
 
 axios = axios && axios.hasOwnProperty('default') ? axios['default'] : axios;
 settle = settle && settle.hasOwnProperty('default') ? settle['default'] : settle;
 partial = partial && partial.hasOwnProperty('default') ? partial['default'] : partial;
+extend = extend && extend.hasOwnProperty('default') ? extend['default'] : extend;
 omit = omit && omit.hasOwnProperty('default') ? omit['default'] : omit;
 
 // import hydrate from './hydrate'
@@ -110,7 +111,7 @@ function setupCache (config) {
   if ( config === void 0 ) config = {};
 
   config.store = config.store || new MemoryStore();
-  var key = config.key || setupCache.key;
+  var key = config.key || getKey;
 
   config.maxAge = config.maxAge || 0;
   config.readCache = config.readCache || readCache;
@@ -212,18 +213,39 @@ function setupCache (config) {
   }
 
   return {
-    request: request,
-    adapter: adapter
+    adapter: adapter,
+    readCache: readCache,
+    serialize: serialize
   }
 }
 
-setupCache.readCache = readCache;
-setupCache.serialize = serialize;
-
-setupCache.key = function (req) {
-  return req.url
+var defaultOptions = {
+  cache: {
+    maxAge: 15 * 60 * 1000
+  }
 };
 
-return setupCache;
+function setup (options) {
+  options = extend({}, defaultOptions, options);
+
+  var cache = setupCache(options.cache);
+
+  var request = axios.create({
+    adapter: cache.adapter
+  });
+
+  return request
+}
+
+function getKey (req) {
+  return req.url
+}
+
+var index = {
+  setupCache: setupCache,
+  setup: setup
+};
+
+return index;
 
 })));
