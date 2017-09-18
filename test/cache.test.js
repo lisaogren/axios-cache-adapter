@@ -12,14 +12,15 @@ const { setup, setupCache } = require('../dist/cache')
 //   adapter: cache.adapter
 // })
 
-const api = setup()
+const api = setup({
+  cache: {
+    debug: true
+  }
+})
 
 test('Required lib', () => {
   expect(isFunction(setupCache)).toBeTruthy()
-  // expect(cache).toEqual(expect.objectContaining({
-  //   adapter: '',
-  //   request: ''
-  // }))
+  expect(isFunction(setup)).toBeTruthy()
 })
 
 test('Execute GET request', () => {

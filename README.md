@@ -40,7 +40,9 @@ Or you can get an instance of axios pre-configured with the cache adapter
 import { setup } from 'axios-cache-adapter'
 
 const api = setup({
-  maxAge: 15 * 60 * 1000
+  cache: {
+    maxAge: 15 * 60 * 1000
+  }
 })
 
 api({
@@ -50,6 +52,43 @@ api({
   // Do something awesome with response.data \o/
 })
 ```
+
+## API
+
+### setupCache(options)
+
+Create a cache adapter instance. Takes an `options` object to configure how the cached requests will be handled,
+where they will be stored, etc.
+
+#### Options
+
+* `maxAge {Number}`: Maximum time for storing each request in milliseconds, defaults to 15 minutes (`15 * 60 * 1000`)
+* `store {Object}`: An instance of `localForage`, defaults to a custom in memory store
+* `clearOnStale {Boolean}`: Clear cache when it is stale, defaults to `true`
+* `exclude {Object}`: Object defining which kind of requests should be excluded from cache
+  * `filter {Function}`: A method which receives the request and returns `true` to exclude request from cache, defaults to `null`
+  * `query {Boolean}`: If `true` all requests containing a query will be excluded, defaults to `false`
+  * `paths {Array}`: An `Array` of regular expressions to match against request URLs, if a match is found it will be excluded, defaults to `[]`
+* `debug {Boolean}`: Print some logs to console, defaults to `false`
+
+#### Returns
+
+`setupCache()` returns an object containing the configured `adapter` and the cache `store`.
+
+### setup(options)
+
+Create an `axios` instance pre-configured with the cache adapter. Takes an `options` object to configure the cache and
+axios at the same time.
+
+#### Options
+
+* `cache {Object}`: Same options as the `setupCache` method
+
+All the other parameters passed in the `options` will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#axiosheadurl-config-1) method.
+
+#### Returns
+
+`setup()` returns an instance of `axios` pre-configured with the cache adapter.
 
 ## License
 

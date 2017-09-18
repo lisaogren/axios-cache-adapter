@@ -3,6 +3,7 @@ import settle from 'axios/lib/core/settle'
 
 import partial from 'lodash/partial'
 import extend from 'lodash/extend'
+import omit from 'lodash/omit'
 
 import readCache from './read-cache'
 import serialize from './serialize'
@@ -11,20 +12,21 @@ import exclude from './exclude'
 
 function setupCache (config = {}) {
   config.store = config.store || new MemoryStore()
-  const key = config.key || getKey
+  const key = config.key || (req => req.url)
 
   config.maxAge = config.maxAge || 0
   config.readCache = config.readCache || readCache
   config.serialize = config.serialize || serialize
   config.clearOnStale = config.clearOnStale !== undefined ? config.clearOnStale : true
+  config.debug = config.debug || false
 
   config.exclude = config.exclude || {}
   config.exclude.query = config.exclude.query || true
   config.exclude.paths = config.exclude.paths || []
-  config.exclude.filter = null
+  config.exclude.filter = config.exclude.filter || null
 
-  if (config.log !== false) {
-    config.log = typeof config.log === 'function' ? config.log : console.log.bind(console)
+  if (config.debug !== false) {
+    config.debug = typeof config.debug === 'function' ? config.debug : console.log.bind(console)
   }
 
   function response (req, uuid, res) {
@@ -67,7 +69,7 @@ function setupCache (config = {}) {
     }
 
     return config.store.getItem(uuid).then(value => {
-      return config.readCache(req, config.log)(value)
+      return config.readCache(req, config.debug)(value)
         .then(data => {
           data.config = req
           data.request = { fromCache: true }
@@ -100,8 +102,7 @@ function setupCache (config = {}) {
 
   return {
     adapter,
-    readCache,
-    serialize
+    store: config.store
   }
 }
 
@@ -115,16 +116,11 @@ function setup (options) {
   options = extend({}, defaultOptions, options)
 
   const cache = setupCache(options.cache)
+  const axiosOptions = omit(options, ['cache'])
 
-  const request = axios.create({
-    adapter: cache.adapter
-  })
+  const request = axios.create(extend({}, axiosOptions, { adapter: cache.adapter }))
 
   return request
-}
-
-function getKey (req) {
-  return req.url
 }
 
 export default {

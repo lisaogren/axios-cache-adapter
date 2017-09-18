@@ -50,6 +50,8 @@ var readCache = function (req, log) {
       //   resolve(res)
       // }
 
+      log('cache-hit', req.url);
+
       return resolve(data)
     })
   }
@@ -111,20 +113,21 @@ function setupCache (config) {
   if ( config === void 0 ) config = {};
 
   config.store = config.store || new MemoryStore();
-  var key = config.key || getKey;
+  var key = config.key || (function (req) { return req.url; });
 
   config.maxAge = config.maxAge || 0;
   config.readCache = config.readCache || readCache;
   config.serialize = config.serialize || serialize;
   config.clearOnStale = config.clearOnStale !== undefined ? config.clearOnStale : true;
+  config.debug = config.debug || false;
 
   config.exclude = config.exclude || {};
   config.exclude.query = config.exclude.query || true;
   config.exclude.paths = config.exclude.paths || [];
-  config.exclude.filter = null;
+  config.exclude.filter = config.exclude.filter || null;
 
-  if (config.log !== false) {
-    config.log = typeof config.log === 'function' ? config.log : console.log.bind(console);
+  if (config.debug !== false) {
+    config.debug = typeof config.debug === 'function' ? config.debug : console.log.bind(console);
   }
 
   function response (req, uuid, res) {
@@ -146,8 +149,6 @@ function setupCache (config) {
   }
 
   function request (req) {
-    console.log('[cache.request] Starting cache execution', req);
-
     var uuid = key(req);
     var next = partial(response, req, uuid);
 
@@ -169,12 +170,8 @@ function setupCache (config) {
     }
 
     return config.store.getItem(uuid).then(function (value) {
-      console.log('[cache.request]', uuid, value);
-
-      return config.readCache(req, config.log)(value)
+      return config.readCache(req, config.debug)(value)
         .then(function (data) {
-          console.log('[cache.readCache]', data);
-
           data.config = req;
           data.request = { fromCache: true };
 
@@ -193,18 +190,10 @@ function setupCache (config) {
   }
 
   function adapter (config) {
-    console.log(config);
-
     return new Promise(function (resolve, reject) {
       return request(config)
-        .then(function (response) {
-          console.log('[request] Settling', response);
-
-          return settle(resolve, reject, response)
-        })
+        .then(function (response) { return settle(resolve, reject, response); })
         .catch(function (response) {
-          console.log('[request] Caught cache reading', response);
-
           return axios.defaults.adapter(config)
             .then(response)
             .then(function (res) { return settle(resolve, reject, res); })
@@ -214,8 +203,7 @@ function setupCache (config) {
 
   return {
     adapter: adapter,
-    readCache: readCache,
-    serialize: serialize
+    store: config.store
   }
 }
 
@@ -229,16 +217,11 @@ function setup (options) {
   options = extend({}, defaultOptions, options);
 
   var cache = setupCache(options.cache);
+  var axiosOptions = omit(options, ['cache']);
 
-  var request = axios.create({
-    adapter: cache.adapter
-  });
+  var request = axios.create(extend({}, axiosOptions, { adapter: cache.adapter }));
 
   return request
-}
-
-function getKey (req) {
-  return req.url
 }
 
 var index = {
