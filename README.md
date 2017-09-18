@@ -84,7 +84,7 @@ axios at the same time.
 
 * `cache {Object}`: Same options as the `setupCache` method
 
-All the other parameters passed in the `options` will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#axiosheadurl-config-1) method.
+All the other parameters passed in the `options` will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#creating-an-instance) method.
 
 #### Returns
 
