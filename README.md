@@ -18,7 +18,7 @@ You can use the adapter directly
 import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 
-const cache = axiosCacheAdapter({
+const cache = setupCache({
   maxAge: 15 * 60 * 1000
 })
 
@@ -34,7 +34,7 @@ api({
 })
 ```
 
-Or you can get an instance of axios preconfigured with the cache adapter
+Or you can get an instance of axios pre-configured with the cache adapter
 
 ```js
 import { setup } from 'axios-cache-adapter'
