@@ -1,6 +1,6 @@
 # axios-cache-adapter
 
-> Caching module for axios
+> Caching adapter for axios
 
 Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache) by @stephanebachelier
 

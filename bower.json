@@ -5,7 +5,7 @@
   "authors": [
     "Carl Ogren <rascarlito@gmail.com>"
   ],
-  "description": "Cache middleware for axios",
+  "description": "Caching adapter for axios",
   "main": "dist/cache.js",
   "moduleType": [
     "globals",
@@ -22,9 +22,12 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "lib",
+    "src",
     "node_modules",
     "package.json",
     "test"
-  ]
+  ],
+  "dependencies": {
+    "axios": "^0.16.2"
+  }
 }

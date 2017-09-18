@@ -1,7 +1,7 @@
 {
   "name": "axios-cache-adapter",
   "version": "1.0.0",
-  "description": "Caching module for axios",
+  "description": "Caching adapter for axios",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "author": {
     "name": "Carl Ogren",
@@ -10,7 +10,7 @@
   },
   "files": [
     "/dist",
-    "/lib"
+    "/src"
   ],
   "main": "dist/cache.js",
   "keywords": [
@@ -25,7 +25,6 @@
     ]
   },
   "scripts": {
-    "clean": "rimraf dist",
     "lint": "standard | snazzy",
     "build": "rollup -c rollup.config.js && NODE_ENV=production rollup -c rollup.config.js",
     "test": "jest"
