@@ -6,8 +6,22 @@ Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cach
 
 ## Install
 
+Using npm
+
 ```sh
 npm install --save axios-cache-adapter
+```
+
+Or bower
+
+```sh
+bower install --save axios-cache-adapter
+```
+
+Or from a CDN like unpkg.com
+
+```html
+<script type="text/javascript" src="https://unpkg.com/axios-cache-adapter"></script>
 ```
 
 ## Usage
