@@ -3,7 +3,7 @@
 // const axios = require('axios')
 const isFunction = require('lodash/isFunction')
 
-const { setup, setupCache } = require('../dist/cache')
+const { setup, setupCache } = require('../dist/cache.bundled')
 // const cache = setupCache({
 //   maxAge: 15 * 60 * 1000
 // })
