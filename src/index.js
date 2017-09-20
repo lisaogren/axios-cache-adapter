@@ -1,9 +1,8 @@
 import axios from 'axios'
-import settle from 'axios/lib/core/settle'
 
-import partial from 'lodash/partial'
-import extend from 'lodash/extend'
-import omit from 'lodash/omit'
+import partial from 'lodash-es/partial'
+import extend from 'lodash-es/extend'
+import omit from 'lodash-es/omit'
 
 import readCache from './read-cache'
 import serialize from './serialize'
@@ -91,11 +90,12 @@ function setupCache (config = {}) {
   function adapter (config) {
     return new Promise((resolve, reject) => {
       return request(config)
-        .then(response => settle(resolve, reject, response))
+        .then(response => resolve(response))
         .catch(response => {
           return axios.defaults.adapter(config)
             .then(response)
-            .then(res => settle(resolve, reject, res))
+            .then(res => resolve(res))
+            .catch(err => reject(err))
         })
     })
   }
@@ -120,10 +120,15 @@ function setup (options) {
 
   const request = axios.create(extend({}, axiosOptions, { adapter: cache.adapter }))
 
+  request.cache = cache
+
   return request
 }
 
-export default {
+const lib = {
   setupCache,
   setup
 }
+
+export default lib
+module.exports = lib
