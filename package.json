@@ -13,7 +13,6 @@
     "/src"
   ],
   "main": "dist/cache.js",
-  "module": "src/index.js",
   "keywords": [
     "axios",
     "cache",
