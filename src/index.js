@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import partial from 'lodash-es/partial'
+import isFunction from 'lodash-es/isFunction'
 import extend from 'lodash-es/extend'
 import omit from 'lodash-es/omit'
 
@@ -52,10 +52,10 @@ function setupCache (config = {}) {
 
   function request (req) {
     const uuid = key(req)
-    const next = partial(response, req, uuid)
+    const next = (...args) => response(req, uuid, ...args)
 
     if (exclude(req, config.exclude)) {
-      return Promise.reject(next)
+      return Promise.resolve(next)
     }
 
     // clear cache if method different from GET.
@@ -63,12 +63,11 @@ function setupCache (config = {}) {
     const method = req.method.toLowerCase()
 
     if (method === 'head') {
-      return Promise.reject(next)
+      return Promise.resolve(next)
     }
 
     if (method !== 'get') {
-      config.store.removeItem(uuid)
-      return Promise.reject(next)
+      return config.store.removeItem(uuid).then(() => next)
     }
 
     return config.store.getItem(uuid).then(value => {
@@ -82,26 +81,21 @@ function setupCache (config = {}) {
         .catch(err => {
           // clean up cache if stale
           if (config.clearOnStale && err.reason === 'cache-stale') {
-            return config.store.removeItem(uuid)
-              .then(() => Promise.reject(next))
+            return config.store.removeItem(uuid).then(() => next)
           }
 
-          return Promise.reject(next)
+          return next
         })
     })
   }
 
   function adapter (config) {
-    return new Promise((resolve, reject) => {
-      return request(config)
-        .then(response => resolve(response))
-        .catch(response => {
-          return axios.defaults.adapter(config)
-            .then(response)
-            .then(res => resolve(res))
-            .catch(err => reject(err))
-        })
-    })
+    return request(config)
+      .then(response => {
+        if (!isFunction(response)) return response
+
+        return axios.defaults.adapter(config).then(response)
+      })
   }
 
   return {
