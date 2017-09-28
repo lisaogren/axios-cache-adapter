@@ -144,7 +144,17 @@ function setupCache() {
   config.exclude.filter = config.exclude.filter || null;
 
   if (config.debug !== false) {
-    config.debug = typeof config.debug === 'function' ? config.debug : console.log.bind(console);
+    config.debug = typeof config.debug === 'function' ? config.debug : function () {
+      var _console;
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return (_console = console).log.apply(_console, ['[axios-cache-adapter]'].concat(args));
+    };
+  } else {
+    config.debug = function () {};
   }
 
   function response(req, uuid, res) {
@@ -162,7 +172,7 @@ function setupCache() {
 
     var expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
 
-    return config.store.setItem(uuid, { expires: expires, data: config.serialize(req, res) }).then(function () {
+    return config.store.setItem(uuid, { expires: expires, data: config.serialize(req, res, config.debug) }).then(function () {
       return res;
     });
   }
@@ -348,7 +358,15 @@ var _omit2 = _interopRequireDefault(_omit);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function serialize(req, res) {
+function serialize(req, res, log) {
+  if (res.data) {
+    try {
+      res.data = JSON.parse(res.data);
+    } catch (e) {
+      log('Could not parse data as JSON');
+    }
+  }
+
   return (0, _omit2.default)(res, ['request', 'config']);
 }
 
