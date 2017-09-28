@@ -25,7 +25,7 @@ function setupCache (config = {}) {
   config.exclude.filter = config.exclude.filter || null
 
   if (config.debug !== false) {
-    config.debug = typeof config.debug === 'function'
+    config.debug = (typeof config.debug === 'function')
       ? config.debug
       : (...args) => console.log('[axios-cache-adapter]', ...args)
   } else {
