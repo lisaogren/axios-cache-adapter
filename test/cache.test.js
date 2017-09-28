@@ -14,7 +14,8 @@ const { setup, setupCache } = require('../dist/cache.bundled')
 
 const api = setup({
   cache: {
-    debug: true
+    debug: true,
+    maxAge: 15 * 60 * 1000
   }
 })
 
