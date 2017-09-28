@@ -25,7 +25,11 @@ function setupCache (config = {}) {
   config.exclude.filter = config.exclude.filter || null
 
   if (config.debug !== false) {
-    config.debug = typeof config.debug === 'function' ? config.debug : console.log.bind(console)
+    config.debug = typeof config.debug === 'function'
+      ? config.debug
+      : (...args) => console.log('[axios-cache-adapter]', ...args)
+  } else {
+    config.debug = () => {}
   }
 
   function response (req, uuid, res) {
@@ -43,7 +47,7 @@ function setupCache (config = {}) {
 
     let expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge
 
-    return config.store.setItem(uuid, { expires, data: config.serialize(req, res) }).then(() => res)
+    return config.store.setItem(uuid, { expires, data: config.serialize(req, res, config.debug) }).then(() => res)
   }
 
   function request (req) {
