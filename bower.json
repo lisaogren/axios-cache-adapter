@@ -1,6 +1,6 @@
 {
   "name": "axios-cache-adapter",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "authors": [
     "Carl Ogren <rascarlito@gmail.com>"
@@ -28,6 +28,7 @@
     "test"
   ],
   "dependencies": {
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "lodash": "^4.17.4"
   }
 }

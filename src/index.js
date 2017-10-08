@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-import isFunction from 'lodash-es/isFunction'
-import extend from 'lodash-es/extend'
-import omit from 'lodash-es/omit'
+import isFunction from 'lodash/isFunction'
+import extend from 'lodash/extend'
+import omit from 'lodash/omit'
 
 import readCache from './read-cache'
 import serialize from './serialize'

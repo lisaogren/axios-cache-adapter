@@ -1,6 +1,6 @@
 {
   "name": "axios-cache-adapter",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Caching adapter for axios",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "author": {
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "lodash-es": "^4.17.4"
+    "lodash": "^4.17.4"
   },
   "size-limit": [
     {
