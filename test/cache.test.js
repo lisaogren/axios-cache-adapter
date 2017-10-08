@@ -1,16 +1,8 @@
 /* globals test expect */
 
-// const axios = require('axios')
+const axios = require('axios')
 const isFunction = require('lodash/isFunction')
-
 const { setup, setupCache } = require('../dist/cache.bundled')
-// const cache = setupCache({
-//   maxAge: 15 * 60 * 1000
-// })
-//
-// const api = axios.create({
-//   adapter: cache.adapter
-// })
 
 const api = setup({
   cache: {
@@ -26,17 +18,48 @@ test('Required lib', () => {
 
 test('Execute GET request', () => {
   const definition = {
-    url: 'http://localhost:5000/personnes/9000053656581',
+    url: 'https://httpbin.org/get',
     method: 'get'
   }
 
   return api(definition).then(response => {
-    const expectedData = expect.objectContaining({ nom: 'BECHEAU' })
+    const expectedData = expect.objectContaining({})
 
-    expect(response.data).toEqual(expectedData)
+    expect(response.data.args).toEqual(expectedData)
 
     return api(definition).then(response => {
-      expect(response.data).toEqual(expectedData)
+      // console.log("TEST NORM",response)
+      expect(response.data.args).toEqual(expectedData)
+      expect(response.request.fromCache).toBeTruthy()
+    })
+  })
+})
+
+const api2 = setup({
+  cache: {
+    debug: true,
+    maxAge: 15 * 60 * 1000,
+    exclude: {
+      query: false
+    }
+  }
+})
+
+test('Cache GET requests with params', () => {
+  const definition = {
+    url: 'https://httpbin.org/get?userId=2',
+    method: 'get'
+  }
+
+  return api2(definition).then(response => {
+    // console.log("TEST PARAMS NOT cached",response)
+    const expectedArgsData = expect.objectContaining({"userId": "2"})
+
+    expect(response.data.args).toEqual(expectedArgsData)
+
+    return api2(definition).then(response => {
+      // console.log("TEST PARAMS CACHE'D???",response)
+      expect(response.data.args).toEqual(expectedArgsData)
       expect(response.request.fromCache).toBeTruthy()
     })
   })
