@@ -8,12 +8,15 @@ import readCache from './read-cache'
 import serialize from './serialize'
 import MemoryStore from './memory'
 import exclude from './exclude'
+import createKey from './cache-key'
+import applyLimit from './limit'
 
 function setupCache (config = {}) {
-  config.store = config.store || new MemoryStore()
-  const key = config.key || (req => req.url)
+  const cacheKey = createKey(config)
 
+  config.store = config.store || new MemoryStore()
   config.maxAge = config.maxAge || 0
+  config.limit = config.limit || false
   config.readCache = config.readCache || readCache
   config.serialize = config.serialize || serialize
   config.clearOnStale = config.clearOnStale !== undefined ? config.clearOnStale : true
@@ -47,11 +50,25 @@ function setupCache (config = {}) {
 
     let expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge
 
-    return config.store.setItem(uuid, { expires, data: config.serialize(req, res, config.debug) }).then(() => res)
+    if (config.limit) {
+      config.debug(`Detected limit: ${config.limit}`)
+
+      return applyLimit(config).then(
+        () => store(uuid, expires, req, res)
+      )
+    }
+
+    return store(uuid, expires, req, res)
+  }
+
+  function store (uuid, expires, req, res) {
+    return config.store
+      .setItem(uuid, { expires, data: config.serialize(req, res, config.debug) })
+      .then(() => res)
   }
 
   function request (req) {
-    const uuid = key(req)
+    const uuid = cacheKey(req)
     const next = (...args) => response(req, uuid, ...args)
 
     if (exclude(req, config.exclude)) {
@@ -118,7 +135,7 @@ function setup (options) {
 
   const request = axios.create(extend({}, axiosOptions, { adapter: cache.adapter }))
 
-  request.cache = cache
+  request.cache = cache.store
 
   return request
 }
