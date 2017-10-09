@@ -1,20 +1,38 @@
+import size from 'lodash/size'
+import map from 'lodash/map'
+
 class MemoryStore {
   constructor () {
-    this._store = {}
+    this.store = {}
   }
 
   getItem (key) {
-    return Promise.resolve(this._store[key] || null)
+    return Promise.resolve(this.store[key] || null)
   }
 
   setItem (key, value) {
-    this._store[key] = value
+    this.store[key] = value
     return Promise.resolve(value)
   }
 
-  clear () {
-    this._store = {}
+  removeItem (key) {
+    delete this.store[key]
     return Promise.resolve()
+  }
+
+  clear () {
+    this.store = {}
+    return Promise.resolve()
+  }
+
+  length () {
+    return Promise.resolve(size(this.store))
+  }
+
+  iterate (fn) {
+    return Promise.all(
+      map(this.store, (value, key) => fn(value, key))
+    )
   }
 }
 

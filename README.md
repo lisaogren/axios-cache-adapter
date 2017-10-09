@@ -82,9 +82,11 @@ where they will be stored, etc.
 * `maxAge {Number}`: Maximum time for storing each request in milliseconds, defaults to 15 minutes (`15 * 60 * 1000`)
 * `store {Object}`: An instance of `localForage`, defaults to a custom in memory store
 * `clearOnStale {Boolean}`: Clear cache when it is stale, defaults to `true`
+* `limit {Number}`: Maximum number of cached request (last in, first out queue system), no limit by default
+* `key {Mixed}`: Can either be a `String` or a `Function` which receives the `request` object as first parameter to return a unique cache key for each request. Defaults to `req => req.url`
 * `exclude {Object}`: Object defining which kind of requests should be excluded from cache
   * `filter {Function}`: A method which receives the request and returns `true` to exclude request from cache, defaults to `null`
-  * `query {Boolean}`: If `true` all requests containing a query will be excluded, defaults to `false`
+  * `query {Boolean}`: If `true` all requests containing a query will be excluded, defaults to `true`
   * `paths {Array}`: An `Array` of regular expressions to match against request URLs, if a match is found it will be excluded, defaults to `[]`
 * `debug {Boolean}`: Print some logs to console, defaults to `false`
 

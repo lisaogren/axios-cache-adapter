@@ -1,8 +1,7 @@
 /* globals test expect */
 
-const axios = require('axios')
 const isFunction = require('lodash/isFunction')
-const { setup, setupCache } = require('../dist/cache.bundled')
+const { setup, setupCache } = require('../dist/cache')
 
 const api = setup({
   cache: {
@@ -61,6 +60,38 @@ test('Cache GET requests with params', () => {
       // console.log("TEST PARAMS CACHE'D???",response)
       expect(response.data.args).toEqual(expectedArgsData)
       expect(response.request.fromCache).toBeTruthy()
+    })
+  })
+})
+
+const api3 = setup({
+  cache: {
+    debug: true,
+    maxAge: 15 * 60 * 1000,
+    limit: 1
+  }
+})
+
+test('Cache limit', () => {
+  const definition = {
+    url: 'https://httpbin.org/get',
+    method: 'get'
+  }
+
+  const anotherDefinition = {
+    url: 'https://httpbin.org/ip',
+    method: 'get'
+  }
+
+  return api3(definition).then(response => {
+    const expectedData = expect.objectContaining({})
+
+    expect(response.data.args).toEqual(expectedData)
+
+    return api3(anotherDefinition).then(response => {
+      return api3.cache.length().then(length => {
+        expect(length).toEqual(1)
+      })
     })
   })
 })
