@@ -1,5 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const cwd = process.cwd()
 
 // Base filename and version variable to store what kind of version we'll be generating
 let filename = 'cache[version].js'
@@ -11,9 +14,12 @@ let externals = {}
 
 // List external dependencies
 const dependencies = [
-  'lodash-es/partial',
-  'lodash-es/extend',
-  'lodash-es/omit',
+  'lodash/isString',
+  'lodash/isFunction',
+  'lodash/size',
+  'lodash/map',
+  'lodash/extend',
+  'lodash/omit',
   'axios'
 ]
 
@@ -70,4 +76,41 @@ const build = {
   target: 'web'
 }
 
-module.exports = build
+// TEST CONFIG
+const test = {
+  entry: 'test/main.js',
+  output: {
+    path: path.join(cwd, '.tmp'),
+    filename: 'main.js'
+  },
+  resolve: {
+    modules: ['node_modules', '.']
+  },
+  module: {
+    rules: [
+      // Transpile ES2015 to ES5
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', options: { presets: ['es2015'] } },
+
+      // Load font files
+      { test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/, loader: 'file-loader' },
+      { test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader' }
+    ]
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin()
+  ],
+  devServer: {
+    // contentBase: path.join(__dirname, 'public'), // boolean | string | array, static file location
+    compress: true, // enable gzip compression
+    historyApiFallback: true, // true for index.html upon 404, object for multiple paths
+    hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
+    https: false, // true for self-signed, object for cert authority
+    noInfo: true, // only errors & warns on hot reload
+    port: 3000
+  },
+  target: 'web',
+  devtool: 'inline-source-map'
+}
+
+module.exports = process.env.NODE_ENV === 'test' ? test : build

@@ -3131,7 +3131,7 @@ function setupCache() {
     config.debug = function () {};
   }
 
-  function response(req, uuid, res) {
+  function response(exclude, req, uuid, res) {
     var type = res.status / 100 | 0;
 
     // only cache 2xx response
@@ -3146,15 +3146,19 @@ function setupCache() {
 
     var expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
 
-    if (config.limit) {
-      config.debug('Detected limit: ' + config.limit);
+    if (!exclude) {
+      if (config.limit) {
+        config.debug('Detected limit: ' + config.limit);
 
-      return (0, _limit2.default)(config).then(function () {
-        return store(uuid, expires, req, res);
-      });
+        return (0, _limit2.default)(config).then(function () {
+          return store(uuid, expires, req, res);
+        });
+      }
+
+      return store(uuid, expires, req, res);
     }
 
-    return store(uuid, expires, req, res);
+    return res;
   }
 
   function store(uuid, expires, req, res) {
@@ -3165,16 +3169,30 @@ function setupCache() {
 
   function request(req) {
     var uuid = cacheKey(req);
-    var next = function next() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+    var next = function next(exclude) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
       }
 
-      return response.apply(undefined, [req, uuid].concat(args));
+      return response.apply(undefined, [exclude, req, uuid].concat(args));
+    };
+    var includedNext = function includedNext() {
+      for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
+      }
+
+      return next.apply(undefined, [false].concat(args));
+    };
+    var excludedNext = function excludedNext() {
+      for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        args[_key4] = arguments[_key4];
+      }
+
+      return next.apply(undefined, [true].concat(args));
     };
 
     if ((0, _exclude2.default)(req, config.exclude)) {
-      return Promise.resolve(next);
+      return Promise.resolve(excludedNext);
     }
 
     // clear cache if method different from GET.
@@ -3182,12 +3200,12 @@ function setupCache() {
     var method = req.method.toLowerCase();
 
     if (method === 'head') {
-      return Promise.resolve(next);
+      return Promise.resolve(excludedNext);
     }
 
     if (method !== 'get') {
       return config.store.removeItem(uuid).then(function () {
-        return next;
+        return excludedNext;
       });
     }
 
@@ -3201,11 +3219,11 @@ function setupCache() {
         // clean up cache if stale
         if (config.clearOnStale && err.reason === 'cache-stale') {
           return config.store.removeItem(uuid).then(function () {
-            return next;
+            return includedNext;
           });
         }
 
-        return next;
+        return includedNext;
       });
     });
   }

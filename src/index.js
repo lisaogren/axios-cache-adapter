@@ -35,7 +35,7 @@ function setupCache (config = {}) {
     config.debug = () => {}
   }
 
-  function response (req, uuid, res) {
+  function response (exclude, req, uuid, res) {
     const type = res.status / 100 | 0
 
     // only cache 2xx response
@@ -50,15 +50,19 @@ function setupCache (config = {}) {
 
     let expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge
 
-    if (config.limit) {
-      config.debug(`Detected limit: ${config.limit}`)
+    if (!exclude) {
+      if (config.limit) {
+        config.debug(`Detected limit: ${config.limit}`)
 
-      return applyLimit(config).then(
-        () => store(uuid, expires, req, res)
-      )
+        return applyLimit(config).then(
+          () => store(uuid, expires, req, res)
+        )
+      }
+
+      return store(uuid, expires, req, res)
     }
 
-    return store(uuid, expires, req, res)
+    return res
   }
 
   function store (uuid, expires, req, res) {
@@ -69,10 +73,12 @@ function setupCache (config = {}) {
 
   function request (req) {
     const uuid = cacheKey(req)
-    const next = (...args) => response(req, uuid, ...args)
+    const next = (exclude, ...args) => response(exclude, req, uuid, ...args)
+    const includedNext = (...args) => next(false, ...args)
+    const excludedNext = (...args) => next(true, ...args)
 
     if (exclude(req, config.exclude)) {
-      return Promise.resolve(next)
+      return Promise.resolve(excludedNext)
     }
 
     // clear cache if method different from GET.
@@ -80,11 +86,11 @@ function setupCache (config = {}) {
     const method = req.method.toLowerCase()
 
     if (method === 'head') {
-      return Promise.resolve(next)
+      return Promise.resolve(excludedNext)
     }
 
     if (method !== 'get') {
-      return config.store.removeItem(uuid).then(() => next)
+      return config.store.removeItem(uuid).then(() => excludedNext)
     }
 
     return config.store.getItem(uuid).then(value => {
@@ -98,10 +104,10 @@ function setupCache (config = {}) {
         .catch(err => {
           // clean up cache if stale
           if (config.clearOnStale && err.reason === 'cache-stale') {
-            return config.store.removeItem(uuid).then(() => next)
+            return config.store.removeItem(uuid).then(() => includedNext)
           }
 
-          return next
+          return includedNext
         })
     })
   }
