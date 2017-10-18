@@ -54,6 +54,11 @@ describe('axios-cache-adapter', () => {
       url: 'https://httpbin.org/get?userId=2',
       method: 'get'
     }
+    // const definitionWithParams = {
+    //   url: 'https://httpbin.org/get',
+    //   params: { userId: 2 },
+    //   method: 'get'
+    // }
 
     return api2(definition).then(response => {
       // console.log("TEST PARAMS NOT cached",response)
@@ -65,6 +70,12 @@ describe('axios-cache-adapter', () => {
         // console.log("TEST PARAMS CACHE'D???",response)
         assert.ok(has(response.data.args, 'userId'))
         assert.ok(response.request.fromCache)
+
+        // Failing test
+        // return api2(definitionWithParams).then(response => {
+        //   assert.ok(has(response.data.args, 'userId'))
+        //   assert.ok(response.request.fromCache)
+        // })
       })
     })
   })

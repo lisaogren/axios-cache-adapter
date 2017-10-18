@@ -77,7 +77,7 @@ function setupCache (config = {}) {
     const includedNext = (...args) => next(false, ...args)
     const excludedNext = (...args) => next(true, ...args)
 
-    if (exclude(req, config.exclude)) {
+    if (exclude(req, config.exclude, config.debug)) {
       return Promise.resolve(excludedNext)
     }
 
