@@ -538,6 +538,10 @@ function setupCache() {
   function store(uuid, expires, req, res) {
     return config.store.setItem(uuid, { expires: expires, data: config.serialize(req, res, config.debug) }).then(function () {
       return res;
+    }).catch(function (err) {
+      config.debug('Could not store response', err);
+
+      return res;
     });
   }
 
