@@ -69,6 +69,11 @@ function setupCache (config = {}) {
     return config.store
       .setItem(uuid, { expires, data: config.serialize(req, res, config.debug) })
       .then(() => res)
+      .catch(err => {
+        config.debug('Could not store response', err)
+
+        return res
+      })
   }
 
   function request (req) {
