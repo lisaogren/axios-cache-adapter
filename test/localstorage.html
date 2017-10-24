@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://arty.name/localstorage.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Test of localStorage limits/quota</title>
+<meta name="keywords" content="html5, html 5, storage, localStorage, limit, quota, test, browser, opera, chrome, firefox, explorer, adjust, change">
+<meta name="description" content="This page tries to detect how many characters your browser may save to window.localStorage. Accuracy is 2 first digits.">
+<style>body {max-width: 30em; margin:auto;}</style>
+<link rel="author" href="https://arty.name/">
+</head>
+
+<body>
+<h1>Test of localStorage limits/quota</h1>
+
+<p><strong>Important update:</strong> You can get much more information in <a href="http://www.html5rocks.com/en/tutorials/offline/quota-research/">this research on browser storage</a>.</p>
+
+<p>Please sit back and relax™ while this script tests your browser.
+This may take a while (about 2 minutes actually).
+Firefox users might want to check "Do not ask me again" in their "Unresponsive script" dialog.</p>
+
+<p>The script constructs very long strings and tries to save them to <code>window.localStorage</code>.
+When that fails, it reports last successful length and current failing length.</p>
+
+<p>Last time I've checked, Chrome 6.0.472.36 beta let me save 2600-2700 thousands of characters,
+Firefox 3.6.8 - 5200-5300k, Explorer 8 - 4900-5000k, and Opera 10.70 build 9013 popped a dialog,
+that allowed me to give the script unlimited storage.
+<a href="http://dev.w3.org/html5/webstorage/#disk-space">Spec arbitrarily recommends 5 megabytes of storage</a>,
+but doesn't say a thing about actual characters, so in UTF-16 you get twice less.</p>
+
+<p>At any moment you can <button onclick="iterationsData=[];window.localStorage.clear();results.innerHTML+=&#39; Test stopped manually.&#39;">stop the test and clear storage</button></p>
+
+<p>Address any feedback to <a href="https://arty.name/">Artemy Tregubenko</a>.</p>
+
+<h2>Results will appear below:</h2>
+
+<div id="results">5200000 characters were stored successfully,  but 5300000 weren't.</div>
+
+<h2>Adjusting quotas</h2>
+<dl>
+<dt>Opera</dt>
+<dd>Doesn't actually requires adjusting. You can however change default storage size
+at which Opera will propose increasing limit. It is defined by
+<a href="opera:config#PersistentStorage|DomainQuotaForlocalStorage">Domain Quota For localStorage option</a>.
+It's value is in kilobytes.</dd>
+<dt>Firefox</dt>
+<dd>Go to <a href="about:config">about:config</a> and search for "dom.storage.default_quota" option.
+It's value is in kilobytes.</dd>
+</dl>
+<p>AFAIK, there's no way to adjust quotas for Chrome/Safari/IE.</p>
+
+<script type="text/javascript" src="https://unpkg.com/localforage@1.5.2/dist/localforage.js"></script>
+<script>
+var iterationsData;
+var results = document.getElementById('results');
+
+(function () {
+
+if (!('localStorage' in window)) {
+    results.innerHTML = 'Your browser has no localStorage support.';
+    return;
+}
+
+const store = localforage.createInstance({
+  driver: [localforage.LOCALSTORAGE],
+  name: 'storage-test',
+  version: 1
+});
+
+var n10b =    '0123456789';
+var n100b =   repeat(n10b, 10);
+var n1kib =   repeat(n100b, 10);
+var n10kib =  repeat(n1kib, 10);
+var n100kib = repeat(n10kib, 10);
+var n1mib =   repeat(n100kib, 10);
+var n10mib =  repeat(n1mib, 10);
+
+var values = [n10b, n100b, n1kib, n10kib, n100kib, n1mib, n10mib];
+
+iterationsData = [];
+for (var majorIndex = 1; majorIndex < values.length; majorIndex++) {
+    var major = values[majorIndex];
+    var minor = values[majorIndex - 1];
+    for (var i = 1; i < 10; i++) {
+        for (var j = 0; j < 10; j++) {
+            iterationsData.push([major, minor, i, j]);
+        }
+    }
+}
+
+var index = 0;
+var oldLength = 0;
+
+function iteration() {
+    var data = iterationsData[index];
+
+    major = data[0];
+    minor = data[1];
+    i = data[2];
+    j = data[3];
+
+    var string = repeat(major, i) + repeat(minor, j);
+    var length = '' + string.length;
+
+    test(string).then(res => {
+      if (res) {
+          results.innerHTML = length + ' characters were stored successfully.';
+      } else {
+          results.innerHTML = oldLength + ' characters were stored successfully,  but ' + length + ' weren\'t.';
+          return;
+      }
+      oldLength = length;
+
+      index++;
+      if (index < iterationsData.length) {
+          setTimeout(iteration, 0);
+      } else {
+          results.innerHTML = oldLength + ' characters were saved successfully, test is stopped.';
+      }
+    })
+}
+
+iteration();
+
+function test(value) {
+  return store.setItem('test', value)
+    .then(() => true)
+    .catch((err) => {
+      console.error(err);
+      return false;
+    })
+}
+
+function repeat(string, count) {
+    var array = [];
+    while (count--) {
+        array.push(string);
+    }
+    return array.join('');
+}
+
+})();
+</script>
+
+
+</body></html>
