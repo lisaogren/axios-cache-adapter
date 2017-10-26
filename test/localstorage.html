@@ -126,7 +126,10 @@ function test(value) {
     .then(() => true)
     .catch((err) => {
       console.error(err);
-      return false;
+
+      return store.clear()
+        .then(() => false)
+        .catch(() => false)
     })
 }
 

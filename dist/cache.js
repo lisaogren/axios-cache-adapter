@@ -541,7 +541,11 @@ function setupCache() {
     }).catch(function (err) {
       config.debug('Could not store response', err);
 
-      return res;
+      return config.store.clear().then(function () {
+        return res;
+      }, function () {
+        return res;
+      });
     });
   }
 

@@ -72,7 +72,7 @@ function setupCache (config = {}) {
       .catch(err => {
         config.debug('Could not store response', err)
 
-        return res
+        return config.store.clear().then(() => res, () => res)
       })
   }
 
