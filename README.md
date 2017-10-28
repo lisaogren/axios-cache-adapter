@@ -80,7 +80,7 @@ where they will be stored, etc.
 #### Options
 
 * `maxAge {Number}`: Maximum time for storing each request in milliseconds, defaults to 15 minutes (`15 * 60 * 1000`)
-* `store {Object}`: An instance of `localForage`, defaults to a custom in memory store
+* `store {Object}`: An instance of `[localForage]( https://github.com/localForage/localForage)`, defaults to a custom in memory store
 * `clearOnStale {Boolean}`: Clear cache when it is stale, defaults to `true`
 * `limit {Number}`: Maximum number of cached request (last in, first out queue system), no limit by default
 * `key {Mixed}`: Can either be a `String` or a `Function` which receives the `request` object as first parameter to return a unique cache key for each request. Defaults to `req => req.url`
