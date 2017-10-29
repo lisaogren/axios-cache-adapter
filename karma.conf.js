@@ -1,6 +1,7 @@
 // Karma configuration
-// Generated on Thu Jan 19 2017 11:27:12 GMT+0100 (Paris, Madrid)
 const webpackConfig = require('./webpack.config')
+
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 // explained at http://mike-ward.net/2015/09/07/tips-on-setting-up-karma-testing-with-webpack/
 webpackConfig.entry = ''
@@ -54,7 +55,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [process.env.NODE_WATCH ? 'Chrome' : 'ChromeHeadless'],
     // browsers: ['Chrome', 'Firefox', 'PhantomJS'],
 
     // Continuous Integration mode
