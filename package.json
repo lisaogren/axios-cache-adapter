@@ -28,7 +28,8 @@
     "clean": "rimraf dist",
     "lint": "standard | snazzy",
     "build": "webpack && NODE_ENV=production webpack && NODE_BUNDLED=please webpack && NODE_ENV=production NODE_BUNDLED=please webpack",
-    "test": "NODE_ENV=test karma start karma.conf.js"
+    "test": "NODE_ENV=test karma start karma.conf.js",
+    "watch": "NODE_WATCH=true npm test"
   },
   "repository": "https://github.com/RasCarlito/axios-cache-adapter",
   "license": "MIT",

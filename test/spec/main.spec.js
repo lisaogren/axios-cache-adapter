@@ -10,7 +10,7 @@ import { setup, setupCache } from 'src/index'
 describe('axios-cache-adapter', () => {
   const api = setup({
     cache: {
-      debug: true,
+      // debug: true,
       maxAge: 15 * 60 * 1000
     }
   })
@@ -20,29 +20,47 @@ describe('axios-cache-adapter', () => {
     assert.ok(isFunction(setup))
   })
 
-  it('Should execute GET requests', () => {
+  it('Should execute GET requests', async () => {
     const definition = {
       url: 'https://httpbin.org/get',
       method: 'get'
     }
 
-    return api(definition).then(response => {
-      assert.equal(response.status, 200)
-      assert.ok(isObject(response.data))
+    let response = await api(definition)
 
-      return api(definition).then(response => {
-        // console.log("TEST NORM",response)
-        assert.equal(response.status, 200)
-        assert.ok(isObject(response.data))
-        assert.ok(response.request.fromCache)
-      })
-    })
+    assert.equal(response.status, 200)
+    assert.ok(isObject(response.data))
+
+    response = await api(definition)
+
+    assert.equal(response.status, 200)
+    assert.ok(isObject(response.data))
+    assert.ok(response.request.fromCache)
   })
 
-  it('Should cache GET requests with params', () => {
+  it('Should bust cache when sending something else than a GET request', async () => {
+    await api.cache.clear()
+
+    const url = 'https://httpbin.org/anything'
+
+    let res = await api({ url })
+    let length
+
+    assert.equal(res.status, 200)
+    length = await api.cache.length()
+
+    assert.equal(length, 1)
+
+    res = await api({ url, method: 'post' })
+    length = await api.cache.length()
+
+    assert.equal(length, 0)
+  })
+
+  it('Should cache GET requests with params', async () => {
     const api2 = setup({
       cache: {
-        debug: true,
+        // debug: true,
         maxAge: 15 * 60 * 1000,
         exclude: {
           query: false
@@ -60,30 +78,22 @@ describe('axios-cache-adapter', () => {
     //   method: 'get'
     // }
 
-    return api2(definition).then(response => {
-      // console.log("TEST PARAMS NOT cached",response)
-      assert.equal(response.status, 200)
-      assert.ok(isObject(response.data))
-      assert.ok(has(response.data.args, 'userId'))
+    let response = await api2(definition)
 
-      return api2(definition).then(response => {
-        // console.log("TEST PARAMS CACHE'D???",response)
-        assert.ok(has(response.data.args, 'userId'))
-        assert.ok(response.request.fromCache)
+    assert.equal(response.status, 200)
+    assert.ok(isObject(response.data))
+    assert.ok(has(response.data.args, 'userId'))
 
-        // Failing test
-        // return api2(definitionWithParams).then(response => {
-        //   assert.ok(has(response.data.args, 'userId'))
-        //   assert.ok(response.request.fromCache)
-        // })
-      })
-    })
+    response = await api2(definition)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
   })
 
-  it('Should apply a cache size limit', () => {
+  it('Should apply a cache size limit', async () => {
     const api3 = setup({
       cache: {
-        debug: true,
+        // debug: true,
         maxAge: 15 * 60 * 1000,
         limit: 1
       }
@@ -99,22 +109,22 @@ describe('axios-cache-adapter', () => {
       method: 'get'
     }
 
-    return api3(definition).then(response => {
-      assert.equal(response.status, 200)
-      assert.ok(isObject(response.data))
+    let response = await api3(definition)
 
-      return api3(anotherDefinition).then(response => {
-        return api3.cache.length().then(length => {
-          assert.equal(length, 1)
-        })
-      })
-    })
+    assert.equal(response.status, 200)
+    assert.ok(isObject(response.data))
+
+    response = await api3(anotherDefinition)
+
+    const length = await api3.cache.length()
+
+    assert.equal(length, 1)
   })
 
-  it('Should exclude paths', () => {
+  it('Should exclude paths', async () => {
     const api4 = setup({
       cache: {
-        debug: true,
+        // debug: true,
         maxAge: 15 * 60 * 1000,
         exclude: {
           paths: [
@@ -129,10 +139,9 @@ describe('axios-cache-adapter', () => {
       method: 'get'
     }
 
-    return api4(definition).then(response => {
-      return api4.cache.length().then(length => {
-        assert.equal(length, 0)
-      })
-    })
+    const response = await api4(definition)
+    const length = await api4.cache.length()
+
+    assert.equal(length, 0)
   })
 })
