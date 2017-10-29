@@ -24,9 +24,6 @@ Or from a CDN like unpkg.com
 <script type="text/javascript" src="https://unpkg.com/axios-cache-adapter"></script>
 ```
 
-*PS: For bower users there is a limitation, this library uses `lodash-es` as a dependency which is not published on bower.*
-*If you use bower, use the bundled version of the lib `dist/cache.bundled.js`*
-
 ## Usage
 
 You can use the adapter directly
