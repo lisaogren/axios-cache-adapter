@@ -6,27 +6,26 @@ class MemoryStore {
     this.store = {}
   }
 
-  getItem (key) {
-    return Promise.resolve(this.store[key] || null)
+  async getItem (key) {
+    return this.store[key] || null
   }
 
-  setItem (key, value) {
+  async setItem (key, value) {
     this.store[key] = value
-    return Promise.resolve(value)
+
+    return value
   }
 
-  removeItem (key) {
+  async removeItem (key) {
     delete this.store[key]
-    return Promise.resolve()
   }
 
-  clear () {
+  async clear () {
     this.store = {}
-    return Promise.resolve()
   }
 
-  length () {
-    return Promise.resolve(size(this.store))
+  async length () {
+    return size(this.store)
   }
 
   iterate (fn) {

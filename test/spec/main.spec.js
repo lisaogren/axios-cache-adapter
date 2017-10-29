@@ -39,17 +39,17 @@ describe('axios-cache-adapter', () => {
     })
   })
 
-  const api2 = setup({
-    cache: {
-      debug: true,
-      maxAge: 15 * 60 * 1000,
-      exclude: {
-        query: false
-      }
-    }
-  })
-
   it('Should cache GET requests with params', () => {
+    const api2 = setup({
+      cache: {
+        debug: true,
+        maxAge: 15 * 60 * 1000,
+        exclude: {
+          query: false
+        }
+      }
+    })
+
     const definition = {
       url: 'https://httpbin.org/get?userId=2',
       method: 'get'
@@ -80,15 +80,15 @@ describe('axios-cache-adapter', () => {
     })
   })
 
-  const api3 = setup({
-    cache: {
-      debug: true,
-      maxAge: 15 * 60 * 1000,
-      limit: 1
-    }
-  })
-
   it('Should apply a cache size limit', () => {
+    const api3 = setup({
+      cache: {
+        debug: true,
+        maxAge: 15 * 60 * 1000,
+        limit: 1
+      }
+    })
+
     const definition = {
       url: 'https://httpbin.org/get',
       method: 'get'
@@ -111,19 +111,19 @@ describe('axios-cache-adapter', () => {
     })
   })
 
-  const api4 = setup({
-    cache: {
-      debug: true,
-      maxAge: 15 * 60 * 1000,
-      exclude: {
-        paths: [
-          /.+/ // Exclude everything
-        ]
-      }
-    }
-  })
-
   it('Should exclude paths', () => {
+    const api4 = setup({
+      cache: {
+        debug: true,
+        maxAge: 15 * 60 * 1000,
+        exclude: {
+          paths: [
+            /.+/ // Exclude everything
+          ]
+        }
+      }
+    })
+
     const definition = {
       url: 'https://httpbin.org/get',
       method: 'get'

@@ -14,11 +14,14 @@ let externals = {}
 
 // List external dependencies
 const dependencies = [
+  'lodash/isEmpty',
   'lodash/isString',
   'lodash/isFunction',
   'lodash/size',
+  'lodash/find',
   'lodash/map',
   'lodash/extend',
+  'lodash/merge',
   'lodash/omit',
   'axios'
 ]
@@ -67,7 +70,17 @@ const build = {
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', options: { presets: ['es2015'] } }
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015'],
+            plugins: ['transform-async-to-generator']
+          }
+        }]
+      }
     ]
   },
   externals,

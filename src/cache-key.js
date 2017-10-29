@@ -1,7 +1,7 @@
 import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
 
-function createKey (config) {
+function createCacheKey (config) {
   if (isFunction(config.key)) return config.key
 
   let cacheKey
@@ -12,4 +12,4 @@ function createKey (config) {
   return cacheKey
 }
 
-export default createKey
+export default createCacheKey

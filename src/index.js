@@ -1,31 +1,34 @@
 import axios from 'axios'
-
-import isFunction from 'lodash/isFunction'
-import extend from 'lodash/extend'
 import omit from 'lodash/omit'
+import merge from 'lodash/merge'
+import isFunction from 'lodash/isFunction'
 
-import readCache from './read-cache'
-import serialize from './serialize'
+import createCacheKey from './cache-key'
 import MemoryStore from './memory'
-import exclude from './exclude'
-import createKey from './cache-key'
-import applyLimit from './limit'
+import request from './request'
+
+// ---------------------
+// Cache Adapter
+// ---------------------
+
+const defaultConfig = {
+  maxAge: 0,
+  limit: false,
+  clearOnStale: true,
+  store: null,
+  exclude: {
+    paths: [],
+    query: true,
+    filter: null
+  },
+  adapter: axios.defaults.adapter,
+  debug: false
+}
 
 function setupCache (config = {}) {
-  const cacheKey = createKey(config)
+  config = merge({}, defaultConfig, config)
 
-  config.store = config.store || new MemoryStore()
-  config.maxAge = config.maxAge || 0
-  config.limit = config.limit || false
-  config.readCache = config.readCache || readCache
-  config.serialize = config.serialize || serialize
-  config.clearOnStale = config.clearOnStale !== undefined ? config.clearOnStale : true
-  config.debug = config.debug || false
-
-  config.exclude = config.exclude || {}
-  config.exclude.query = config.exclude.query !== undefined ? config.exclude.query : true
-  config.exclude.paths = config.exclude.paths || []
-  config.exclude.filter = config.exclude.filter || null
+  config.key = createCacheKey(config)
 
   if (config.debug !== false) {
     config.debug = (typeof config.debug === 'function')
@@ -35,95 +38,16 @@ function setupCache (config = {}) {
     config.debug = () => {}
   }
 
-  function response (exclude, req, uuid, res) {
-    const type = res.status / 100 | 0
+  if (!config.store) config.store = new MemoryStore()
 
-    // only cache 2xx response
-    if (type !== 2) {
-      return res
-    }
+  async function adapter (req) {
+    const next = await request(config, req)
 
-    // exclude binary response from cache
-    if (['arraybuffer', 'blob'].indexOf(res.responseType) > -1) {
-      return res
-    }
+    if (!isFunction(next)) return next
 
-    let expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge
+    const res = await config.adapter(req)
 
-    if (!exclude) {
-      if (config.limit) {
-        config.debug(`Detected limit: ${config.limit}`)
-
-        return applyLimit(config).then(
-          () => store(uuid, expires, req, res)
-        )
-      }
-
-      return store(uuid, expires, req, res)
-    }
-
-    return res
-  }
-
-  function store (uuid, expires, req, res) {
-    return config.store
-      .setItem(uuid, { expires, data: config.serialize(req, res, config.debug) })
-      .then(() => res)
-      .catch(err => {
-        config.debug('Could not store response', err)
-
-        return config.store.clear().then(() => res, () => res)
-      })
-  }
-
-  function request (req) {
-    const uuid = cacheKey(req)
-    const next = (exclude, ...args) => response(exclude, req, uuid, ...args)
-    const includedNext = (...args) => next(false, ...args)
-    const excludedNext = (...args) => next(true, ...args)
-
-    if (exclude(req, config.exclude, config.debug)) {
-      return Promise.resolve(excludedNext)
-    }
-
-    // clear cache if method different from GET.
-    // We should exclude HEAD
-    const method = req.method.toLowerCase()
-
-    if (method === 'head') {
-      return Promise.resolve(excludedNext)
-    }
-
-    if (method !== 'get') {
-      return config.store.removeItem(uuid).then(() => excludedNext)
-    }
-
-    return config.store.getItem(uuid).then(value => {
-      return config.readCache(req, config.debug)(value)
-        .then(data => {
-          data.config = req
-          data.request = { fromCache: true }
-
-          return data
-        })
-        .catch(err => {
-          // clean up cache if stale
-          if (config.clearOnStale && err.reason === 'cache-stale') {
-            return config.store.removeItem(uuid).then(() => includedNext)
-          }
-
-          return includedNext
-        })
-    })
-  }
-
-  function adapter (config) {
-    return request(config)
-      .then(response => {
-        if (!isFunction(response)) return response
-
-        return axios.defaults.adapter(config).then(response)
-      })
+    return next(res)
   }
 
   return {
@@ -132,29 +56,30 @@ function setupCache (config = {}) {
   }
 }
 
+// ---------------------
+// Easy API Setup
+// ---------------------
+
 const defaultOptions = {
   cache: {
     maxAge: 15 * 60 * 1000
   }
 }
 
-function setup (options) {
-  options = extend({}, defaultOptions, options)
+function setup (options = {}) {
+  options = merge({}, defaultOptions, options)
 
   const cache = setupCache(options.cache)
   const axiosOptions = omit(options, ['cache'])
 
-  const request = axios.create(extend({}, axiosOptions, { adapter: cache.adapter }))
+  const api = axios.create(
+    merge({}, axiosOptions, { adapter: cache.adapter })
+  )
 
-  request.cache = cache.store
+  api.cache = cache.store
 
-  return request
+  return api
 }
 
-const lib = {
-  setupCache,
-  setup
-}
-
-export default lib
-module.exports = lib
+export { setup, setupCache }
+export default { setup, setupCache }
