@@ -1,4 +1,4 @@
-# axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=rework)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![npm](https://img.shields.io/npm/v/npm.svg)](https://npmjs.com/package/axios-cache-adapter)
+# axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=rework)](https://travis-ci.org/RasCarlito/axios-cache-adapter)
 
 > Caching adapter for axios
 
