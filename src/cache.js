@@ -1,3 +1,6 @@
+import isString from 'lodash/isString'
+import isFunction from 'lodash/isFunction'
+
 import serialize from './serialize'
 
 async function write (config, req, res) {
@@ -55,5 +58,16 @@ async function read (config, req) {
   return data
 }
 
-export { read, write }
-export default { read, write }
+function key (config) {
+  if (isFunction(config.key)) return config.key
+
+  let cacheKey
+
+  if (isString(config.key)) cacheKey = req => `${config.key}/${req.url}`
+  else cacheKey = req => req.url
+
+  return cacheKey
+}
+
+export { read, write, key }
+export default { read, write, key }

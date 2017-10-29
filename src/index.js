@@ -3,7 +3,7 @@ import omit from 'lodash/omit'
 import merge from 'lodash/merge'
 import isFunction from 'lodash/isFunction'
 
-import createCacheKey from './cache-key'
+import { key } from './cache'
 import MemoryStore from './memory'
 import request from './request'
 
@@ -28,7 +28,7 @@ const defaultConfig = {
 function setupCache (config = {}) {
   config = merge({}, defaultConfig, config)
 
-  config.key = createCacheKey(config)
+  config.key = key(config)
 
   if (config.debug !== false) {
     config.debug = (typeof config.debug === 'function')
