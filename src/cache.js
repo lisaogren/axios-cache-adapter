@@ -14,10 +14,12 @@ async function write (config, req, res) {
   } catch (err) {
     config.debug('Could not store response', err)
 
-    try {
-      await config.store.clear()
-    } catch (err) {
-      config.debug('Could not clear store', err)
+    if (config.clearOnError) {
+      try {
+        await config.store.clear()
+      } catch (err) {
+        config.debug('Could not clear store', err)
+      }
     }
 
     return false

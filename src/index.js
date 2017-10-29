@@ -14,14 +14,16 @@ import request from './request'
 const defaultConfig = {
   maxAge: 0,
   limit: false,
-  clearOnStale: true,
   store: null,
+  key: null,
   exclude: {
     paths: [],
     query: true,
     filter: null
   },
   adapter: axios.defaults.adapter,
+  clearOnStale: true,
+  clearOnError: true,
   debug: false
 }
 
