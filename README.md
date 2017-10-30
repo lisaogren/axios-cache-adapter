@@ -2,7 +2,8 @@
 
 > Caching adapter for axios
 
-Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache) by @stephanebachelier
+Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache)
+by [@stephanebachelier](https://github.com/stephanebachelier)
 
 ## Install
 
@@ -45,6 +46,12 @@ api({
   method: 'get'
 }).then(response => {
   // Do something fantastic with response.data \o/
+  console.log('Request response:', response)
+
+  // Interacting with the store, see `localForage` API.
+  cache.store.length().then(length => {
+    console.log('Cache store length:', length)
+  })
 })
 ```
 
@@ -64,6 +71,12 @@ api({
   method: 'get'
 }).then(response => {
   // Do something awesome with response.data \o/
+  console.log('Request response:', response)
+
+  // Interacting with the store, see `localForage` API.
+  api.cache.length().then(length => {
+    console.log('Cache store length:', length)
+  })
 })
 ```
 
@@ -106,6 +119,7 @@ All the other parameters passed in the `options` will be passed directly to the 
 #### Returns
 
 `setup()` returns an instance of `axios` pre-configured with the cache adapter.
+The cache `store` is conveniently attached to the `axios` instance as `instance.cache` for easy access.
 
 ## License
 

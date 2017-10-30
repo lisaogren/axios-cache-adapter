@@ -1,9 +1,9 @@
 /* globals describe it */
 
 import assert from 'assert'
+import has from 'lodash/has'
 import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
-import has from 'lodash/has'
 
 import { setup, setupCache } from 'src/index'
 
@@ -18,6 +18,15 @@ describe('axios-cache-adapter', () => {
   it('Should expose a public API', () => {
     assert.ok(isFunction(setupCache))
     assert.ok(isFunction(setup))
+
+    const cache = setupCache()
+
+    assert.ok(isObject(cache))
+    assert.ok(isObject(cache.store))
+    assert.ok(isFunction(cache.adapter))
+
+    checkStoreInterface(cache.store)
+    checkStoreInterface(api.cache)
   })
 
   it('Should execute GET requests', async () => {
@@ -140,8 +149,23 @@ describe('axios-cache-adapter', () => {
     }
 
     const response = await api4(definition)
+
+    assert.ok(isObject(response.data))
+
     const length = await api4.cache.length()
 
     assert.equal(length, 0)
   })
+
+  // Helpers
+
+  function checkStoreInterface (store) {
+    assert.ok(isObject(store))
+    assert.ok(isFunction(store.getItem))
+    assert.ok(isFunction(store.setItem))
+    assert.ok(isFunction(store.removeItem))
+    assert.ok(isFunction(store.clear))
+    assert.ok(isFunction(store.iterate))
+    assert.ok(isFunction(store.length))
+  }
 })
