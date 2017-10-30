@@ -56,11 +56,10 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [process.env.NODE_WATCH ? 'Chrome' : 'ChromeHeadless'],
-    // browsers: ['Chrome', 'Firefox', 'PhantomJS'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: process.env.NODE_WATCH ? false : true,
+    singleRun: !process.env.NODE_WATCH,
 
     // Concurrency level
     // how many browser should be started simultaneous
