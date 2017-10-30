@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import MemoryStore from 'src/memory'
 
-describe('Default memory store', () => {
+describe('Memory store', () => {
   let store
 
   beforeEach(() => {

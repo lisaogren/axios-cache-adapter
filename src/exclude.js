@@ -1,10 +1,10 @@
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 
-function exclude (config, req) {
-  const { exclude, debug } = config
+function exclude (config = {}, req) {
+  const { exclude = {}, debug } = config
 
-  if ((typeof exclude.filter === 'function') && !exclude.filter(req)) {
+  if ((typeof exclude.filter === 'function') && exclude.filter(req)) {
     debug(`Excluding request by filter ${req.url}`)
 
     return true

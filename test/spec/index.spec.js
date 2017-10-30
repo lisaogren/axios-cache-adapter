@@ -7,7 +7,7 @@ import isFunction from 'lodash/isFunction'
 
 import { setup, setupCache } from 'src/index'
 
-describe('axios-cache-adapter', () => {
+describe('Integration', () => {
   const api = setup({
     cache: {
       // debug: true,
