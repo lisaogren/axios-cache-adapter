@@ -7,7 +7,7 @@ import isFunction from 'lodash/isFunction'
 import cache from 'src/cache'
 import MemoryStore from 'src/memory'
 
-describe.only('Cache store', () => {
+describe('Cache store', () => {
   const debug = () => {}
   // const debug = (...args) => { console.log(...args) }
 
