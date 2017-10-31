@@ -11,27 +11,43 @@ import request from './request'
 // Cache Adapter
 // ---------------------
 
-const defaultConfig = {
-  maxAge: 0,
-  limit: false,
-  store: null,
-  key: null,
-  exclude: {
-    paths: [],
-    query: true,
-    filter: null
+const defaults = {
+  cache: {
+    maxAge: 0,
+    limit: false,
+    store: null,
+    key: null,
+    exclude: {
+      paths: [],
+      query: true,
+      filter: null
+    },
+    adapter: axios.defaults.adapter,
+    clearOnStale: true,
+    clearOnError: true,
+    debug: false
   },
-  adapter: axios.defaults.adapter,
-  clearOnStale: true,
-  clearOnError: true,
-  debug: false
+  axios: {
+    cache: {
+      maxAge: 15 * 60 * 1000
+    }
+  }
 }
 
+/**
+ * Configure cache adapter
+ *
+ * @param   {object} [config={}] Cache adapter options
+ * @returns {object} Object containing cache `adapter` and `store`
+ */
 function setupCache (config = {}) {
-  config = merge({}, defaultConfig, config)
+  // Extend default configuration
+  config = merge({}, defaults.cache, config)
 
+  // Create a cache key method
   config.key = key(config)
 
+  // If debug mode is on, create a simple logger method
   if (config.debug !== false) {
     config.debug = (typeof config.debug === 'function')
       ? config.debug
@@ -40,18 +56,25 @@ function setupCache (config = {}) {
     config.debug = () => {}
   }
 
+  // Create an in memory store if none was given
   if (!config.store) config.store = new MemoryStore()
 
+  // Axios adapter. Receives the axios request configuration as only parameter
   async function adapter (req) {
+    // Execute request against local cache
     const next = await request(config, req)
 
+    // Response is not function, something was in cache, return it
     if (!isFunction(next)) return next
 
+    // Nothing in cache so we execute the default adapter or any given adapter
     const res = await config.adapter(req)
 
+    // Process response to store in cache
     return next(res)
   }
 
+  // Return adapter and store instance
   return {
     adapter,
     store: config.store
@@ -62,20 +85,20 @@ function setupCache (config = {}) {
 // Easy API Setup
 // ---------------------
 
-const defaultOptions = {
-  cache: {
-    maxAge: 15 * 60 * 1000
-  }
-}
+/**
+ * Setup an axios instance with the cache adapter pre-configured
+ *
+ * @param {object} [options={}] Axios and cache adapter options
+ * @returns {object} Instance of Axios
+ */
+function setup (config = {}) {
+  config = merge({}, defaults.axios, config)
 
-function setup (options = {}) {
-  options = merge({}, defaultOptions, options)
-
-  const cache = setupCache(options.cache)
-  const axiosOptions = omit(options, ['cache'])
+  const cache = setupCache(config.cache)
+  const axiosConfig = omit(config, ['cache'])
 
   const api = axios.create(
-    merge({}, axiosOptions, { adapter: cache.adapter })
+    merge({}, axiosConfig, { adapter: cache.adapter })
   )
 
   api.cache = cache.store
