@@ -61,7 +61,7 @@ filename = filename.replace('[version]', version.join('.'))
 
 // Webpack config
 const build = {
-  entry: './src/index.js',
+  entry: ['babel-regenerator-runtime', './src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename,
