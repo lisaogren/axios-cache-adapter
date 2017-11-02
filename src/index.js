@@ -62,13 +62,14 @@ function setupCache (config = {}) {
   // Axios adapter. Receives the axios request configuration as only parameter
   async function adapter (req) {
     // Execute request against local cache
-    const next = await request(config, req)
+    let res = await request(config, req)
+    const next = res.next
 
     // Response is not function, something was in cache, return it
     if (!isFunction(next)) return next
 
     // Nothing in cache so we execute the default adapter or any given adapter
-    const res = await config.adapter(req)
+    res = await config.adapter(req)
 
     // Process response to store in cache
     return next(res)

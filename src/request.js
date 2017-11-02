@@ -34,14 +34,14 @@ async function request (config, req) {
     res.config = req
     res.request = { fromCache: true }
 
-    return res
+    return { config, next: res }
   } catch (err) {
     // clean up cache if stale
     if (config.clearOnStale && err.reason === 'cache-stale') {
       await config.store.removeItem(uuid)
     }
 
-    return next
+    return { config, next }
   }
 
   // Helpers
@@ -49,7 +49,7 @@ async function request (config, req) {
   function excludeFromCache () {
     config.excludeFromCache = true
 
-    return next
+    return { config, next }
   }
 }
 
