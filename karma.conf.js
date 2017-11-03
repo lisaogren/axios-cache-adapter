@@ -34,7 +34,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage-istanbul'],
 
     webpackServer: {
       noInfo: true // please don't spam the console when running in karma!
@@ -65,17 +65,28 @@ module.exports = function (config) {
     // how many browser should be started simultaneous
     concurrency: Infinity,
 
-    webpack: webpackConfig
+    webpack: webpackConfig,
 
     // htmlReporter: {
     //   outputDir: 'test-reports', // where to put the reports
     //   namedFiles: true // name files instead of creating sub-directories
     // },
 
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly', 'text-summary'],
+      fixWebpackSourcePaths: true
+    }
+
     // options for code coverage karma plugin
     // coverageReporter: {
-    //   type: 'html', // produces a html document after code is run
-    //   dir: 'test-reports/' // path to created html doc
+    //   // type: 'html', // produces a html document after code is run
+    //   // dir: 'coverage/' // path to created html doc
+    //   reporters: [
+    //     // generates ./coverage/lcov.info
+    //     { type: 'lcovonly', subdir: '.' },
+    //     // generates ./coverage/coverage-final.json
+    //     { type: 'json', subdir: '.' }
+    //   ]
     // }
   })
 }

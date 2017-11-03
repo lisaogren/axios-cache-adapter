@@ -102,7 +102,22 @@ const test = {
   module: {
     rules: [
       // Transpile ES2015 to ES5
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', options: { presets: ['es2015'] } },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader', options: { presets: ['es2015'] } }
+        ]
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'istanbul-instrumenter-loader',
+          options: { esModules: true }
+        },
+        enforce: 'post',
+        exclude: /node_modules|\.spec\.js$/,
+      },
 
       // Load font files
       { test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/, loader: 'file-loader' },
