@@ -95,7 +95,7 @@ describe('Integration', () => {
     assert.ok(response.request.fromCache)
   })
 
-  it.only('Should apply a cache size limit', async () => {
+  it('Should apply a cache size limit', async () => {
     const config = {
       cache: {
         // debug: true,
