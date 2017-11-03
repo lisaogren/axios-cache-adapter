@@ -1,4 +1,4 @@
-# axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter) [![bitHound Overall Score](https://www.bithound.io/github/RasCarlito/axios-cache-adapter/badges/score.svg)](https://www.bithound.io/github/RasCarlito/axios-cache-adapter) [![bitHound Dependencies](https://www.bithound.io/github/RasCarlito/axios-cache-adapter/badges/dependencies.svg)](https://www.bithound.io/github/RasCarlito/axios-cache-adapter/master/dependencies/npm)
+# :rocket: axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter) [![bitHound Overall Score](https://www.bithound.io/github/RasCarlito/axios-cache-adapter/badges/score.svg)](https://www.bithound.io/github/RasCarlito/axios-cache-adapter) [![bitHound Dependencies](https://www.bithound.io/github/RasCarlito/axios-cache-adapter/badges/dependencies.svg)](https://www.bithound.io/github/RasCarlito/axios-cache-adapter/master/dependencies/npm)
 
 > Caching adapter for axios
 
@@ -120,6 +120,27 @@ All the other parameters passed in the `options` will be passed directly to the 
 
 `setup()` returns an instance of `axios` pre-configured with the cache adapter.
 The cache `store` is conveniently attached to the `axios` instance as `instance.cache` for easy access.
+
+## Building
+
+```sh
+npm run build
+```
+
+Webpack is used to build [umd](https://github.com/umdjs/umd) versions of the library that are placed in the `dist` folder.
+
+* `cache.js`
+* `cache.min.js`
+* `cache.bundled.js`
+* `cache.bundled.min.js`
+
+The bundled version contain all the dependencies necessary to work on its own.
+
+## Testing
+
+Tests are executed using [karma](https://github.com/karma-runner/karma).
+
+
 
 ## License
 
