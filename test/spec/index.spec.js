@@ -95,35 +95,36 @@ describe('Integration', () => {
     assert.ok(response.request.fromCache)
   })
 
-  it('Should apply a cache size limit', async () => {
-    const api3 = setup({
+  it.only('Should apply a cache size limit', async () => {
+    const config = {
       cache: {
         // debug: true,
         maxAge: 15 * 60 * 1000,
-        limit: 1
+        limit: 3
       }
+    }
+    const api3 = setup(config)
+
+    const endpoints = ['get', 'ip', 'uuid', 'user-agent']
+
+    const send = () => Promise.all(
+      endpoints.map(
+        endpoint => api3({
+          url: `https://httpbin.org/${endpoint}`
+        })
+      )
+    )
+
+    const responses = await send()
+
+    responses.forEach(response => {
+      assert.equal(response.status, 200)
+      assert.ok(isObject(response.data))
     })
-
-    const definition = {
-      url: 'https://httpbin.org/get',
-      method: 'get'
-    }
-
-    const anotherDefinition = {
-      url: 'https://httpbin.org/ip',
-      method: 'get'
-    }
-
-    let response = await api3(definition)
-
-    assert.equal(response.status, 200)
-    assert.ok(isObject(response.data))
-
-    response = await api3(anotherDefinition)
 
     const length = await api3.cache.length()
 
-    assert.equal(length, 1)
+    assert.equal(length, config.cache.limit)
   })
 
   it('Should exclude paths', async () => {
