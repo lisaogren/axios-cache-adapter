@@ -4380,6 +4380,7 @@ var defaults = {
   // Create an in memory store if none was given
   if (!config.store) config.store = new _memory2.default();return {
     adapter: adapter,
+    config: config,
     store: config.store
   };
 }
