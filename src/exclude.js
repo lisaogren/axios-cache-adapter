@@ -1,33 +1,34 @@
+import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 
-export default function exclude (req, exclusions = {}, log) {
-  if ((typeof exclusions.filter === 'function') && !exclusions.filter(req)) {
-    log(`Excluding request by filter ${req.url}`)
+function exclude (config = {}, req) {
+  const { exclude = {}, debug } = config
+
+  if ((typeof exclude.filter === 'function') && exclude.filter(req)) {
+    debug(`Excluding request by filter ${req.url}`)
+
     return true
   }
 
   // do not cache request with query
   const hasQueryParams = req.url.match(/\?.*$/) || !isEmpty(req.params)
-  if (exclusions.query && hasQueryParams) {
-    log(`Excluding request by query ${req.url}`)
+
+  if (exclude.query && hasQueryParams) {
+    debug(`Excluding request by query ${req.url}`)
+
     return true
   }
 
-  let found = false
-  const paths = exclusions.paths || []
-
-  paths.forEach(regexp => {
-    if (req.url.match(regexp)) {
-      found = true
-      return found
-    }
-  })
+  const paths = exclude.paths || []
+  const found = find(paths, regexp => req.url.match(regexp))
 
   if (found) {
-    log(`Excluding request by url match ${req.url}`)
+    debug(`Excluding request by url match ${req.url}`)
+
     return true
   }
 
-  // All rules explained. fo not rewrite regexp.
   return false
 }
+
+export default exclude

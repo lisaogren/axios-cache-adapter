@@ -1,9 +1,11 @@
 // glob pattern for all test files
-const context = require.context('.', true, /.+\.spec\.js$/)
-
-// window.Promise = require('bluebird')
+const tests = require.context('.', true, /.+\.spec\.js$/)
 
 // Magic happening here !
-context.keys().forEach(context)
+tests.keys().forEach(tests)
 
-module.exports = context
+const sources = require.context('../src/', true, /\.js$/)
+
+sources.keys().forEach(sources)
+
+module.exports = tests

@@ -14,11 +14,14 @@ let externals = {}
 
 // List external dependencies
 const dependencies = [
+  'lodash/isEmpty',
   'lodash/isString',
   'lodash/isFunction',
   'lodash/size',
+  'lodash/find',
   'lodash/map',
   'lodash/extend',
+  'lodash/merge',
   'lodash/omit',
   'axios'
 ]
@@ -58,7 +61,7 @@ filename = filename.replace('[version]', version.join('.'))
 
 // Webpack config
 const build = {
-  entry: './src/index.js',
+  entry: ['babel-regenerator-runtime', './src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename,
@@ -67,7 +70,17 @@ const build = {
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', options: { presets: ['es2015'] } }
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015'],
+            plugins: ['transform-async-to-generator']
+          }
+        }]
+      }
     ]
   },
   externals,
@@ -89,7 +102,22 @@ const test = {
   module: {
     rules: [
       // Transpile ES2015 to ES5
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', options: { presets: ['es2015'] } },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: 'babel-loader', options: { presets: ['es2015'] } }
+        ]
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'istanbul-instrumenter-loader',
+          options: { esModules: true }
+        },
+        enforce: 'post',
+        exclude: /node_modules|\.spec\.js$/,
+      },
 
       // Load font files
       { test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/, loader: 'file-loader' },

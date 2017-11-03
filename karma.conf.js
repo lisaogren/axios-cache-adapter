@@ -1,6 +1,7 @@
 // Karma configuration
-// Generated on Thu Jan 19 2017 11:27:12 GMT+0100 (Paris, Madrid)
 const webpackConfig = require('./webpack.config')
+
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 // explained at http://mike-ward.net/2015/09/07/tips-on-setting-up-karma-testing-with-webpack/
 webpackConfig.entry = ''
@@ -33,7 +34,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage-istanbul'],
 
     webpackServer: {
       noInfo: true // please don't spam the console when running in karma!
@@ -54,28 +55,38 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
-    // browsers: ['Chrome', 'Firefox', 'PhantomJS'],
+    browsers: [process.env.NODE_WATCH ? 'Chrome' : 'ChromeHeadless'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: !process.env.NODE_WATCH,
 
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity,
 
-    webpack: webpackConfig
+    webpack: webpackConfig,
 
     // htmlReporter: {
     //   outputDir: 'test-reports', // where to put the reports
     //   namedFiles: true // name files instead of creating sub-directories
     // },
 
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly', 'text-summary'],
+      fixWebpackSourcePaths: true
+    }
+
     // options for code coverage karma plugin
     // coverageReporter: {
-    //   type: 'html', // produces a html document after code is run
-    //   dir: 'test-reports/' // path to created html doc
+    //   // type: 'html', // produces a html document after code is run
+    //   // dir: 'coverage/' // path to created html doc
+    //   reporters: [
+    //     // generates ./coverage/lcov.info
+    //     { type: 'lcovonly', subdir: '.' },
+    //     // generates ./coverage/coverage-final.json
+    //     { type: 'json', subdir: '.' }
+    //   ]
     // }
   })
 }

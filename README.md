@@ -1,8 +1,9 @@
-# axios-cache-adapter
+# axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=rework)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/rework/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter)
 
 > Caching adapter for axios
 
-Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache) by @stephanebachelier
+Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache)
+by [@stephanebachelier](https://github.com/stephanebachelier)
 
 ## Install
 
@@ -23,9 +24,6 @@ Or from a CDN like unpkg.com
 ```html
 <script type="text/javascript" src="https://unpkg.com/axios-cache-adapter"></script>
 ```
-
-*PS: For bower users there is a limitation, this library uses `lodash-es` as a dependency which is not published on bower.*
-*If you use bower, use the bundled version of the lib `dist/cache.bundled.js`*
 
 ## Usage
 
@@ -48,6 +46,12 @@ api({
   method: 'get'
 }).then(response => {
   // Do something fantastic with response.data \o/
+  console.log('Request response:', response)
+
+  // Interacting with the store, see `localForage` API.
+  cache.store.length().then(length => {
+    console.log('Cache store length:', length)
+  })
 })
 ```
 
@@ -67,6 +71,12 @@ api({
   method: 'get'
 }).then(response => {
   // Do something awesome with response.data \o/
+  console.log('Request response:', response)
+
+  // Interacting with the store, see `localForage` API.
+  api.cache.length().then(length => {
+    console.log('Cache store length:', length)
+  })
 })
 ```
 
@@ -80,14 +90,15 @@ where they will be stored, etc.
 #### Options
 
 * `maxAge {Number}`: Maximum time for storing each request in milliseconds, defaults to 15 minutes (`15 * 60 * 1000`)
-* `store {Object}`: An instance of [`localForage`](https://github.com/localForage/localForage), defaults to a custom in memory store
-* `clearOnStale {Boolean}`: Clear cache when it is stale, defaults to `true`
 * `limit {Number}`: Maximum number of cached request (last in, first out queue system), no limit by default
+* `store {Object}`: An instance of [`localForage`](https://github.com/localForage/localForage), defaults to a custom in memory store
 * `key {Mixed}`: Can either be a `String` or a `Function` which receives the `request` object as first parameter to return a unique cache key for each request. Defaults to `req => req.url`
 * `exclude {Object}`: Object defining which kind of requests should be excluded from cache
   * `filter {Function}`: A method which receives the request and returns `true` to exclude request from cache, defaults to `null`
   * `query {Boolean}`: If `true` all requests containing a query will be excluded, defaults to `true`
   * `paths {Array}`: An `Array` of regular expressions to match against request URLs, if a match is found it will be excluded, defaults to `[]`
+* `clearOnStale {Boolean}`: Clear cached item when it is stale, defaults to `true`
+* `clearOnError {Boolean}`: Clear all cache when a write error occurs (prevents size quota problems with `localStorage`)
 * `debug {Boolean}`: Print some logs to console, defaults to `false`
 
 #### Returns
@@ -108,6 +119,7 @@ All the other parameters passed in the `options` will be passed directly to the 
 #### Returns
 
 `setup()` returns an instance of `axios` pre-configured with the cache adapter.
+The cache `store` is conveniently attached to the `axios` instance as `instance.cache` for easy access.
 
 ## License
 
