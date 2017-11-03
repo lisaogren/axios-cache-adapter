@@ -13,11 +13,11 @@ describe('Request', () => {
   let config
   let req
   let res
-  let expires
+  // let expires
   let store
 
   beforeEach(() => {
-    expires = Date.now()
+    // expires = Date.now()
     store = new MemoryStore()
 
     config = {
