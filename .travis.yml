@@ -7,4 +7,4 @@ node_js:
 
 script:
   - npm test
-  - npx codecov
+  - ./node_modules/.bin/codecov
