@@ -72,6 +72,25 @@ describe('Cache store', () => {
     assert.equal(length, 0)
   })
 
+  it('Should throw when unable to clear cache after a store error occurs', async () => {
+    config.clearOnError = true
+
+    let cacheResult = await cache.write(config, req, res)
+
+    assert.ok(cacheResult)
+
+    store.setItem = async () => {
+      throw new Error('Faking store error')
+    }
+    store.clear = async () => {
+      throw new Error('Faking store error')
+    }
+
+    cacheResult = await cache.write(config, req, res)
+
+    assert.equal(cacheResult, false)
+  })
+
   it('Should read from cache', async () => {
     try {
       await cache.read(config, req)

@@ -6,14 +6,10 @@ import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
 
 import { setup, setupCache } from 'src/index'
+import MemoryStore from 'src/memory'
 
 describe('Integration', () => {
-  const api = setup({
-    cache: {
-      // debug: true,
-      maxAge: 15 * 60 * 1000
-    }
-  })
+  const api = setup()
 
   it('Should expose a public API', () => {
     assert.ok(isFunction(setupCache))
@@ -155,6 +151,30 @@ describe('Integration', () => {
     const length = await api4.cache.length()
 
     assert.equal(length, 0)
+  })
+
+  it('Should activate debugging mode or take a debug function', () => {
+    let cache = setupCache({
+      debug: true
+    })
+
+    assert.ok(isFunction(cache.config.debug))
+
+    cache.config.debug('testing debug message')
+
+    cache = setupCache({
+      debug: (msg) => msg
+    })
+
+    assert.ok(isFunction(cache.config.debug))
+    assert.equal(cache.config.debug('test'), 'test')
+  })
+
+  it('Should take an optional store', () => {
+    const store = new MemoryStore()
+    const cache = setupCache({ store })
+
+    assert.deepEqual(cache.store, store)
   })
 
   // Helpers

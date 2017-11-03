@@ -1,4 +1,4 @@
-# axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=rework)](https://travis-ci.org/RasCarlito/axios-cache-adapter)
+# axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=rework)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/rework/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter)
 
 > Caching adapter for axios
 

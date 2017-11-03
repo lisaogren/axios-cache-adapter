@@ -78,6 +78,7 @@ function setupCache (config = {}) {
   // Return adapter and store instance
   return {
     adapter,
+    config,
     store: config.store
   }
 }
