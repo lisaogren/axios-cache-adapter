@@ -103,7 +103,7 @@ where they will be stored, etc.
 
 #### Returns
 
-`setupCache()` returns an object containing the configured `adapter` and the cache `store`.
+`setupCache()` returns an object containing the configured `adapter`, the cache `store` and the `config` that is applied to this instance.
 
 ### setup(options)
 
