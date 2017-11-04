@@ -2,15 +2,10 @@ import limit from './limit'
 import { write } from './cache'
 
 async function response (config, req, res) {
-  const type = res.status / 100 | 0
-
-  // only cache 2xx response
-  if (type !== 2) {
-    return res
-  }
+  const { request = {} } = res
 
   // exclude binary response from cache
-  if (['arraybuffer', 'blob'].indexOf(res.responseType) > -1) {
+  if (['arraybuffer', 'blob'].indexOf(request.responseType) > -1) {
     return res
   }
 

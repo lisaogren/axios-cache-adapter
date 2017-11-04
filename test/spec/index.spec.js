@@ -43,6 +43,20 @@ describe('Integration', () => {
     assert.ok(response.request.fromCache)
   })
 
+  it('Should not cache requests with a status not in the 2xx range', async () => {
+    await api.cache.clear()
+
+    try {
+      await api({ url: 'https://httpbin.org/status/404' })
+    } catch (err) {
+      assert.equal(err.response.status, 404)
+
+      const length = await api.cache.length()
+
+      assert.equal(length, 0)
+    }
+  })
+
   it('Should bust cache when sending something else than a GET request', async () => {
     await api.cache.clear()
 

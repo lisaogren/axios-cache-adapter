@@ -69,6 +69,7 @@ function setupCache (config = {}) {
     if (!isFunction(next)) return next
 
     // Nothing in cache so we execute the default adapter or any given adapter
+    // Will throw if the request has a status different than 2xx
     res = await config.adapter(req)
 
     // Process response to store in cache
