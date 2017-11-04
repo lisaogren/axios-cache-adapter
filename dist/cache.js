@@ -1714,16 +1714,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var response = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(config, req, res) {
-    var type;
+    var _res$request, request;
+
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            type = res.status / 100 | 0;
+            _res$request = res.request, request = _res$request === undefined ? {} : _res$request;
 
-            // only cache 2xx response
+            // exclude binary response from cache
 
-            if (!(type !== 2)) {
+            if (!(['arraybuffer', 'blob'].indexOf(request.responseType) > -1)) {
               _context.next = 3;
               break;
             }
@@ -1731,39 +1732,31 @@ var response = function () {
             return _context.abrupt('return', res);
 
           case 3:
-            if (!(['arraybuffer', 'blob'].indexOf(res.responseType) > -1)) {
-              _context.next = 5;
-              break;
-            }
-
-            return _context.abrupt('return', res);
-
-          case 5:
             if (config.excludeFromCache) {
-              _context.next = 13;
+              _context.next = 11;
               break;
             }
 
             config.expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
 
             if (!config.limit) {
-              _context.next = 11;
+              _context.next = 9;
               break;
             }
 
             config.debug('Detected limit: ' + config.limit);
 
-            _context.next = 11;
+            _context.next = 9;
             return (0, _limit2.default)(config);
 
-          case 11:
-            _context.next = 13;
+          case 9:
+            _context.next = 11;
             return (0, _cache.write)(config, req, res);
 
-          case 13:
+          case 11:
             return _context.abrupt('return', res);
 
-          case 14:
+          case 12:
           case 'end':
             return _context.stop();
         }
