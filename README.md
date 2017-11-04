@@ -80,6 +80,36 @@ api({
 })
 ```
 
+Custom `localForage` store example:
+
+```js
+import localforage from 'localforage'
+import memoryDriver from 'localforage-memoryStorageDriver'
+import { setup } from 'axios-cache-adapter'
+
+const store = localforage.createInstance({
+  // List of drivers used
+  driver: [
+    localforage.INDEXEDDB,
+    localforage.LOCALSTORAGE,
+    memoryDriver
+  ],
+  // Prefix all storage keys to prevent conflicts
+  name: 'my-cache'
+})
+
+const api = setup({
+  cache: {
+    maxAge: 15 * 60 * 1000,
+    store
+  }
+})
+
+api.get('http://some-reset.api/url').then(response => {
+  // Display something beautiful with response.data ;)
+})
+```
+
 ## API
 
 ### setupCache(options)
