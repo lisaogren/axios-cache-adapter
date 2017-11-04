@@ -134,13 +134,39 @@ Webpack is used to build [umd](https://github.com/umdjs/umd) versions of the lib
 * `cache.bundled.js`
 * `cache.bundled.min.js`
 
-The bundled version contain all the dependencies necessary to work on its own.
+The bundled version contains all the dependencies necessary for `axios-cache-adapter` to work on its own.
+
+`axios-cache-adapter` is developped in ES6 and uses async/await syntax. It is transpiled to ES5 using babel with the following presets and plugins:
+
+* [`babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) For general ES6 support
+* [`babel-plugin-transform-async-to-generator`](https://www.npmjs.com/package/babel-plugin-transform-async-to-generator) For async/await support
+* [`babel-regenerator-runtime`](https://www.npmjs.com/package/babel-regenerator-runtime) For transpiled generators to work
 
 ## Testing
 
 Tests are executed using [karma](https://github.com/karma-runner/karma).
 
+To launch a single run tests using ChromeHeadless:
 
+```sh
+npm test
+```
+
+To launch tests in watch mode in Chrome for easier debugging with devtools:
+
+```sh
+npm run watch
+```
+
+## Browser vs Node.js
+
+`axios-cache-adapter` was designed to run in the browser. It does work in nodejs using the [in memory store](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js). But storing data in memory is not the greatests idea ever.
+
+You can give a `store` to override the in memory store but it has to comply with the [`localForage`](https://github.com/localForage/localForage) API and `localForage` does not work in nodejs for very good reasons that are better explained in [this issue](https://github.com/localForage/localForage/issues/57).
+
+Maybe it should be possible to connect `axios-cache-adapter` to a [redis](https://redis.io/) store or something equivalent.
+
+If you have any suggestions for a better way to work in nodejs please open an issue or submit a pull request.
 
 ## License
 
