@@ -5,8 +5,13 @@ import exclude from './exclude'
 import { read } from './cache'
 
 async function request (config, req) {
-  const uuid = config.key(req)
-  config = extend({}, config, { uuid })
+  const uuid = config.uuid || config.key(req)
+
+  config.debug('uuid', uuid)
+
+  if (!config.uuid) {
+    config = extend({}, config, { uuid })
+  }
 
   const next = (...args) => response(config, req, ...args)
 

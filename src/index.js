@@ -23,14 +23,30 @@ function setupCache (config = {}) {
 
     // Execute request against local cache
     let res = await request(reqConfig, req)
-    const next = res.next
+    let next = res.next
 
     // Response is not function, something was in cache, return it
     if (!isFunction(next)) return next
 
     // Nothing in cache so we execute the default adapter or any given adapter
     // Will throw if the request has a status different than 2xx
-    res = await reqConfig.adapter(req)
+    try {
+      res = await reqConfig.adapter(req)
+    } catch (err) {
+      if (reqConfig.readOnError) {
+        // Force cache tu return stale data
+        reqConfig.acceptStale = true
+
+        // Try to read from cache again
+        res = await request(reqConfig, req)
+
+        // Signal that data is from stale cache
+        res.next.request.stale = true
+
+        // No need to check if `next` is a function just return cache data
+        return res.next
+      }
+    }
 
     // Process response to store in cache
     return next(res)

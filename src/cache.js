@@ -48,7 +48,9 @@ async function read (config, req) {
   // Do not check for stale cache if offline on client-side
   const offline = typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine
 
-  if (!offline && expires !== 0 && (expires < Date.now())) {
+  const skipStale = config.readOnError && config.acceptStale
+
+  if (!offline && !skipStale && expires !== 0 && (expires < Date.now())) {
     config.debug('cache-stale', req.url)
     const error = new Error()
 
@@ -58,7 +60,7 @@ async function read (config, req) {
     throw error
   }
 
-  config.debug('cache-hit', req.url)
+  config.debug(skipStale ? 'cache-hit-network-error' : 'cache-hit', req.url)
 
   return data
 }

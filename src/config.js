@@ -23,6 +23,7 @@ const defaults = {
     adapter: axios.defaults.adapter,
     clearOnStale: true,
     clearOnError: true,
+    readOnError: false,
     debug: false
   },
 
@@ -45,6 +46,9 @@ const disallowedPerRequestKeys = ['limit', 'store', 'adapter']
  */
 const makeConfig = function (override = {}) {
   let config = merge({}, defaults.cache, override)
+
+  // Watch out for configuration conflicts
+  if (config.readOnError) config.clearOnStale = false
 
   // Create a cache key method
   config.key = key(config)

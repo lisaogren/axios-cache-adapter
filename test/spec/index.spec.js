@@ -254,6 +254,29 @@ describe('Integration', function () {
     // })
   })
 
+  it('Should read stale cache data when a request error occurs when readOnError option is activated', async () => {
+    const url = 'https://httpbin.org/status/404'
+    const api5 = setup({
+      cache: {
+        // debug: true,
+        maxAge: 1,
+        readOnError: true
+      }
+    })
+
+    await api5.cache.setItem(url, {
+      expires: Date.now() - (60 * 1000),
+      data: {
+        data: { yay: true }
+      }
+    })
+
+    const response = await api5({ url })
+
+    assert.ok(response.data.yay)
+    assert.ok(response.request.stale)
+  })
+
   it('Should take a localforage instance as store', async () => {
     await localforage.defineDriver(memoryDriver)
 
