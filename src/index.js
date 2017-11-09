@@ -6,33 +6,7 @@ import isFunction from 'lodash/isFunction'
 import { key } from './cache'
 import MemoryStore from './memory'
 import request from './request'
-
-// ---------------------
-// Cache Adapter
-// ---------------------
-
-const defaults = {
-  cache: {
-    maxAge: 0,
-    limit: false,
-    store: null,
-    key: null,
-    exclude: {
-      paths: [],
-      query: true,
-      filter: null
-    },
-    adapter: axios.defaults.adapter,
-    clearOnStale: true,
-    clearOnError: true,
-    debug: false
-  },
-  axios: {
-    cache: {
-      maxAge: 15 * 60 * 1000
-    }
-  }
-}
+import { defaults, mergeRequestConfig } from './config'
 
 /**
  * Configure cache adapter
@@ -61,8 +35,12 @@ function setupCache (config = {}) {
 
   // Axios adapter. Receives the axios request configuration as only parameter
   async function adapter (req) {
+
+    // Merge the per-request config with the instance config.
+    const reqConfig = mergeRequestConfig(config, req.cache);
+
     // Execute request against local cache
-    let res = await request(config, req)
+    let res = await request(reqConfig, req)
     const next = res.next
 
     // Response is not function, something was in cache, return it
@@ -70,7 +48,7 @@ function setupCache (config = {}) {
 
     // Nothing in cache so we execute the default adapter or any given adapter
     // Will throw if the request has a status different than 2xx
-    res = await config.adapter(req)
+    res = await reqConfig.adapter(req)
 
     // Process response to store in cache
     return next(res)
