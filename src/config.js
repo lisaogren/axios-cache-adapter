@@ -2,6 +2,12 @@ import axios from 'axios';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
 
+import MemoryStore from './memory';
+import { key } from './cache';
+
+const noop = () => {};
+const debug = (...args) => console.log('[axios-cache-adapter]', ...args);
+
 const defaults = {
   // Default settings when solely creating the cache adapter with setupCache.
   cache: {
@@ -29,8 +35,32 @@ const defaults = {
 };
 
 // List of disallowed in the per-request config.
-// Debug is also added because it would currently have no effect.
-const disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'debug'];
+const disallowedPerRequestKeys = ['limit', 'store', 'adapter'];
+
+/**
+ * Make a global config object.
+ *
+ * @param {Object} [override={}] Optional config override.
+ * @return {Object}
+ */
+const makeConfig = function(override = {}) {
+  let config = merge({}, defaults.cache, override);
+
+  // Create a cache key method
+  config.key = key(config);
+
+  // If debug mode is on, create a simple logger method
+  if (config.debug !== false) {
+    config.debug = typeof config.debug === 'function' ? config.debug : debug;
+  } else {
+    config.debug = noop;
+  }
+
+  // Create an in memory store if none was given
+  if (!config.store) config.store = new MemoryStore();
+
+  return config;
+};
 
 /**
  * Merge the per-request config in another config.
@@ -45,8 +75,14 @@ const disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'debug'];
  * @return {Object}
  */
 const mergeRequestConfig = function(config, requestConfig = {}) {
-  return merge({}, config, omit(requestConfig, disallowedPerRequestKeys));
+  let mergedConfig = merge({}, config, omit(requestConfig, disallowedPerRequestKeys));
+
+  if (mergedConfig.debug === true) {
+    mergedConfig.debug = debug;
+  }
+
+  return mergedConfig;
 };
 
-export { defaults, mergeRequestConfig };
-export default { defaults, mergeRequestConfig };
+export { defaults, makeConfig, mergeRequestConfig };
+export default { defaults, makeConfig, mergeRequestConfig };

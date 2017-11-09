@@ -3,10 +3,8 @@ import omit from 'lodash/omit'
 import merge from 'lodash/merge'
 import isFunction from 'lodash/isFunction'
 
-import { key } from './cache'
-import MemoryStore from './memory'
 import request from './request'
-import { defaults, mergeRequestConfig } from './config'
+import { defaults, makeConfig, mergeRequestConfig } from './config'
 
 /**
  * Configure cache adapter
@@ -16,22 +14,7 @@ import { defaults, mergeRequestConfig } from './config'
  */
 function setupCache (config = {}) {
   // Extend default configuration
-  config = merge({}, defaults.cache, config)
-
-  // Create a cache key method
-  config.key = key(config)
-
-  // If debug mode is on, create a simple logger method
-  if (config.debug !== false) {
-    config.debug = (typeof config.debug === 'function')
-      ? config.debug
-      : (...args) => console.log('[axios-cache-adapter]', ...args)
-  } else {
-    config.debug = () => {}
-  }
-
-  // Create an in memory store if none was given
-  if (!config.store) config.store = new MemoryStore()
+  config = makeConfig(config);
 
   // Axios adapter. Receives the axios request configuration as only parameter
   async function adapter (req) {
