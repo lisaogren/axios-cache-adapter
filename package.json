@@ -27,6 +27,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "lint": "standard src/**/*.js test/**/*.js | snazzy",
+    "lint-fix": "standard --fix src/**/*.js test/**/*.js | snazzy",
     "build": "npm run clean && webpack && NODE_ENV=production webpack && NODE_BUNDLED=please webpack && NODE_ENV=production NODE_BUNDLED=please webpack",
     "test": "NODE_ENV=test karma start karma.conf.js",
     "watch": "NODE_WATCH=true npm test"

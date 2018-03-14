@@ -1,12 +1,12 @@
-import axios from 'axios';
-import merge from 'lodash/merge';
-import omit from 'lodash/omit';
+import axios from 'axios'
+import merge from 'lodash/merge'
+import omit from 'lodash/omit'
 
-import MemoryStore from './memory';
-import { key } from './cache';
+import MemoryStore from './memory'
+import { key } from './cache'
 
-const noop = () => {};
-const debug = (...args) => console.log('[axios-cache-adapter]', ...args);
+const noop = () => {}
+const debug = (...args) => console.log('[axios-cache-adapter]', ...args)
 
 const defaults = {
   // Default settings when solely creating the cache adapter with setupCache.
@@ -32,10 +32,10 @@ const defaults = {
       maxAge: 15 * 60 * 1000
     }
   }
-};
+}
 
 // List of disallowed in the per-request config.
-const disallowedPerRequestKeys = ['limit', 'store', 'adapter'];
+const disallowedPerRequestKeys = ['limit', 'store', 'adapter']
 
 /**
  * Make a global config object.
@@ -43,24 +43,24 @@ const disallowedPerRequestKeys = ['limit', 'store', 'adapter'];
  * @param {Object} [override={}] Optional config override.
  * @return {Object}
  */
-const makeConfig = function(override = {}) {
-  let config = merge({}, defaults.cache, override);
+const makeConfig = function (override = {}) {
+  let config = merge({}, defaults.cache, override)
 
   // Create a cache key method
-  config.key = key(config);
+  config.key = key(config)
 
   // If debug mode is on, create a simple logger method
   if (config.debug !== false) {
-    config.debug = typeof config.debug === 'function' ? config.debug : debug;
+    config.debug = typeof config.debug === 'function' ? config.debug : debug
   } else {
-    config.debug = noop;
+    config.debug = noop
   }
 
   // Create an in memory store if none was given
-  if (!config.store) config.store = new MemoryStore();
+  if (!config.store) config.store = new MemoryStore()
 
-  return config;
-};
+  return config
+}
 
 /**
  * Merge the per-request config in another config.
@@ -74,15 +74,15 @@ const makeConfig = function(override = {}) {
  * @param {Object} [requestConfig={}] The per-request config.
  * @return {Object}
  */
-const mergeRequestConfig = function(config, requestConfig = {}) {
-  let mergedConfig = merge({}, config, omit(requestConfig, disallowedPerRequestKeys));
+const mergeRequestConfig = function (config, requestConfig = {}) {
+  let mergedConfig = merge({}, config, omit(requestConfig, disallowedPerRequestKeys))
 
   if (mergedConfig.debug === true) {
-    mergedConfig.debug = debug;
+    mergedConfig.debug = debug
   }
 
-  return mergedConfig;
-};
+  return mergedConfig
+}
 
-export { defaults, makeConfig, mergeRequestConfig };
-export default { defaults, makeConfig, mergeRequestConfig };
+export { defaults, makeConfig, mergeRequestConfig }
+export default { defaults, makeConfig, mergeRequestConfig }
