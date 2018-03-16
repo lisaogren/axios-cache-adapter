@@ -3,5 +3,8 @@
     "bower_components/**",
     "node_modules/**",
     "dist/**"
-  ]
+  ],
+  "critics": {
+    "lint": {"engine": "standard"}
+  }
 }
