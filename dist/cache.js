@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("lodash/omit"), require("lodash/isFunction"), require("axios"), require("lodash/merge"), require("lodash/isString"), require("lodash/size"), require("lodash/map"), require("lodash/extend"), require("lodash/find"), require("lodash/isEmpty"));
+		module.exports = factory(require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/size"), require("lodash/map"), require("lodash/extend"), require("lodash/find"), require("lodash/isEmpty"));
 	else if(typeof define === 'function' && define.amd)
-		define(["lodash/omit", "lodash/isFunction", "axios", "lodash/merge", "lodash/isString", "lodash/size", "lodash/map", "lodash/extend", "lodash/find", "lodash/isEmpty"], factory);
+		define(["axios", "lodash/omit", "lodash/merge", "lodash/isFunction", "lodash/isString", "lodash/size", "lodash/map", "lodash/extend", "lodash/find", "lodash/isEmpty"], factory);
 	else if(typeof exports === 'object')
-		exports["axiosCacheAdapter"] = factory(require("lodash/omit"), require("lodash/isFunction"), require("axios"), require("lodash/merge"), require("lodash/isString"), require("lodash/size"), require("lodash/map"), require("lodash/extend"), require("lodash/find"), require("lodash/isEmpty"));
+		exports["axiosCacheAdapter"] = factory(require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/size"), require("lodash/map"), require("lodash/extend"), require("lodash/find"), require("lodash/isEmpty"));
 	else
 		root["axiosCacheAdapter"] = factory(root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__, __WEBPACK_EXTERNAL_MODULE_10__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_14__, __WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_20__, __WEBPACK_EXTERNAL_MODULE_21__) {
+})(window, function(__WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_size__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE_lodash_extend__, __WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,6 +54,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		}
 /******/ 	};
 /******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -69,210 +74,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/******/ ({
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.key = exports.write = exports.read = undefined;
-
-var write = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(config, req, res) {
-    var entry;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            entry = {
-              expires: config.expires,
-              data: (0, _serialize2.default)(config, req, res)
-            };
-            _context.next = 4;
-            return config.store.setItem(config.uuid, entry);
-
-          case 4:
-            _context.next = 19;
-            break;
-
-          case 6:
-            _context.prev = 6;
-            _context.t0 = _context['catch'](0);
-
-            config.debug('Could not store response', _context.t0);
-
-            if (!config.clearOnError) {
-              _context.next = 18;
-              break;
-            }
-
-            _context.prev = 10;
-            _context.next = 13;
-            return config.store.clear();
-
-          case 13:
-            _context.next = 18;
-            break;
-
-          case 15:
-            _context.prev = 15;
-            _context.t1 = _context['catch'](10);
-
-            config.debug('Could not clear store', _context.t1);
-
-          case 18:
-            return _context.abrupt('return', false);
-
-          case 19:
-            return _context.abrupt('return', true);
-
-          case 20:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[0, 6], [10, 15]]);
-  }));
-
-  return function write(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var read = function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(config, req) {
-    var uuid, entry, error, expires, data, _error;
-
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            uuid = config.uuid;
-            _context2.next = 3;
-            return config.store.getItem(uuid);
-
-          case 3:
-            entry = _context2.sent;
-
-            if (!(!entry || !entry.data)) {
-              _context2.next = 10;
-              break;
-            }
-
-            config.debug('cache-miss', req.url);
-            error = new Error();
-
-
-            error.reason = 'cache-miss';
-            error.message = 'Entry not found from cache';
-
-            throw error;
-
-          case 10:
-            expires = entry.expires, data = entry.data;
-
-            if (!(expires !== 0 && expires < Date.now())) {
-              _context2.next = 17;
-              break;
-            }
-
-            config.debug('cache-stale', req.url);
-            _error = new Error();
-
-
-            _error.reason = 'cache-stale';
-            _error.message = 'Entry is stale';
-
-            throw _error;
-
-          case 17:
-
-            config.debug('cache-hit', req.url);
-
-            return _context2.abrupt('return', data);
-
-          case 19:
-          case 'end':
-            return _context2.stop();
-        }
-      }
-    }, _callee2, this);
-  }));
-
-  return function read(_x4, _x5) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-var _isString = __webpack_require__(10);
-
-var _isString2 = _interopRequireDefault(_isString);
-
-var _isFunction = __webpack_require__(2);
-
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-var _serialize = __webpack_require__(11);
-
-var _serialize2 = _interopRequireDefault(_serialize);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function key(config) {
-  if ((0, _isFunction2.default)(config.key)) return config.key;
-
-  var cacheKey = void 0;
-
-  if ((0, _isString2.default)(config.key)) cacheKey = function cacheKey(req) {
-    return config.key + '/' + req.url;
-  };else cacheKey = function cacheKey(req) {
-    return req.url;
-  };
-
-  return cacheKey;
-}
-
-exports.read = read;
-exports.write = write;
-exports.key = key;
-exports.default = { read: read, write: write, key: key };
-
-/***/ }),
-/* 1 */
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(4);
-module.exports = __webpack_require__(7);
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global, process) {/**
+/**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
  *
@@ -285,10 +101,13 @@ module.exports = __webpack_require__(7);
 !(function(global) {
   "use strict";
 
-  var hasOwn = Object.prototype.hasOwnProperty;
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
   var undefined; // More compressible than void 0.
-  var iteratorSymbol =
-    typeof Symbol === "function" && Symbol.iterator || "@@iterator";
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
 
   var inModule = typeof module === "object";
   var runtime = global.regeneratorRuntime;
@@ -308,8 +127,9 @@ module.exports = __webpack_require__(7);
   runtime = global.regeneratorRuntime = inModule ? module.exports : {};
 
   function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided, then outerFn.prototype instanceof Generator.
-    var generator = Object.create((outerFn || Generator).prototype);
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
     var context = new Context(tryLocsList || []);
 
     // The ._invoke method unifies the implementations of the .next,
@@ -355,10 +175,29 @@ module.exports = __webpack_require__(7);
   function GeneratorFunction() {}
   function GeneratorFunctionPrototype() {}
 
-  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype;
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
   GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
   GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunction.displayName = "GeneratorFunction";
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
 
   // Helper for defining the .next, .throw, and .return methods of the
   // Iterator interface in terms of a single ._invoke method.
@@ -385,6 +224,9 @@ module.exports = __webpack_require__(7);
       Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
     } else {
       genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
     }
     genFun.prototype = Object.create(Gp);
     return genFun;
@@ -392,58 +234,59 @@ module.exports = __webpack_require__(7);
 
   // Within the body of any async function, `await x` is transformed to
   // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `value instanceof AwaitArgument` to determine if the yielded value is
-  // meant to be awaited. Some may consider the name of this method too
-  // cutesy, but they are curmudgeons.
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
   runtime.awrap = function(arg) {
-    return new AwaitArgument(arg);
+    return { __await: arg };
   };
 
-  function AwaitArgument(arg) {
-    this.arg = arg;
-  }
-
   function AsyncIterator(generator) {
-    // This invoke function is written in a style that assumes some
-    // calling function (or Promise) will handle exceptions.
-    function invoke(method, arg) {
-      var result = generator[method](arg);
-      var value = result.value;
-      return value instanceof AwaitArgument
-        ? Promise.resolve(value.arg).then(invokeNext, invokeThrow)
-        : Promise.resolve(value).then(function(unwrapped) {
-            // When a yielded Promise is resolved, its final value becomes
-            // the .value of the Promise<{value,done}> result for the
-            // current iteration. If the Promise is rejected, however, the
-            // result for this iteration will be rejected with the same
-            // reason. Note that rejections of yielded Promises are not
-            // thrown back into the generator function, as is the case
-            // when an awaited Promise is rejected. This difference in
-            // behavior between yield and await is important, because it
-            // allows the consumer to decide what to do with the yielded
-            // rejection (swallow it and continue, manually .throw it back
-            // into the generator, abandon iteration, whatever). With
-            // await, by contrast, there is no opportunity to examine the
-            // rejection reason outside the generator function, so the
-            // only option is to throw it from the await expression, and
-            // let the generator function handle the exception.
-            result.value = unwrapped;
-            return result;
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
           });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration. If the Promise is rejected, however, the
+          // result for this iteration will be rejected with the same
+          // reason. Note that rejections of yielded Promises are not
+          // thrown back into the generator function, as is the case
+          // when an awaited Promise is rejected. This difference in
+          // behavior between yield and await is important, because it
+          // allows the consumer to decide what to do with the yielded
+          // rejection (swallow it and continue, manually .throw it back
+          // into the generator, abandon iteration, whatever). With
+          // await, by contrast, there is no opportunity to examine the
+          // rejection reason outside the generator function, so the
+          // only option is to throw it from the await expression, and
+          // let the generator function handle the exception.
+          result.value = unwrapped;
+          resolve(result);
+        }, reject);
+      }
     }
 
-    if (typeof process === "object" && process.domain) {
-      invoke = process.domain.bind(invoke);
-    }
-
-    var invokeNext = invoke.bind(generator, "next");
-    var invokeThrow = invoke.bind(generator, "throw");
-    var invokeReturn = invoke.bind(generator, "return");
     var previousPromise;
 
     function enqueue(method, arg) {
       function callInvokeWithMethodAndArg() {
-        return invoke(method, arg);
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
       }
 
       return previousPromise =
@@ -464,9 +307,7 @@ module.exports = __webpack_require__(7);
           // Avoid propagating failures to Promises returned by later
           // invocations of the iterator.
           callInvokeWithMethodAndArg
-        ) : new Promise(function (resolve) {
-          resolve(callInvokeWithMethodAndArg());
-        });
+        ) : callInvokeWithMethodAndArg();
     }
 
     // Define the unified helper method that is used to implement .next,
@@ -475,6 +316,10 @@ module.exports = __webpack_require__(7);
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  runtime.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
   // AsyncIterator objects; they just return a Promise for the value of
@@ -509,93 +354,34 @@ module.exports = __webpack_require__(7);
         return doneResult();
       }
 
+      context.method = method;
+      context.arg = arg;
+
       while (true) {
         var delegate = context.delegate;
         if (delegate) {
-          if (method === "return" ||
-              (method === "throw" && delegate.iterator[method] === undefined)) {
-            // A return or throw (when the delegate iterator has no throw
-            // method) always terminates the yield* loop.
-            context.delegate = null;
-
-            // If the delegate iterator has a return method, give it a
-            // chance to clean up.
-            var returnMethod = delegate.iterator["return"];
-            if (returnMethod) {
-              var record = tryCatch(returnMethod, delegate.iterator, arg);
-              if (record.type === "throw") {
-                // If the return method threw an exception, let that
-                // exception prevail over the original return or throw.
-                method = "throw";
-                arg = record.arg;
-                continue;
-              }
-            }
-
-            if (method === "return") {
-              // Continue with the outer return, now that the delegate
-              // iterator has been terminated.
-              continue;
-            }
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
           }
-
-          var record = tryCatch(
-            delegate.iterator[method],
-            delegate.iterator,
-            arg
-          );
-
-          if (record.type === "throw") {
-            context.delegate = null;
-
-            // Like returning generator.throw(uncaught), but without the
-            // overhead of an extra function call.
-            method = "throw";
-            arg = record.arg;
-            continue;
-          }
-
-          // Delegate generator ran and handled its own exceptions so
-          // regardless of what the method was, we continue as if it is
-          // "next" with an undefined arg.
-          method = "next";
-          arg = undefined;
-
-          var info = record.arg;
-          if (info.done) {
-            context[delegate.resultName] = info.value;
-            context.next = delegate.nextLoc;
-          } else {
-            state = GenStateSuspendedYield;
-            return info;
-          }
-
-          context.delegate = null;
         }
 
-        if (method === "next") {
-          context._sent = arg;
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
 
-          if (state === GenStateSuspendedYield) {
-            context.sent = arg;
-          } else {
-            context.sent = undefined;
-          }
-        } else if (method === "throw") {
+        } else if (context.method === "throw") {
           if (state === GenStateSuspendedStart) {
             state = GenStateCompleted;
-            throw arg;
+            throw context.arg;
           }
 
-          if (context.dispatchException(arg)) {
-            // If the dispatched exception was caught by a catch block,
-            // then let that catch block handle the exception normally.
-            method = "next";
-            arg = undefined;
-          }
+          context.dispatchException(context.arg);
 
-        } else if (method === "return") {
-          context.abrupt("return", arg);
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
         }
 
         state = GenStateExecuting;
@@ -608,36 +394,119 @@ module.exports = __webpack_require__(7);
             ? GenStateCompleted
             : GenStateSuspendedYield;
 
-          var info = {
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
             value: record.arg,
             done: context.done
           };
 
-          if (record.arg === ContinueSentinel) {
-            if (context.delegate && method === "next") {
-              // Deliberately forget the last sent value so that we don't
-              // accidentally pass it on to the delegate.
-              arg = undefined;
-            }
-          } else {
-            return info;
-          }
-
         } else if (record.type === "throw") {
           state = GenStateCompleted;
           // Dispatch the exception by looping back around to the
-          // context.dispatchException(arg) call above.
-          method = "throw";
-          arg = record.arg;
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
         }
       }
     };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
   }
 
   // Define Generator.prototype.{next,throw,return} in terms of the
   // unified ._invoke helper method.
   defineIteratorMethods(Gp);
 
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
   Gp[iteratorSymbol] = function() {
     return this;
   };
@@ -750,9 +619,14 @@ module.exports = __webpack_require__(7);
     reset: function(skipTempReset) {
       this.prev = 0;
       this.next = 0;
-      this.sent = undefined;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
       this.done = false;
       this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
 
       this.tryEntries.forEach(resetTryEntry);
 
@@ -790,7 +664,15 @@ module.exports = __webpack_require__(7);
         record.type = "throw";
         record.arg = exception;
         context.next = loc;
-        return !!caught;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
       }
 
       for (var i = this.tryEntries.length - 1; i >= 0; --i) {
@@ -858,12 +740,12 @@ module.exports = __webpack_require__(7);
       record.arg = arg;
 
       if (finallyEntry) {
+        this.method = "next";
         this.next = finallyEntry.finallyLoc;
-      } else {
-        this.complete(record);
+        return ContinueSentinel;
       }
 
-      return ContinueSentinel;
+      return this.complete(record);
     },
 
     complete: function(record, afterLoc) {
@@ -875,11 +757,14 @@ module.exports = __webpack_require__(7);
           record.type === "continue") {
         this.next = record.arg;
       } else if (record.type === "return") {
-        this.rval = record.arg;
+        this.rval = this.arg = record.arg;
+        this.method = "return";
         this.next = "end";
       } else if (record.type === "normal" && afterLoc) {
         this.next = afterLoc;
       }
+
+      return ContinueSentinel;
     },
 
     finish: function(finallyLoc) {
@@ -918,239 +803,30 @@ module.exports = __webpack_require__(7);
         nextLoc: nextLoc
       };
 
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
       return ContinueSentinel;
     }
   };
 })(
-  // Among the various tricks for obtaining a reference to the global
-  // object, this seems to be the most reliable technique that does not
-  // use indirect eval (which violates Content Security Policy).
-  typeof global === "object" ? global :
-  typeof window === "object" ? window :
-  typeof self === "object" ? self : this
+  // In sloppy mode, unbound `this` refers to the global object, fallback to
+  // Function constructor if we're in global strict mode. That is sadly a form
+  // of indirect eval which violates Content Security Policy.
+  (function() { return this })() || Function("return this")()
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(6)))
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 7 */
+/***/ "./src/cache.js":
+/*!**********************!*\
+  !*** ./src/cache.js ***!
+  \**********************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1159,43 +835,208 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setupCache = exports.setup = undefined;
+exports.read = read;
+exports.write = write;
+exports.key = key;
+exports.default = void 0;
 
-var _axios = __webpack_require__(8);
+__webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
 
-var _axios2 = _interopRequireDefault(_axios);
+var _isString = _interopRequireDefault(__webpack_require__(/*! lodash/isString */ "lodash/isString"));
 
-var _omit = __webpack_require__(1);
+var _isFunction = _interopRequireDefault(__webpack_require__(/*! lodash/isFunction */ "lodash/isFunction"));
 
-var _omit2 = _interopRequireDefault(_omit);
-
-var _merge = __webpack_require__(9);
-
-var _merge2 = _interopRequireDefault(_merge);
-
-var _isFunction = __webpack_require__(2);
-
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-var _cache = __webpack_require__(0);
-
-var _memory = __webpack_require__(12);
-
-var _memory2 = _interopRequireDefault(_memory);
-
-var _request = __webpack_require__(15);
-
-var _request2 = _interopRequireDefault(_request);
+var _serialize = _interopRequireDefault(__webpack_require__(/*! ./serialize */ "./src/serialize.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
-// ---------------------
-// Cache Adapter
-// ---------------------
+function write(_x, _x2, _x3) {
+  return _write.apply(this, arguments);
+}
+
+function _write() {
+  _write = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(config, req, res) {
+    var entry;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            entry = {
+              expires: config.expires,
+              data: (0, _serialize.default)(config, req, res)
+            };
+            _context.next = 4;
+            return config.store.setItem(config.uuid, entry);
+
+          case 4:
+            _context.next = 19;
+            break;
+
+          case 6:
+            _context.prev = 6;
+            _context.t0 = _context["catch"](0);
+            config.debug('Could not store response', _context.t0);
+
+            if (!config.clearOnError) {
+              _context.next = 18;
+              break;
+            }
+
+            _context.prev = 10;
+            _context.next = 13;
+            return config.store.clear();
+
+          case 13:
+            _context.next = 18;
+            break;
+
+          case 15:
+            _context.prev = 15;
+            _context.t1 = _context["catch"](10);
+            config.debug('Could not clear store', _context.t1);
+
+          case 18:
+            return _context.abrupt("return", false);
+
+          case 19:
+            return _context.abrupt("return", true);
+
+          case 20:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this, [[0, 6], [10, 15]]);
+  }));
+  return _write.apply(this, arguments);
+}
+
+function read(_x4, _x5) {
+  return _read.apply(this, arguments);
+}
+
+function _read() {
+  _read = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee2(config, req) {
+    var uuid, entry, error, expires, data, _error;
+
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            uuid = config.uuid;
+            _context2.next = 3;
+            return config.store.getItem(uuid);
+
+          case 3:
+            entry = _context2.sent;
+
+            if (!(!entry || !entry.data)) {
+              _context2.next = 10;
+              break;
+            }
+
+            config.debug('cache-miss', req.url);
+            error = new Error();
+            error.reason = 'cache-miss';
+            error.message = 'Entry not found from cache';
+            throw error;
+
+          case 10:
+            expires = entry.expires, data = entry.data;
+
+            if (!(expires !== 0 && expires < Date.now())) {
+              _context2.next = 17;
+              break;
+            }
+
+            config.debug('cache-stale', req.url);
+            _error = new Error();
+            _error.reason = 'cache-stale';
+            _error.message = 'Entry is stale';
+            throw _error;
+
+          case 17:
+            config.debug('cache-hit', req.url);
+            return _context2.abrupt("return", data);
+
+          case 19:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, this);
+  }));
+  return _read.apply(this, arguments);
+}
+
+function key(config) {
+  if ((0, _isFunction.default)(config.key)) return config.key;
+  var cacheKey;
+  if ((0, _isString.default)(config.key)) cacheKey = function cacheKey(req) {
+    return "".concat(config.key, "/").concat(req.url);
+  };else cacheKey = function cacheKey(req) {
+    return req.url;
+  };
+  return cacheKey;
+}
+
+var _default = {
+  read: read,
+  write: write,
+  key: key
+};
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./src/config.js":
+/*!***********************!*\
+  !*** ./src/config.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.mergeRequestConfig = exports.makeConfig = exports.defaults = void 0;
+
+var _axios = _interopRequireDefault(__webpack_require__(/*! axios */ "axios"));
+
+var _merge = _interopRequireDefault(__webpack_require__(/*! lodash/merge */ "lodash/merge"));
+
+var _omit = _interopRequireDefault(__webpack_require__(/*! lodash/omit */ "lodash/omit"));
+
+var _memory = _interopRequireDefault(__webpack_require__(/*! ./memory */ "./src/memory.js"));
+
+var _cache = __webpack_require__(/*! ./cache */ "./src/cache.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var noop = function noop() {};
+
+var debug = function debug() {
+  var _console;
+
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return (_console = console).log.apply(_console, ['[axios-cache-adapter]'].concat(args));
+};
 
 var defaults = {
+  // Default settings when solely creating the cache adapter with setupCache.
   cache: {
     maxAge: 0,
     limit: false,
@@ -1206,105 +1047,241 @@ var defaults = {
       query: true,
       filter: null
     },
-    adapter: _axios2.default.defaults.adapter,
+    adapter: _axios.default.defaults.adapter,
     clearOnStale: true,
     clearOnError: true,
     debug: false
   },
+  // Additional defaults when creating the axios instance with the cache adapter.
   axios: {
     cache: {
       maxAge: 15 * 60 * 1000
     }
+  } // List of disallowed in the per-request config.
+
+};
+exports.defaults = defaults;
+var disallowedPerRequestKeys = ['limit', 'store', 'adapter'];
+/**
+ * Make a global config object.
+ *
+ * @param {Object} [override={}] Optional config override.
+ * @return {Object}
+ */
+
+var makeConfig = function makeConfig() {
+  var override = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var config = (0, _merge.default)({}, defaults.cache, override); // Create a cache key method
+
+  config.key = (0, _cache.key)(config); // If debug mode is on, create a simple logger method
+
+  if (config.debug !== false) {
+    config.debug = typeof config.debug === 'function' ? config.debug : debug;
+  } else {
+    config.debug = noop;
+  } // Create an in memory store if none was given
+
+
+  if (!config.store) config.store = new _memory.default();
+  return config;
+};
+/**
+ * Merge the per-request config in another config.
+ *
+ * This method exists because not all keys should be allowed as it
+ * may lead to unexpected behaviours. For instance, setting another
+ * store or adapter per request is wrong, instead another instance
+ * axios, or the adapter, should be used.
+ *
+ * @param {Object} config Config object.
+ * @param {Object} [requestConfig={}] The per-request config.
+ * @return {Object}
+ */
+
+
+exports.makeConfig = makeConfig;
+
+var mergeRequestConfig = function mergeRequestConfig(config) {
+  var requestConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var mergedConfig = (0, _merge.default)({}, config, (0, _omit.default)(requestConfig, disallowedPerRequestKeys));
+
+  if (mergedConfig.debug === true) {
+    mergedConfig.debug = debug;
   }
 
-  /**
-   * Configure cache adapter
-   *
-   * @param   {object} [config={}] Cache adapter options
-   * @returns {object} Object containing cache `adapter` and `store`
-   */
-};function setupCache() {
+  return mergedConfig;
+};
 
-  // Axios adapter. Receives the axios request configuration as only parameter
-  var adapter = function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req) {
-      var res, next;
+exports.mergeRequestConfig = mergeRequestConfig;
+var _default = {
+  defaults: defaults,
+  makeConfig: makeConfig,
+  mergeRequestConfig: mergeRequestConfig
+};
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./src/exclude.js":
+/*!************************!*\
+  !*** ./src/exclude.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _find = _interopRequireDefault(__webpack_require__(/*! lodash/find */ "lodash/find"));
+
+var _isEmpty = _interopRequireDefault(__webpack_require__(/*! lodash/isEmpty */ "lodash/isEmpty"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function exclude() {
+  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var req = arguments.length > 1 ? arguments[1] : undefined;
+  var _config$exclude = config.exclude,
+      exclude = _config$exclude === void 0 ? {} : _config$exclude,
+      debug = config.debug;
+
+  if (typeof exclude.filter === 'function' && exclude.filter(req)) {
+    debug("Excluding request by filter ".concat(req.url));
+    return true;
+  } // do not cache request with query
+
+
+  var hasQueryParams = req.url.match(/\?.*$/) || !(0, _isEmpty.default)(req.params);
+
+  if (exclude.query && hasQueryParams) {
+    debug("Excluding request by query ".concat(req.url));
+    return true;
+  }
+
+  var paths = exclude.paths || [];
+  var found = (0, _find.default)(paths, function (regexp) {
+    return req.url.match(regexp);
+  });
+
+  if (found) {
+    debug("Excluding request by url match ".concat(req.url));
+    return true;
+  }
+
+  return false;
+}
+
+var _default = exclude;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setup = setup;
+exports.setupCache = setupCache;
+exports.default = void 0;
+
+__webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+var _axios = _interopRequireDefault(__webpack_require__(/*! axios */ "axios"));
+
+var _omit = _interopRequireDefault(__webpack_require__(/*! lodash/omit */ "lodash/omit"));
+
+var _merge = _interopRequireDefault(__webpack_require__(/*! lodash/merge */ "lodash/merge"));
+
+var _isFunction = _interopRequireDefault(__webpack_require__(/*! lodash/isFunction */ "lodash/isFunction"));
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ./request */ "./src/request.js"));
+
+var _config = __webpack_require__(/*! ./config */ "./src/config.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
+
+/**
+ * Configure cache adapter
+ *
+ * @param   {object} [config={}] Cache adapter options
+ * @returns {object} Object containing cache `adapter` and `store`
+ */
+function setupCache() {
+  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  // Extend default configuration
+  config = (0, _config.makeConfig)(config); // Axios adapter. Receives the axios request configuration as only parameter
+
+  function adapter(_x) {
+    return _adapter.apply(this, arguments);
+  } // Return adapter and store instance
+
+
+  function _adapter() {
+    _adapter = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee(req) {
+      var reqConfig, res, next;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return (0, _request2.default)(config, req);
+              // Merge the per-request config with the instance config.
+              reqConfig = (0, _config.mergeRequestConfig)(config, req.cache); // Execute request against local cache
 
-            case 2:
+              _context.next = 3;
+              return (0, _request.default)(reqConfig, req);
+
+            case 3:
               res = _context.sent;
-              next = res.next;
+              next = res.next; // Response is not function, something was in cache, return it
 
-              // Response is not function, something was in cache, return it
-
-              if ((0, _isFunction2.default)(next)) {
-                _context.next = 6;
+              if ((0, _isFunction.default)(next)) {
+                _context.next = 7;
                 break;
               }
 
-              return _context.abrupt('return', next);
+              return _context.abrupt("return", next);
 
-            case 6:
-              _context.next = 8;
-              return config.adapter(req);
+            case 7:
+              _context.next = 9;
+              return reqConfig.adapter(req);
 
-            case 8:
+            case 9:
               res = _context.sent;
-              return _context.abrupt('return', next(res));
+              return _context.abrupt("return", next(res));
 
-            case 10:
-            case 'end':
+            case 11:
+            case "end":
               return _context.stop();
           }
         }
       }, _callee, this);
     }));
-
-    return function adapter(_x2) {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
-  // Return adapter and store instance
-
-
-  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  // Extend default configuration
-  config = (0, _merge2.default)({}, defaults.cache, config);
-
-  // Create a cache key method
-  config.key = (0, _cache.key)(config);
-
-  // If debug mode is on, create a simple logger method
-  if (config.debug !== false) {
-    config.debug = typeof config.debug === 'function' ? config.debug : function () {
-      var _console;
-
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      return (_console = console).log.apply(_console, ['[axios-cache-adapter]'].concat(args));
-    };
-  } else {
-    config.debug = function () {};
+    return _adapter.apply(this, arguments);
   }
 
-  // Create an in memory store if none was given
-  if (!config.store) config.store = new _memory2.default();return {
+  return {
     adapter: adapter,
     config: config,
     store: config.store
   };
-}
-
-// ---------------------
+} // ---------------------
 // Easy API Setup
 // ---------------------
 
@@ -1314,45 +1291,35 @@ var defaults = {
  * @param {object} [options={}] Axios and cache adapter options
  * @returns {object} Instance of Axios
  */
+
+
 function setup() {
   var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-  config = (0, _merge2.default)({}, defaults.axios, config);
-
+  config = (0, _merge.default)({}, _config.defaults.axios, config);
   var cache = setupCache(config.cache);
-  var axiosConfig = (0, _omit2.default)(config, ['cache']);
+  var axiosConfig = (0, _omit.default)(config, ['cache']);
 
-  var api = _axios2.default.create((0, _merge2.default)({}, axiosConfig, { adapter: cache.adapter }));
+  var api = _axios.default.create((0, _merge.default)({}, axiosConfig, {
+    adapter: cache.adapter
+  }));
 
   api.cache = cache.store;
-
   return api;
 }
 
-exports.setup = setup;
-exports.setupCache = setupCache;
-exports.default = { setup: setup, setupCache: setupCache };
+var _default = {
+  setup: setup,
+  setupCache: setupCache
+};
+exports.default = _default;
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_9__;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
-
-/***/ }),
-/* 11 */
+/***/ "./src/limit.js":
+/*!**********************!*\
+  !*** ./src/limit.js ***!
+  \**********************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1361,439 +1328,20 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _omit = __webpack_require__(1);
+__webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
 
-var _omit2 = _interopRequireDefault(_omit);
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function serialize(config, req, res) {
-  if (res.data) {
-    // FIXME: May be useless as localForage and axios already parse automatically
-    try {
-      res.data = JSON.parse(res.data);
-    } catch (err) {
-      config.debug('Could not parse data as JSON', err);
-    }
-  }
-
-  return (0, _omit2.default)(res, ['request', 'config']);
+function limit(_x) {
+  return _limit.apply(this, arguments);
 }
 
-exports.default = serialize;
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _size = __webpack_require__(13);
-
-var _size2 = _interopRequireDefault(_size);
-
-var _map = __webpack_require__(14);
-
-var _map2 = _interopRequireDefault(_map);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var MemoryStore = function () {
-  function MemoryStore() {
-    _classCallCheck(this, MemoryStore);
-
-    this.store = {};
-  }
-
-  _createClass(MemoryStore, [{
-    key: 'getItem',
-    value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(key) {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt('return', this.store[key] || null);
-
-              case 1:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getItem(_x) {
-        return _ref.apply(this, arguments);
-      }
-
-      return getItem;
-    }()
-  }, {
-    key: 'setItem',
-    value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(key, value) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.store[key] = value;
-
-                return _context2.abrupt('return', value);
-
-              case 2:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function setItem(_x2, _x3) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return setItem;
-    }()
-  }, {
-    key: 'removeItem',
-    value: function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(key) {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                delete this.store[key];
-
-              case 1:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function removeItem(_x4) {
-        return _ref3.apply(this, arguments);
-      }
-
-      return removeItem;
-    }()
-  }, {
-    key: 'clear',
-    value: function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.store = {};
-
-              case 1:
-              case 'end':
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      }));
-
-      function clear() {
-        return _ref4.apply(this, arguments);
-      }
-
-      return clear;
-    }()
-  }, {
-    key: 'length',
-    value: function () {
-      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                return _context5.abrupt('return', (0, _size2.default)(this.store));
-
-              case 1:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      }));
-
-      function length() {
-        return _ref5.apply(this, arguments);
-      }
-
-      return length;
-    }()
-  }, {
-    key: 'iterate',
-    value: function iterate(fn) {
-      return Promise.all((0, _map2.default)(this.store, function (value, key) {
-        return fn(value, key);
-      }));
-    }
-  }]);
-
-  return MemoryStore;
-}();
-
-exports.default = MemoryStore;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_13__;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_14__;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var request = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(config, req) {
-    var uuid, next, method, res, excludeFromCache;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            excludeFromCache = function excludeFromCache() {
-              config.excludeFromCache = true;
-
-              return { config: config, next: next };
-            };
-
-            uuid = config.key(req);
-
-            config = (0, _extend2.default)({}, config, { uuid: uuid });
-
-            next = function next() {
-              for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-              }
-
-              return _response2.default.apply(undefined, [config, req].concat(args));
-            };
-
-            if (!(0, _exclude2.default)(config, req)) {
-              _context.next = 6;
-              break;
-            }
-
-            return _context.abrupt('return', excludeFromCache());
-
-          case 6:
-
-            // clear cache if method different from GET.
-            // We should exclude HEAD
-            method = req.method.toLowerCase();
-
-            if (!(method === 'head')) {
-              _context.next = 9;
-              break;
-            }
-
-            return _context.abrupt('return', excludeFromCache());
-
-          case 9:
-            if (!(method !== 'get')) {
-              _context.next = 13;
-              break;
-            }
-
-            _context.next = 12;
-            return config.store.removeItem(uuid);
-
-          case 12:
-            return _context.abrupt('return', excludeFromCache());
-
-          case 13:
-            _context.prev = 13;
-            _context.next = 16;
-            return (0, _cache.read)(config, req);
-
-          case 16:
-            res = _context.sent;
-
-
-            res.config = req;
-            res.request = { fromCache: true };
-
-            return _context.abrupt('return', { config: config, next: res });
-
-          case 22:
-            _context.prev = 22;
-            _context.t0 = _context['catch'](13);
-
-            if (!(config.clearOnStale && _context.t0.reason === 'cache-stale')) {
-              _context.next = 27;
-              break;
-            }
-
-            _context.next = 27;
-            return config.store.removeItem(uuid);
-
-          case 27:
-            return _context.abrupt('return', { config: config, next: next });
-
-          case 28:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[13, 22]]);
-  }));
-
-  return function request(_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var _extend = __webpack_require__(16);
-
-var _extend2 = _interopRequireDefault(_extend);
-
-var _response = __webpack_require__(17);
-
-var _response2 = _interopRequireDefault(_response);
-
-var _exclude = __webpack_require__(19);
-
-var _exclude2 = _interopRequireDefault(_exclude);
-
-var _cache = __webpack_require__(0);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-exports.default = request;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var response = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(config, req, res) {
-    var _res$request, request;
-
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _res$request = res.request, request = _res$request === undefined ? {} : _res$request;
-
-            // exclude binary response from cache
-
-            if (!(['arraybuffer', 'blob'].indexOf(request.responseType) > -1)) {
-              _context.next = 3;
-              break;
-            }
-
-            return _context.abrupt('return', res);
-
-          case 3:
-            if (config.excludeFromCache) {
-              _context.next = 11;
-              break;
-            }
-
-            config.expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
-
-            if (!config.limit) {
-              _context.next = 9;
-              break;
-            }
-
-            config.debug('Detected limit: ' + config.limit);
-
-            _context.next = 9;
-            return (0, _limit2.default)(config);
-
-          case 9:
-            _context.next = 11;
-            return (0, _cache.write)(config, req, res);
-
-          case 11:
-            return _context.abrupt('return', res);
-
-          case 12:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-
-  return function response(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var _limit = __webpack_require__(18);
-
-var _limit2 = _interopRequireDefault(_limit);
-
-var _cache = __webpack_require__(0);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-exports.default = response;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var limit = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(config) {
+function _limit() {
+  _limit = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(config) {
     var length, firstItem;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -1813,46 +1361,49 @@ var limit = function () {
             return _context.abrupt("return");
 
           case 5:
-
-            config.debug("Current store size: " + length);
-
-            firstItem = void 0;
-            _context.next = 9;
+            config.debug("Current store size: ".concat(length));
+            _context.next = 8;
             return config.store.iterate(function (value, key) {
-              if (!firstItem) firstItem = { value: value, key: key };
-              if (value.expires < firstItem.value.expires) firstItem = { value: value, key: key };
+              if (!firstItem) firstItem = {
+                value: value,
+                key: key
+              };
+              if (value.expires < firstItem.value.expires) firstItem = {
+                value: value,
+                key: key
+              };
             });
 
-          case 9:
+          case 8:
             if (!firstItem) {
-              _context.next = 13;
+              _context.next = 12;
               break;
             }
 
-            config.debug("Removing item: " + firstItem.key);
-
-            _context.next = 13;
+            config.debug("Removing item: ".concat(firstItem.key));
+            _context.next = 12;
             return config.store.removeItem(firstItem.key);
 
-          case 13:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
     }, _callee, this);
   }));
+  return _limit.apply(this, arguments);
+}
 
-  return function limit(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-exports.default = limit;
+var _default = limit;
+exports.default = _default;
 
 /***/ }),
-/* 19 */
+
+/***/ "./src/memory.js":
+/*!***********************!*\
+  !*** ./src/memory.js ***!
+  \***********************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1861,69 +1412,560 @@ exports.default = limit;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _find = __webpack_require__(20);
+__webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
 
-var _find2 = _interopRequireDefault(_find);
+var _size = _interopRequireDefault(__webpack_require__(/*! lodash/size */ "lodash/size"));
 
-var _isEmpty = __webpack_require__(21);
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
+var _map = _interopRequireDefault(__webpack_require__(/*! lodash/map */ "lodash/map"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function exclude() {
-  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var req = arguments[1];
-  var _config$exclude = config.exclude,
-      exclude = _config$exclude === undefined ? {} : _config$exclude,
-      debug = config.debug;
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  if (typeof exclude.filter === 'function' && exclude.filter(req)) {
-    debug('Excluding request by filter ' + req.url);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-    return true;
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MemoryStore =
+/*#__PURE__*/
+function () {
+  function MemoryStore() {
+    _classCallCheck(this, MemoryStore);
+
+    this.store = {};
   }
 
-  // do not cache request with query
-  var hasQueryParams = req.url.match(/\?.*$/) || !(0, _isEmpty2.default)(req.params);
+  _createClass(MemoryStore, [{
+    key: "getItem",
+    value: function () {
+      var _getItem = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(key) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                return _context.abrupt("return", this.store[key] || null);
 
-  if (exclude.query && hasQueryParams) {
-    debug('Excluding request by query ' + req.url);
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
 
-    return true;
-  }
+      return function getItem(_x) {
+        return _getItem.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "setItem",
+    value: function () {
+      var _setItem = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(key, value) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.store[key] = value;
+                return _context2.abrupt("return", value);
 
-  var paths = exclude.paths || [];
-  var found = (0, _find2.default)(paths, function (regexp) {
-    return req.url.match(regexp);
-  });
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
 
-  if (found) {
-    debug('Excluding request by url match ' + req.url);
+      return function setItem(_x2, _x3) {
+        return _setItem.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "removeItem",
+    value: function () {
+      var _removeItem = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(key) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                delete this.store[key];
 
-    return true;
-  }
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
 
-  return false;
+      return function removeItem(_x4) {
+        return _removeItem.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "clear",
+    value: function () {
+      var _clear = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                this.store = {};
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      return function clear() {
+        return _clear.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "length",
+    value: function () {
+      var _length = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                return _context5.abrupt("return", (0, _size.default)(this.store));
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      return function length() {
+        return _length.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "iterate",
+    value: function iterate(fn) {
+      return Promise.all((0, _map.default)(this.store, function (value, key) {
+        return fn(value, key);
+      }));
+    }
+  }]);
+
+  return MemoryStore;
+}();
+
+var _default = MemoryStore;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./src/request.js":
+/*!************************!*\
+  !*** ./src/request.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+__webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+var _extend = _interopRequireDefault(__webpack_require__(/*! lodash/extend */ "lodash/extend"));
+
+var _response = _interopRequireDefault(__webpack_require__(/*! ./response */ "./src/response.js"));
+
+var _exclude = _interopRequireDefault(__webpack_require__(/*! ./exclude */ "./src/exclude.js"));
+
+var _cache = __webpack_require__(/*! ./cache */ "./src/cache.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
+
+function request(_x, _x2) {
+  return _request.apply(this, arguments);
 }
 
-exports.default = exclude;
+function _request() {
+  _request = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(config, req) {
+    var uuid, next, method, res, excludeFromCache;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            excludeFromCache = function _ref() {
+              config.excludeFromCache = true;
+              return {
+                config: config,
+                next: next
+              };
+            };
+
+            uuid = config.key(req);
+            config = (0, _extend.default)({}, config, {
+              uuid: uuid
+            });
+
+            next = function next() {
+              for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+              }
+
+              return _response.default.apply(void 0, [config, req].concat(args));
+            };
+
+            if (!(0, _exclude.default)(config, req)) {
+              _context.next = 6;
+              break;
+            }
+
+            return _context.abrupt("return", excludeFromCache());
+
+          case 6:
+            // clear cache if method different from GET.
+            // We should exclude HEAD
+            method = req.method.toLowerCase();
+
+            if (!(method === 'head')) {
+              _context.next = 9;
+              break;
+            }
+
+            return _context.abrupt("return", excludeFromCache());
+
+          case 9:
+            if (!(method !== 'get')) {
+              _context.next = 13;
+              break;
+            }
+
+            _context.next = 12;
+            return config.store.removeItem(uuid);
+
+          case 12:
+            return _context.abrupt("return", excludeFromCache());
+
+          case 13:
+            _context.prev = 13;
+            _context.next = 16;
+            return (0, _cache.read)(config, req);
+
+          case 16:
+            res = _context.sent;
+            res.config = req;
+            res.request = {
+              fromCache: true
+            };
+            return _context.abrupt("return", {
+              config: config,
+              next: res
+            });
+
+          case 22:
+            _context.prev = 22;
+            _context.t0 = _context["catch"](13);
+
+            if (!(config.clearOnStale && _context.t0.reason === 'cache-stale')) {
+              _context.next = 27;
+              break;
+            }
+
+            _context.next = 27;
+            return config.store.removeItem(uuid);
+
+          case 27:
+            return _context.abrupt("return", {
+              config: config,
+              next: next
+            });
+
+          case 28:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this, [[13, 22]]);
+  }));
+  return _request.apply(this, arguments);
+}
+
+var _default = request;
+exports.default = _default;
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_20__;
+/***/ "./src/response.js":
+/*!*************************!*\
+  !*** ./src/response.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+__webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+var _limit = _interopRequireDefault(__webpack_require__(/*! ./limit */ "./src/limit.js"));
+
+var _cache = __webpack_require__(/*! ./cache */ "./src/cache.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } } function _next(value) { step("next", value); } function _throw(err) { step("throw", err); } _next(); }); }; }
+
+function response(_x, _x2, _x3) {
+  return _response.apply(this, arguments);
+}
+
+function _response() {
+  _response = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(config, req, res) {
+    var _res$request, request;
+
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _res$request = res.request, request = _res$request === void 0 ? {} : _res$request; // exclude binary response from cache
+
+            if (!(['arraybuffer', 'blob'].indexOf(request.responseType) > -1)) {
+              _context.next = 3;
+              break;
+            }
+
+            return _context.abrupt("return", res);
+
+          case 3:
+            if (config.excludeFromCache) {
+              _context.next = 11;
+              break;
+            }
+
+            config.expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
+
+            if (!config.limit) {
+              _context.next = 9;
+              break;
+            }
+
+            config.debug("Detected limit: ".concat(config.limit));
+            _context.next = 9;
+            return (0, _limit.default)(config);
+
+          case 9:
+            _context.next = 11;
+            return (0, _cache.write)(config, req, res);
+
+          case 11:
+            return _context.abrupt("return", res);
+
+          case 12:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+  return _response.apply(this, arguments);
+}
+
+var _default = response;
+exports.default = _default;
 
 /***/ }),
-/* 21 */
+
+/***/ "./src/serialize.js":
+/*!**************************!*\
+  !*** ./src/serialize.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _omit = _interopRequireDefault(__webpack_require__(/*! lodash/omit */ "lodash/omit"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function serialize(config, req, res) {
+  if (res.data) {
+    // FIXME: May be useless as localForage and axios already parse automatically
+    try {
+      res.data = JSON.parse(res.data);
+    } catch (err) {
+      config.debug('Could not parse data as JSON', err);
+    }
+  }
+
+  return (0, _omit.default)(res, ['request', 'config']);
+}
+
+var _default = serialize;
+exports.default = _default;
+
+/***/ }),
+
+/***/ 0:
+/*!****************************!*\
+  !*** multi ./src/index.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/index.js */"./src/index.js");
+
+
+/***/ }),
+
+/***/ "axios":
+/*!*************************************************************************************!*\
+  !*** external {"umd":"axios","amd":"axios","commonjs":"axios","commonjs2":"axios"} ***!
+  \*************************************************************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_21__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_axios__;
+
+/***/ }),
+
+/***/ "lodash/extend":
+/*!*********************************************************************************************************************!*\
+  !*** external {"umd":"lodash/extend","amd":"lodash/extend","commonjs":"lodash/extend","commonjs2":"lodash/extend"} ***!
+  \*********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_extend__;
+
+/***/ }),
+
+/***/ "lodash/find":
+/*!*************************************************************************************************************!*\
+  !*** external {"umd":"lodash/find","amd":"lodash/find","commonjs":"lodash/find","commonjs2":"lodash/find"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_find__;
+
+/***/ }),
+
+/***/ "lodash/isEmpty":
+/*!*************************************************************************************************************************!*\
+  !*** external {"umd":"lodash/isEmpty","amd":"lodash/isEmpty","commonjs":"lodash/isEmpty","commonjs2":"lodash/isEmpty"} ***!
+  \*************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__;
+
+/***/ }),
+
+/***/ "lodash/isFunction":
+/*!*************************************************************************************************************************************!*\
+  !*** external {"umd":"lodash/isFunction","amd":"lodash/isFunction","commonjs":"lodash/isFunction","commonjs2":"lodash/isFunction"} ***!
+  \*************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__;
+
+/***/ }),
+
+/***/ "lodash/isString":
+/*!*****************************************************************************************************************************!*\
+  !*** external {"umd":"lodash/isString","amd":"lodash/isString","commonjs":"lodash/isString","commonjs2":"lodash/isString"} ***!
+  \*****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_isString__;
+
+/***/ }),
+
+/***/ "lodash/map":
+/*!*********************************************************************************************************!*\
+  !*** external {"umd":"lodash/map","amd":"lodash/map","commonjs":"lodash/map","commonjs2":"lodash/map"} ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_map__;
+
+/***/ }),
+
+/***/ "lodash/merge":
+/*!*****************************************************************************************************************!*\
+  !*** external {"umd":"lodash/merge","amd":"lodash/merge","commonjs":"lodash/merge","commonjs2":"lodash/merge"} ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_merge__;
+
+/***/ }),
+
+/***/ "lodash/omit":
+/*!*************************************************************************************************************!*\
+  !*** external {"umd":"lodash/omit","amd":"lodash/omit","commonjs":"lodash/omit","commonjs2":"lodash/omit"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_omit__;
+
+/***/ }),
+
+/***/ "lodash/size":
+/*!*************************************************************************************************************!*\
+  !*** external {"umd":"lodash/size","amd":"lodash/size","commonjs":"lodash/size","commonjs2":"lodash/size"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_lodash_size__;
 
 /***/ })
-/******/ ]);
+
+/******/ });
 });
 //# sourceMappingURL=cache.js.map
