@@ -8,10 +8,12 @@ import isFunction from 'lodash/isFunction'
 import { setup, setupCache } from 'src/index'
 import MemoryStore from 'src/memory'
 
-describe('Integration', () => {
+const REQUEST_TIMEOUT = 10000
+
+describe('Integration', function () {
   const api = setup()
 
-  it('Should expose a public API', () => {
+  it('Should expose a public API', function () {
     assert.ok(isFunction(setupCache))
     assert.ok(isFunction(setup))
 
@@ -25,7 +27,9 @@ describe('Integration', () => {
     checkStoreInterface(api.cache)
   })
 
-  it('Should execute GET requests', async () => {
+  it('Should execute GET requests', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
     const definition = {
       url: 'https://httpbin.org/get',
       method: 'get'
@@ -43,7 +47,9 @@ describe('Integration', () => {
     assert.ok(response.request.fromCache)
   })
 
-  it('Should not cache requests with a status not in the 2xx range', async () => {
+  it('Should not cache requests with a status not in the 2xx range', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
     await api.cache.clear()
 
     try {
@@ -57,7 +63,9 @@ describe('Integration', () => {
     }
   })
 
-  it('Should bust cache when sending something else than a GET request', async () => {
+  it('Should bust cache when sending something else than a GET request', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
     await api.cache.clear()
 
     const url = 'https://httpbin.org/anything'
@@ -76,7 +84,9 @@ describe('Integration', () => {
     assert.equal(length, 0)
   })
 
-  it('Should cache GET requests with params', async () => {
+  it('Should cache GET requests with params', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
     const api2 = setup({
       cache: {
         // debug: true,
@@ -109,7 +119,9 @@ describe('Integration', () => {
     assert.ok(response.request.fromCache)
   })
 
-  it('Should apply a cache size limit', async () => {
+  it('Should apply a cache size limit', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
     const config = {
       cache: {
         // debug: true,
@@ -141,7 +153,9 @@ describe('Integration', () => {
     assert.equal(length, config.cache.limit)
   })
 
-  it('Should exclude paths', async () => {
+  it('Should exclude paths', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
     const api4 = setup({
       cache: {
         // debug: true,
