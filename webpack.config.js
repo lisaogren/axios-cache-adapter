@@ -61,7 +61,7 @@ filename = filename.replace('[version]', version.join('.'))
 
 // Webpack config
 const build = {
-  entry: ['babel-regenerator-runtime', './src/index.js'],
+  entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename,
@@ -76,8 +76,20 @@ const build = {
         use: [{
           loader: 'babel-loader',
           options: {
-            presets: ['es2015'],
-            plugins: ['transform-async-to-generator']
+            presets: [
+              ['@babel/preset-env', {
+                useBuiltIns: 'usage',
+                exclude: [
+                  'es6.promise',
+                  'web.dom.iterable',
+                  'es6.string.iterator',
+                  'es6.array.index-of',
+                  'es6.date.now',
+                  'es6.regexp.match',
+                  'es6.array.filter'
+                ]
+              }]
+            ]
           }
         }]
       }
@@ -91,7 +103,7 @@ const build = {
 
 // TEST CONFIG
 const test = {
-  entry: 'test/main.js',
+  entry: ['test/main.js'],
   output: {
     path: path.join(cwd, '.tmp'),
     filename: 'main.js'
@@ -106,7 +118,16 @@ const test = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'babel-loader', options: { presets: ['es2015'] } }
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['@babel/preset-env', {
+                  useBuiltIns: 'usage'
+                }]
+              ]
+            }
+          }
         ]
       },
       {
@@ -116,7 +137,7 @@ const test = {
           options: { esModules: true }
         },
         enforce: 'post',
-        exclude: /node_modules|\.spec\.js$/,
+        exclude: /node_modules|\.spec\.js$/
       },
 
       // Load font files
