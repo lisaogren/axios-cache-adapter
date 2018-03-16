@@ -12,6 +12,8 @@ let version = ['']
 const plugins = []
 let externals = {}
 
+let mode = 'development'
+
 // List external dependencies
 const dependencies = [
   'lodash/isEmpty',
@@ -26,33 +28,19 @@ const dependencies = [
   'axios'
 ]
 
-// Check if we should make a bundled version
-if (process.env.NODE_BUNDLED === 'please') {
-  version.push('bundled')
-} else {
-  dependencies.forEach(dep => {
-    externals[dep] = {
-      umd: dep,
-      amd: dep,
-      commonjs: dep,
-      commonjs2: dep
-    }
-  })
-}
-
+dependencies.forEach(dep => {
+  externals[dep] = {
+    umd: dep,
+    amd: dep,
+    commonjs: dep,
+    commonjs2: dep
+  }
+})
 // Check if we should make a minified version
 if (process.env.NODE_ENV === 'production') {
   version.push('min')
 
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_console: false
-      },
-      sourceMap: true
-    })
-  )
+  mode = 'production'
 }
 
 // Generate actual filename
@@ -68,6 +56,7 @@ const build = {
     library: 'axiosCacheAdapter',
     libraryTarget: 'umd'
   },
+  mode,
   module: {
     rules: [
       {
@@ -111,6 +100,7 @@ const test = {
   resolve: {
     modules: ['node_modules', '.']
   },
+  mode: 'development',
   module: {
     rules: [
       // Transpile ES2015 to ES5

@@ -28,7 +28,7 @@
     "clean": "rimraf dist",
     "lint": "standard src/**/*.js test/**/*.js | snazzy",
     "lint-fix": "standard --fix src/**/*.js test/**/*.js | snazzy",
-    "build": "npm run clean && webpack && NODE_ENV=production webpack && NODE_BUNDLED=please webpack && NODE_ENV=production NODE_BUNDLED=please webpack",
+    "build": "npm run clean && webpack && NODE_ENV=production webpack",
     "test": "NODE_ENV=test karma start karma.conf.js",
     "watch": "NODE_WATCH=true npm test"
   },
@@ -40,7 +40,6 @@
     "@babel/preset-env": "^7.0.0-beta.42",
     "assert": "^1.4.1",
     "babel-loader": "^8.0.0-beta.2",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "codecov": "^3.0.0",
     "html-webpack-plugin": "^2.30.1",
     "istanbul-instrumenter-loader": "^3.0.0",
@@ -60,10 +59,11 @@
     "size-limit": "^0.11.4",
     "snazzy": "^7.0.0",
     "standard": "^11.0.1",
-    "webpack": "^3.6.0"
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "lodash": "^4.17.4"
   },
   "size-limit": [
