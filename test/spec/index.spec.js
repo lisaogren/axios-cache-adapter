@@ -206,6 +206,37 @@ describe('Integration', function () {
     assert.deepEqual(cache.store, store)
   })
 
+  it('Should not transform response data when response comes from cache', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
+    const api5 = setup()
+
+    const request = () => api5({
+      url: 'https://httpbin.org/get?a=foo&b=bar',
+      transformResponse: api.defaults.transformResponse.concat([
+        (data, header) => {
+          return data.args.a + data.args.b
+        }
+      ]),
+      cache: {
+        exclude: {
+          query: false
+        }
+      }
+    })
+
+    let response = await request()
+
+    assert.ok(!response.request.fromCache)
+    assert.equal(response.data, 'foobar')
+
+    assert.doesNotThrow(async () => {
+      response = await request()
+      assert.ok(response.request.fromCache)
+      assert.equal(response.data, 'foobar')
+    })
+  })
+
   // Helpers
 
   function checkStoreInterface (store) {
