@@ -6,8 +6,8 @@ import exclude from 'src/exclude'
 
 describe('Cache exclusion', () => {
   const url = 'https://some-rest.api/users'
-  const debug = () => {}
-  // const debug = (...args) => { console.log(...args) }
+  // const debug = () => {}
+  const debug = (...args) => { console.log(...args) }
 
   it('Should not exclude if not configured', () => {
     const config = { debug }
@@ -15,7 +15,7 @@ describe('Cache exclusion', () => {
     assert.equal(exclude(config, { url }), false)
   })
 
-  it('Should exclude requests with query parameters', () => {
+  it('Should exclude requests with query parameters with config.exclude.query=true', () => {
     const config = {
       exclude: { query: true },
       debug
@@ -26,6 +26,19 @@ describe('Cache exclusion', () => {
 
     assert.ok(exclude(config, reqWithQuery))
     assert.ok(exclude(config, reqWithParams))
+  })
+
+  it('Should not exclude requests with query parameters with config.exclude.query=false', () => {
+    const config = {
+      exclude: { query: false },
+      debug
+    }
+
+    const reqWithQuery = { url: `${url}?with=query&params=42` }
+    const reqWithParams = { url, params: { with: 'query', params: 42 } }
+
+    assert.ok(!exclude(config, reqWithQuery))
+    assert.ok(!exclude(config, reqWithParams))
   })
 
   it('Should exclude requests that match paths', () => {

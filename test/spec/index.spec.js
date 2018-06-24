@@ -104,19 +104,19 @@ describe('Integration', function () {
       url: 'https://httpbin.org/get?userId=2',
       method: 'get'
     }
-    // const definitionWithParams = {
-    //   url: 'https://httpbin.org/get',
-    //   params: { userId: 2 },
-    //   method: 'get'
-    // }
+    const definitionWithParams = {
+      url: 'https://httpbin.org/get',
+      params: { userId: 2 },
+      method: 'get'
+    }
 
-    let response = await api2(definition)
+    let response = await api2(definitionWithParams)
 
     assert.equal(response.status, 200)
     assert.ok(isObject(response.data))
     assert.ok(has(response.data.args, 'userId'))
 
-    response = await api2(definition)
+    response = await api2(definitionWithParams)
 
     assert.ok(has(response.data.args, 'userId'))
     assert.ok(response.request.fromCache)
