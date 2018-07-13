@@ -13,6 +13,7 @@ const plugins = []
 let externals = {}
 
 let mode = 'development'
+let target = 'web'
 
 // List external dependencies
 const dependencies = [
@@ -36,6 +37,12 @@ dependencies.forEach(dep => {
     commonjs2: dep
   }
 })
+
+if (process.env.NODE_BUILD_FOR === 'node') {
+  version.push('node')
+  target = 'node'
+}
+
 // Check if we should make a minified version
 if (process.env.NODE_ENV === 'production') {
   version.push('min')
@@ -44,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Generate actual filename
-// cache.js || cache.min.js || cache.bundled.js || cache.bundled.min.js
+// cache.js || cache.min.js || cache.node.js || cache.node.min.js
 filename = filename.replace('[version]', version.join('.'))
 
 // Webpack config
@@ -87,7 +94,7 @@ const build = {
   externals,
   plugins,
   devtool: 'source-map',
-  target: 'web'
+  target
 }
 
 // TEST CONFIG

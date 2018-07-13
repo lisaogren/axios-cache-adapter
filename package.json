@@ -12,7 +12,8 @@
     "/dist",
     "/src"
   ],
-  "main": "dist/cache.js",
+  "main": "dist/cache.node.js",
+  "browser": "dist/cache.js",
   "keywords": [
     "axios",
     "cache",
@@ -28,7 +29,7 @@
     "clean": "rimraf dist",
     "lint": "standard src/**/*.js test/**/*.js | snazzy",
     "lint-fix": "standard --fix src/**/*.js test/**/*.js | snazzy",
-    "build": "npm run clean && webpack && NODE_ENV=production webpack",
+    "build": "npm run clean && webpack && NODE_ENV=production webpack && NODE_BUILD_FOR=node webpack && NODE_ENV=production NODE_BUILD_FOR=node webpack",
     "test": "NODE_ENV=test karma start karma.conf.js",
     "watch": "NODE_WATCH=true npm test"
   },
