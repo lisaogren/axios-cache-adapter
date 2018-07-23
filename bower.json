@@ -1,12 +1,12 @@
 {
   "name": "axios-cache-adapter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "authors": [
     "Carl Ogren <rascarlito@gmail.com>"
   ],
   "description": "Caching adapter for axios",
-  "main": "dist/cache.bundled.js",
+  "main": "dist/cache.js",
   "moduleType": [
     "globals",
     "amd",
