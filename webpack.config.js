@@ -20,7 +20,6 @@ const dependencies = [
   'lodash/isEmpty',
   'lodash/isString',
   'lodash/isFunction',
-  'lodash/cloneDeep',
   'lodash/size',
   'lodash/find',
   'lodash/map',

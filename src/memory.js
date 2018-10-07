@@ -1,6 +1,5 @@
 import size from 'lodash/size'
 import map from 'lodash/map'
-import cloneDeep from 'lodash/cloneDeep'
 
 class MemoryStore {
   constructor () {
@@ -10,11 +9,11 @@ class MemoryStore {
   async getItem (key) {
     const item = this.store[key] || null
 
-    return cloneDeep(item)
+    return JSON.parse(item)
   }
 
   async setItem (key, value) {
-    this.store[key] = value
+    this.store[key] = JSON.stringify(value)
 
     return value
   }
