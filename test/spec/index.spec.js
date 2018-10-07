@@ -206,18 +206,18 @@ describe('Integration', function () {
     assert.deepEqual(cache.store, store)
   })
 
-  it('Should not transform response data when response comes from cache', async function () {
+  it('Should be able to transform response whether it comes from network or cache', async function () {
     this.timeout(REQUEST_TIMEOUT)
 
     const api5 = setup()
 
     const request = () => api5({
       url: 'https://httpbin.org/get?a=foo&b=bar',
-      transformResponse: api.defaults.transformResponse.concat([
+      transformResponse: [
         (data, header) => {
           return data.args.a + data.args.b
         }
-      ]),
+      ],
       cache: {
         exclude: {
           query: false
@@ -226,15 +226,29 @@ describe('Integration', function () {
     })
 
     let response = await request()
+    let response2 = await request()
+    let response3 = await request()
 
     assert.ok(!response.request.fromCache)
     assert.equal(response.data, 'foobar')
 
-    assert.doesNotThrow(async () => {
-      response = await request()
-      assert.ok(response.request.fromCache)
-      assert.equal(response.data, 'foobar')
-    })
+    assert.ok(response2.request.fromCache)
+    assert.equal(response2.data, 'foobar')
+
+    assert.ok(response3.request.fromCache)
+    assert.equal(response3.data, 'foobar')
+
+    // assert.doesNotThrow(async () => {
+    //   response = await request()
+    //   assert.ok(response.request.fromCache)
+    //   assert.equal(response.data, 'foobar')
+
+    //   assert.doesNotThrow(async () => {
+    //     response = await request()
+    //     assert.ok(response.request.fromCache)
+    //     assert.equal(response.data, 'foobar')
+    //   })
+    // })
   })
 
   // Helpers
