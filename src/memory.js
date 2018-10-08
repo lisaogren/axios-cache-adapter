@@ -7,11 +7,13 @@ class MemoryStore {
   }
 
   async getItem (key) {
-    return this.store[key] || null
+    const item = this.store[key] || null
+
+    return JSON.parse(item)
   }
 
   async setItem (key, value) {
-    this.store[key] = value
+    this.store[key] = JSON.stringify(value)
 
     return value
   }

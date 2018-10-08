@@ -1,7 +1,7 @@
 /* globals describe it beforeEach */
 
 import assert from 'assert'
-import isObject from 'lodash/isObject'
+import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
 
 import cache from 'src/cache'
@@ -39,9 +39,12 @@ describe('Cache store', () => {
 
     assert.ok(cacheResult)
 
-    assert.ok(isObject(store.store.test))
-    assert.ok(store.store.test.data.data.youhou)
-    assert.equal(store.store.test.expires, expires)
+    assert.ok(isString(store.store.test))
+
+    const storedData = JSON.parse(store.store.test)
+
+    assert.equal(storedData.expires, expires)
+    assert.ok(storedData.data.data.youhou)
 
     store.setItem = async () => {
       throw new Error('Faking store error')
