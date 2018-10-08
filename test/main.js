@@ -8,4 +8,4 @@ const sources = require.context('../src/', true, /\.js$/)
 
 sources.keys().forEach(sources)
 
-module.exports = tests
+export default tests
