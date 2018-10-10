@@ -1,6 +1,6 @@
 # :rocket: axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter)
 
-> Caching adapter for axios
+> Caching adapter for axios. Store request results in a configurable store to prevent unneeded network requests.
 
 Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache)
 by [@stephanebachelier](https://github.com/stephanebachelier)
@@ -44,14 +44,14 @@ const api = axios.create({
 api({
   url: 'http://some-rest.api/url',
   method: 'get'
-}).then(response => {
+}).then(async (response) => {
   // Do something fantastic with response.data \o/
   console.log('Request response:', response)
 
   // Interacting with the store, see `localForage` API.
-  cache.store.length().then(length => {
-    console.log('Cache store length:', length)
-  })
+  const length = await cache.store.length()
+
+  console.log('Cache store length:', length)
 })
 ```
 
@@ -69,14 +69,14 @@ const api = setup({
 api({
   url: 'http://some-reset.api/url',
   method: 'get'
-}).then(response => {
+}).then(async (response) => {
   // Do something awesome with response.data \o/
   console.log('Request response:', response)
 
   // Interacting with the store, see `localForage` API.
-  api.cache.length().then(length => {
-    console.log('Cache store length:', length)
-  })
+  const length = await api.cache.length()
+
+  console.log('Cache store length:', length)
 })
 ```
 
@@ -87,25 +87,32 @@ import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
 import { setup } from 'axios-cache-adapter'
 
-const store = localforage.createInstance({
-  // List of drivers used
-  driver: [
-    localforage.INDEXEDDB,
-    localforage.LOCALSTORAGE,
-    memoryDriver
-  ],
-  // Prefix all storage keys to prevent conflicts
-  name: 'my-cache'
-})
+async function configure () {
+  await localforage.defineDriver(memoryDriver)
 
-const api = setup({
-  cache: {
-    maxAge: 15 * 60 * 1000,
-    store
-  }
-})
+  const store = localforage.createInstance({
+    // List of drivers used
+    driver: [
+      localforage.INDEXEDDB,
+      localforage.LOCALSTORAGE,
+      memoryDriver._driver
+    ],
+    // Prefix all storage keys to prevent conflicts
+    name: 'my-cache'
+  })
 
-api.get('http://some-reset.api/url').then(response => {
+  // Create axios instance with cache adapter configured using localforage store
+  return setup({
+    cache: {
+      maxAge: 15 * 60 * 1000,
+      store
+    }
+  })
+}
+
+configure().then(async (api) => {
+  const response = await api.get('http://some-rest.api/url')
+
   // Display something beautiful with response.data ;)
 })
 ```
@@ -161,16 +168,12 @@ Webpack is used to build [umd](https://github.com/umdjs/umd) versions of the lib
 
 * `cache.js`
 * `cache.min.js`
-* `cache.bundled.js`
-* `cache.bundled.min.js`
+* `cache.node.js`
+* `cache.node.min.js`
 
-The bundled version contains all the dependencies necessary for `axios-cache-adapter` to work on its own.
+A different version of `axios-cache-adapter` is generated for node and the browser due to how Webpack 4 uses a `target` to change how the UMD wrapper is generated using `global` or `window`. If you are using the library in node or in your front-end code while using a module bundler (Webpack, rollup, etc) the correct version will be picked up automatically thanks to the `"main"` and `"browser"` fields in the `package.json`.
 
-`axios-cache-adapter` is developped in ES6 and uses async/await syntax. It is transpiled to ES5 using babel with the following presets and plugins:
-
-* [`babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) For general ES6 support
-* [`babel-plugin-transform-async-to-generator`](https://www.npmjs.com/package/babel-plugin-transform-async-to-generator) For async/await support
-* [`babel-regenerator-runtime`](https://www.npmjs.com/package/babel-regenerator-runtime) For transpiled generators to work
+`axios-cache-adapter` is developped in ES6+ and uses async/await syntax. It is transpiled to ES5 using `babel` with `preset-env`.
 
 ## Testing
 
