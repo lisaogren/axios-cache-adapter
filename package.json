@@ -23,12 +23,13 @@
   ],
   "standard": {
     "ignore": [
-      "/dist"
+      "/dist",
+      "/examples"
     ]
   },
   "scripts": {
     "clean": "rimraf dist",
-    "lint": "standard src/**/*.js test/**/*.js | snazzy",
+    "lint": "standard | snazzy",
     "lint-fix": "standard --fix src/**/*.js test/**/*.js | snazzy",
     "build": "npm run clean && webpack && NODE_ENV=production webpack && NODE_BUILD_FOR=node webpack && NODE_ENV=production NODE_BUILD_FOR=node webpack",
     "test": "NODE_ENV=test karma start karma.conf.js",

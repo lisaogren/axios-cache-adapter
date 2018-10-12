@@ -17,16 +17,16 @@ const api = setup({
     }
 })
 
-// Make a request to https://httpbin.org/get?foo=bar
+// Make a request to https://httpbin.org/get?foo=bar (runkit handles what appears to be a top-level await)
 const response = await api.get('/get?foo=bar')
 
-// Check recieved data and that response did not come from cache
+// Check received data and that response did not come from cache
 console.log(response.data.args.foo)
 console.log(response.request.fromCache === true)
 
 // Make another request to the same endpoint
 const anotherResponse = await api.get('/get?foo=bar')
 
-// Check recieved data and that response came from the cache
+// Check received data and that response came from the cache
 console.log(anotherResponse.data.args.foo)
 console.log(anotherResponse.request.fromCache === true)
