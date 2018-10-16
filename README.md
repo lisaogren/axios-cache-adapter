@@ -27,20 +27,26 @@ Or from a CDN like unpkg.com
 
 ## Usage
 
-You can use the adapter directly
+### Instantiate adapter on its own
+
+You can instantiate the `axios-cache-adapter` on its own using the `setupCache()` method and then attach the adapter manually to an instance of `axios`.
 
 ```js
+// Import dependencies
 import axios from 'axios'
 import { setupCache } from 'axios-cache-adapter'
 
+// Create `axios-cache-adapter` instance
 const cache = setupCache({
   maxAge: 15 * 60 * 1000
 })
 
+// Create `axios` instance passing the newly created `cache.adapter`
 const api = axios.create({
   adapter: cache.adapter
 })
 
+// Send a GET request to some REST api
 api({
   url: 'http://some-rest.api/url',
   method: 'get'
@@ -55,21 +61,27 @@ api({
 })
 ```
 
-Or you can get an instance of axios pre-configured with the cache adapter
+### Instantiate axios with bound adapter
+
+You can use the `setup()` method to get an instance of `axios` pre-configured with the `axios-cache-adapter`. This will remove `axios` as a direct dependency in your code.
 
 ```js
+// Import dependencies
 import { setup } from 'axios-cache-adapter'
 
+// Create `axios` instance with pre-configured `axios-cache-adapter` attached to it
 const api = setup({
+  // `axios` options
+  baseURL: 'http://some-rest.api',
+
+  // `axios-cache-adapter` options
   cache: {
     maxAge: 15 * 60 * 1000
   }
 })
 
-api({
-  url: 'http://some-reset.api/url',
-  method: 'get'
-}).then(async (response) => {
+// Send a GET request to some REST api
+api.get('/url').then(async (response) => {
   // Do something awesome with response.data \o/
   console.log('Request response:', response)
 
@@ -80,16 +92,23 @@ api({
 })
 ```
 
-Custom `localForage` store example:
+### Use localforage as cache store
+
+You can give a `localforage` instance to `axios-cache-adapter` which will be used to store cache data instead of the default [in memory](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js) store.
+
+_Note: This only works client-side because `localforage` does not work in Node.js_
 
 ```js
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
 import { setup } from 'axios-cache-adapter'
 
+// `async` wrapper to configure `localforage` and instantiate `axios` with `axios-cache-adapter`
 async function configure () {
+  // Register the custom `memoryDriver` to `localforage`
   await localforage.defineDriver(memoryDriver)
 
+  // Create `localforage` instance
   const store = localforage.createInstance({
     // List of drivers used
     driver: [
@@ -101,20 +120,59 @@ async function configure () {
     name: 'my-cache'
   })
 
-  // Create axios instance with cache adapter configured using localforage store
+  // Create `axios` instance with pre-configured `axios-cache-adapter` using a `localforage` store
   return setup({
+    // `axios` options
+    baseURL: 'http://some-rest.api',
+
+    // `axios-cache-adapter` options
     cache: {
       maxAge: 15 * 60 * 1000,
-      store
+      store // Pass `localforage` store to `axios-cache-adapter`
     }
   })
 }
 
 configure().then(async (api) => {
+  const response = await api.get('/url')
+
+  // Display something beautiful with `response.data` ;)
+})
+```
+
+### Check if response is served from network or from cache
+
+When a response is served from cache a custom `response.request` object is created with a `fromCache` boolean.
+
+```js
+// Import dependencies
+import assert from 'assert'
+import { setup } from 'axios-cache-adapter'
+
+// Create `axios` instance with pre-configured `axios-cache-adapter`
+const api = setup({
+  cache: {
+    maxAge: 15 * 60 * 1000
+  }
+})
+
+// Wrap code in an `async` function
+async function exec () {
+  // First request will be served from network
   const response = await api.get('http://some-rest.api/url')
 
-  // Display something beautiful with response.data ;)
-})
+  // `response.request` will contain the origin `axios` request object
+  assert.ok(response.request.fromCache !== true)
+
+  // Second request to same endpoint will be served from cache
+  const anotherResponse = await api.get('http://some-rest.api/url')
+
+  // `response.request` will contain `fromCache` boolean
+  assert.ok(anotherResponse.request.fromCache === true)
+}
+
+// Execute our `async` wrapper
+exec()
 ```
 
 ## API
