@@ -46,7 +46,8 @@ async function read (config, req) {
   const { expires, data } = entry
 
   // Do not check for stale cache if offline on client-side
-  const offline = typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine;
+  const offline = typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine
+
   if (!offline && expires !== 0 && (expires < Date.now())) {
     config.debug('cache-stale', req.url)
     const error = new Error()
