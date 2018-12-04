@@ -74,5 +74,17 @@ function key (config) {
   return cacheKey
 }
 
-export { read, write, key }
-export default { read, write, key }
+function invalidate (config = {}) {
+  if (isFunction(config.invalidate)) return config.invalidate
+
+  return async (cfg, req) => {
+    const uuid = cfg.key(req)
+    const method = req.method.toLowerCase()
+    if (method !== 'get') {
+      await cfg.store.removeItem(uuid)
+    }
+  }
+}
+
+export { read, write, key, invalidate }
+export default { read, write, key, invalidate }

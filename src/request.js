@@ -18,13 +18,9 @@ async function request (config, req) {
   // We should exclude HEAD
   const method = req.method.toLowerCase()
 
-  if (method === 'head') {
-    return excludeFromCache()
-  }
+  await config.invalidate(config, req)
 
-  if (method !== 'get') {
-    await config.store.removeItem(uuid)
-
+  if (method === 'head' || method !== 'get') {
     return excludeFromCache()
   }
 

@@ -4,9 +4,8 @@ import assert from 'assert'
 import { isFunction } from 'lodash'
 
 import request from 'src/request'
-import { key } from 'src/cache'
+import { key, invalidate } from 'src/cache'
 import MemoryStore from 'src/memory'
-
 describe('Request', () => {
   const debug = () => {}
   // const debug = (...args) => { console.log(...args) }
@@ -23,7 +22,8 @@ describe('Request', () => {
     config = {
       key: key('test'),
       store,
-      debug
+      debug,
+      invalidate: invalidate()
     }
 
     req = {
