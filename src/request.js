@@ -10,6 +10,9 @@ async function request (config, req) {
 
   const next = (...args) => response(config, req, ...args)
 
+  // run invalidate function any cache items need to be invalidated.
+  await config.invalidate(config, req)
+  
   if (exclude(config, req)) {
     return excludeFromCache()
   }
@@ -18,7 +21,6 @@ async function request (config, req) {
   // We should exclude HEAD
   const method = req.method.toLowerCase()
 
-  await config.invalidate(config, req)
 
   if (method === 'head' || method !== 'get') {
     return excludeFromCache()
