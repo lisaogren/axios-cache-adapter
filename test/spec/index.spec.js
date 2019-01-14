@@ -283,6 +283,41 @@ describe('Integration', function () {
     assert.equal(data.data.url, url)
   })
 
+  it.only('Should be able to set caching options per request', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
+    const api = setup({
+      cache: {
+        debug: true,
+        maxAge: 15 * 60 * 1000
+      }
+    })
+
+    const request = (cache) => api({
+      url: 'https://httpbin.org/get',
+      method: 'get',
+      cache
+    })
+
+    let response = await request()
+    assert.ok(!response.request.fromCache)
+
+    await sleep(1000)
+
+    response = await request()
+    assert.ok(response.request.fromCache)
+
+    await api.cache.clear()
+
+    response = await request({ maxAge: 1 })
+    assert.ok(!response.request.fromCache)
+
+    await sleep(1000)
+
+    response = await request({ maxAge: 1 })
+    assert.ok(!response.request.fromCache)
+  })
+
   // Helpers
 
   function checkStoreInterface (store) {
@@ -295,3 +330,7 @@ describe('Integration', function () {
     assert.ok(isFunction(store.length))
   }
 })
+
+function sleep (time = 0) {
+  return new Promise((resolve) => setTimeout(resolve, time))
+}
