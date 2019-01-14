@@ -283,7 +283,7 @@ describe('Integration', function () {
     assert.equal(data.data.url, url)
   })
 
-  it.only('Should be able to set caching options per request', async function () {
+  it('Should be able to set caching options per request', async function () {
     this.timeout(REQUEST_TIMEOUT)
 
     const api = setup({
