@@ -260,7 +260,10 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 1,
-        readOnError: true
+        readOnError: (err, config) => {
+          return err.response.status === 404
+        },
+        clearOnStale: false
       }
     })
 
@@ -311,7 +314,7 @@ describe('Integration', function () {
 
     const api = setup({
       cache: {
-        debug: true,
+        // debug: true,
         maxAge: 15 * 60 * 1000
       }
     })

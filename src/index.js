@@ -33,7 +33,11 @@ function setupCache (config = {}) {
     try {
       res = await reqConfig.adapter(req)
     } catch (err) {
-      if (reqConfig.readOnError) {
+      let readOnError = isFunction(reqConfig.readOnError)
+        ? reqConfig.readOnError(err, req)
+        : reqConfig.readOnError
+
+      if (readOnError) {
         // Force cache tu return stale data
         reqConfig.acceptStale = true
 

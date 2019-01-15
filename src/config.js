@@ -47,9 +47,6 @@ const disallowedPerRequestKeys = ['limit', 'store', 'adapter']
 const makeConfig = function (override = {}) {
   let config = merge({}, defaults.cache, override)
 
-  // Watch out for configuration conflicts
-  if (config.readOnError) config.clearOnStale = false
-
   // Create a cache key method
   config.key = key(config)
 
@@ -59,6 +56,9 @@ const makeConfig = function (override = {}) {
   } else {
     config.debug = noop
   }
+
+  // Watch out for configuration conflicts
+  // if (config.readOnError && config.clearOnStale) config.debug('Conflicting configuration')
 
   // Create an in memory store if none was given
   if (!config.store) config.store = new MemoryStore()
