@@ -5,6 +5,9 @@ import has from 'lodash/has'
 import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
 
+import localforage from 'localforage'
+import memoryDriver from 'localforage-memoryStorageDriver'
+
 import { setup, setupCache } from 'src/index'
 import MemoryStore from 'src/memory'
 
@@ -249,6 +252,35 @@ describe('Integration', function () {
     //     assert.equal(response.data, 'foobar')
     //   })
     // })
+  })
+
+  it('Should take a localforage instance as store', async () => {
+    await localforage.defineDriver(memoryDriver)
+
+    const store = localforage.createInstance({
+      driver: memoryDriver._driver
+    })
+
+    const apiWithStore = setup({
+      cache: {
+        store
+      }
+    })
+
+    const url = 'https://httpbin.org/get'
+
+    const response = await apiWithStore({
+      url,
+      method: 'get'
+    })
+
+    assert.equal(response.status, 200)
+    assert.ok(isObject(response.data))
+
+    const { data } = await store.getItem(url)
+
+    assert.equal(data.status, 200)
+    assert.equal(data.data.url, url)
   })
 
   // Helpers
