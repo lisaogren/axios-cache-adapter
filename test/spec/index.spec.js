@@ -344,6 +344,17 @@ describe('Integration', function () {
     assert.ok(!response.request.fromCache)
   })
 
+  it('Should throw an error when a network error occurs and readOnError option is not activated', async () => {
+    const api = setup()
+
+    assertThrowsAsync(async () => {
+      const response = await api.get('https://httpbin.org/status/500')
+
+      // Should never get here
+      assert.ok(!response.request.fromCache)
+    })
+  })
+
   // Helpers
 
   function checkStoreInterface (store) {
@@ -359,4 +370,16 @@ describe('Integration', function () {
 
 function sleep (time = 0) {
   return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+async function assertThrowsAsync (fn, regExp) {
+  let f = () => {}
+
+  try {
+    await fn()
+  } catch (e) {
+    f = () => { throw e }
+  } finally {
+    assert.throws(f, regExp)
+  }
 }

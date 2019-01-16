@@ -50,6 +50,8 @@ function setupCache (config = {}) {
         // No need to check if `next` is a function just return cache data
         return res.next
       }
+
+      throw err
     }
 
     // Process response to store in cache
