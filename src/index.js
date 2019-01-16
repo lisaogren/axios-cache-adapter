@@ -30,30 +30,40 @@ function setupCache (config = {}) {
 
     // Nothing in cache so we execute the default adapter or any given adapter
     // Will throw if the request has a status different than 2xx
+    let networkError
+
     try {
       res = await reqConfig.adapter(req)
     } catch (err) {
+      networkError = err
+    }
+
+    if (networkError) {
       // Check if we should attempt reading stale cache data
       let readOnError = isFunction(reqConfig.readOnError)
-        ? reqConfig.readOnError(err, req)
+        ? reqConfig.readOnError(networkError, req)
         : reqConfig.readOnError
 
       if (readOnError) {
-        // Force cache tu return stale data
-        reqConfig.acceptStale = true
+        try {
+          // Force cache tu return stale data
+          reqConfig.acceptStale = true
 
-        // Try to read from cache again
-        res = await request(reqConfig, req)
+          // Try to read from cache again
+          res = await request(reqConfig, req)
 
-        // Signal that data is from stale cache
-        res.next.request.stale = true
+          // Signal that data is from stale cache
+          res.next.request.stale = true
 
-        // No need to check if `next` is a function just return cache data
-        return res.next
+          // No need to check if `next` is a function just return cache data
+          return res.next
+        } catch (cacheReadError) {
+          // Failed to read stale cache, do nothing here, just let the network error be thrown
+        }
       }
 
       // Re-throw error so that it can be caught in userland if we didn't find any stale cache to read
-      throw err
+      throw networkError
     }
 
     // Process response to store in cache
