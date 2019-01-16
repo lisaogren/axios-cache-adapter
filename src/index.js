@@ -19,7 +19,7 @@ function setupCache (config = {}) {
   // Axios adapter. Receives the axios request configuration as only parameter
   async function adapter (req) {
     // Merge the per-request config with the instance config.
-    const reqConfig = mergeRequestConfig(config, req.cache)
+    const reqConfig = mergeRequestConfig(config, req)
 
     // Execute request against local cache
     let res = await request(reqConfig, req)
