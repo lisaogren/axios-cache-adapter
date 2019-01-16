@@ -19,14 +19,14 @@ async function request (config, req) {
     return excludeFromCache()
   }
 
-  // clear cache if method different from GET.
-  // We should exclude HEAD
   const method = req.method.toLowerCase()
 
+  // We should exclude HEAD
   if (method === 'head') {
     return excludeFromCache()
   }
 
+  // clear cache if method different from GET.
   if (method !== 'get') {
     await config.store.removeItem(uuid)
 

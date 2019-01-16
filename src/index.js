@@ -33,6 +33,7 @@ function setupCache (config = {}) {
     try {
       res = await reqConfig.adapter(req)
     } catch (err) {
+      // Check if we should attempt reading stale cache data
       let readOnError = isFunction(reqConfig.readOnError)
         ? reqConfig.readOnError(err, req)
         : reqConfig.readOnError
@@ -51,6 +52,7 @@ function setupCache (config = {}) {
         return res.next
       }
 
+      // Re-throw error so that it can be caught in userland if we didn't find any stale cache to read
       throw err
     }
 
