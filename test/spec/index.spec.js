@@ -110,11 +110,19 @@ describe('Integration', function () {
       method: 'get'
     }
 
-    let response = await api2(definitionWithParams)
+    let response = await api2(definition)
 
     assert.equal(response.status, 200)
     assert.ok(isObject(response.data))
     assert.ok(has(response.data.args, 'userId'))
+    assert.ok(!response.request.fromCache)
+
+    response = await api2(definitionWithParams)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
+
+    definitionWithParams.params = new URLSearchParams('userId=2')
 
     response = await api2(definitionWithParams)
 
