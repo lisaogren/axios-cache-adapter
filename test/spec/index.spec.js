@@ -130,6 +130,36 @@ describe('Integration', function () {
     assert.ok(response.request.fromCache)
   })
 
+  it('Should cache GET requests with params even though URLSearchParams does not exist', async () => {
+    const URLSearchParamsBackup = URLSearchParams
+    window.URLSearchParams = undefined
+
+    const api = setup({
+      cache: {
+        exclude: { query: false }
+      }
+    })
+
+    const definition = {
+      url: 'https://httpbin.org/get',
+      params: { userId: 42 },
+      method: 'get'
+    }
+
+    let response = await api(definition)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(!response.request.fromCache)
+
+    response = await api(definition)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
+
+    window.URLSearchParams = URLSearchParamsBackup
+  })
+
   it('Should apply a cache size limit', async function () {
     this.timeout(REQUEST_TIMEOUT)
 
