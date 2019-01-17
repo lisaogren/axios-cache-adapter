@@ -6,8 +6,8 @@ import exclude from 'src/exclude'
 
 describe('Cache exclusion', () => {
   const url = 'https://some-rest.api/users'
-  // const debug = () => {}
-  const debug = (...args) => { console.log(...args) }
+  const debug = () => {}
+  // const debug = (...args) => { console.log(...args) }
 
   it('Should not exclude if not configured', () => {
     const config = { debug }
@@ -23,9 +23,11 @@ describe('Cache exclusion', () => {
 
     const reqWithQuery = { url: `${url}?with=query&params=42` }
     const reqWithParams = { url, params: { with: 'query', params: 42 } }
+    const reqWithSearchParams = { url, params: new URLSearchParams('with=query&params=42') }
 
     assert.ok(exclude(config, reqWithQuery))
     assert.ok(exclude(config, reqWithParams))
+    assert.ok(exclude(config, reqWithSearchParams))
   })
 
   it('Should not exclude requests with query parameters with config.exclude.query=false', () => {
@@ -36,9 +38,11 @@ describe('Cache exclusion', () => {
 
     const reqWithQuery = { url: `${url}?with=query&params=42` }
     const reqWithParams = { url, params: { with: 'query', params: 42 } }
+    const reqWithSearchParams = { url, params: new URLSearchParams('with=query&params=42') }
 
     assert.ok(!exclude(config, reqWithQuery))
     assert.ok(!exclude(config, reqWithParams))
+    assert.ok(!exclude(config, reqWithSearchParams))
   })
 
   it('Should exclude requests that match paths', () => {
