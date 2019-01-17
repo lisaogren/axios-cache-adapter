@@ -254,6 +254,32 @@ describe('Integration', function () {
     // })
   })
 
+  it('Should read stale cache data when a request error occurs when readOnError option is activated', async () => {
+    const url = 'https://httpbin.org/status/404'
+    const api5 = setup({
+      cache: {
+        // debug: true,
+        maxAge: 1,
+        readOnError: (err, config) => {
+          return err.response.status === 404
+        },
+        clearOnStale: false
+      }
+    })
+
+    await api5.cache.setItem(url, {
+      expires: Date.now() - (60 * 1000),
+      data: {
+        data: { yay: true }
+      }
+    })
+
+    const response = await api5({ url })
+
+    assert.ok(response.data.yay)
+    assert.ok(response.request.stale)
+  })
+
   it('Should take a localforage instance as store', async () => {
     await localforage.defineDriver(memoryDriver)
 
@@ -288,7 +314,7 @@ describe('Integration', function () {
 
     const api = setup({
       cache: {
-        debug: true,
+        // debug: true,
         maxAge: 15 * 60 * 1000
       }
     })
@@ -318,6 +344,17 @@ describe('Integration', function () {
     assert.ok(!response.request.fromCache)
   })
 
+  it('Should throw an error when a network error occurs and readOnError option is not activated', async () => {
+    const api = setup()
+
+    assertThrowsAsync(async () => {
+      const response = await api.get('https://httpbin.org/status/500')
+
+      // Should never get here
+      assert.ok(!response.request.fromCache)
+    })
+  })
+
   // Helpers
 
   function checkStoreInterface (store) {
@@ -333,4 +370,16 @@ describe('Integration', function () {
 
 function sleep (time = 0) {
   return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+async function assertThrowsAsync (fn, regExp) {
+  let f = () => {}
+
+  try {
+    await fn()
+  } catch (e) {
+    f = () => { throw e }
+  } finally {
+    assert.throws(f, regExp)
+  }
 }

@@ -175,6 +175,49 @@ async function exec () {
 exec()
 ```
 
+### Read stale cache data on network error
+
+You can tell `axios-cache-adapter` to read stale cache data when a network error occurs using the `readOnError` option.
+
+`readOnError` can either be a `Boolean` telling cache adapter to attempt reading stale cache when any network error happens or a `Function` which receives the error and request objects and then returns a `Boolean`.
+
+By default `axios-cache-adapter` clears stale cache data automatically, this would conflict with activating the `readOnError` option, so the `clearOnStale` option should be set to `false`.
+
+```js
+import { setup } from 'axios-cache-adapter'
+
+const api = setup({
+  cache: {
+    // Attempt reading stale cache data when response status is either 4xx or 5xx
+    readOnError: (error, request) => {
+      return error.response.status >= 400 && error.response.status < 600
+    },
+    // Deactivate `clearOnStale` option so that we can actually read stale cache data
+    clearOnStale: false
+  }
+})
+
+// Make a first successful request which will store the response in cache
+api.get('https://httpbin.org/get').then(response => {
+  // Response will not come from cache
+  assert.ok(response.request.fromCache !== true)
+})
+
+// Let's say that the stored data has become stale (default 15min max age has passed)
+// and we make the same request but it results in an internal server error (status=500)
+api.get('https://httpbin.org/get').then(response => {
+  // Response is served from cache
+  assert.ok(response.request.fromCache === true)
+  // We can check that it actually served stale cache data
+  assert.ok(response.request.stale === true)
+}).catch(err => {
+  // Will not execute this because stale cache data was returned
+  // If the attempt at reading stale cache fails, the network error will be thrown and this method executed
+})
+```
+
+_Note: Passing a function to `readOnError` is a smarter thing to do as you get to choose when a stale cache read should be attempted instead of doing it on all kind of errors_
+
 ## API
 
 ### setupCache(options)
@@ -194,6 +237,9 @@ where they will be stored, etc.
   * `paths {Array}`: An `Array` of regular expressions to match against request URLs, if a match is found it will be excluded, defaults to `[]`
 * `clearOnStale {Boolean}`: Clear cached item when it is stale, defaults to `true`
 * `clearOnError {Boolean}`: Clear all cache when a write error occurs (prevents size quota problems with `localStorage`)
+* `readOnError {Mixed}`: Can be a `Boolean` or a `Function` which receives `err`, the `axios` network error object, and `request`, the attempted request object, as parameters.
+If `readOnError` is `true` or the passed function returns `true`, the adapter will attempt to provide stale cache data and
+mark the response object by providing `response.request.stale === true`. Defaults to `false`.
 * `debug {Boolean}`: Print some logs to console, defaults to `false`
 
 #### Returns
