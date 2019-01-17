@@ -104,22 +104,60 @@ describe('Integration', function () {
       url: 'https://httpbin.org/get?userId=2',
       method: 'get'
     }
-    // const definitionWithParams = {
-    //   url: 'https://httpbin.org/get',
-    //   params: { userId: 2 },
-    //   method: 'get'
-    // }
+    const definitionWithParams = {
+      url: 'https://httpbin.org/get',
+      params: { userId: 2 },
+      method: 'get'
+    }
 
     let response = await api2(definition)
 
     assert.equal(response.status, 200)
     assert.ok(isObject(response.data))
     assert.ok(has(response.data.args, 'userId'))
+    assert.ok(!response.request.fromCache)
 
-    response = await api2(definition)
+    response = await api2(definitionWithParams)
 
     assert.ok(has(response.data.args, 'userId'))
     assert.ok(response.request.fromCache)
+
+    definitionWithParams.params = new URLSearchParams('userId=2')
+
+    response = await api2(definitionWithParams)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
+  })
+
+  it('Should cache GET requests with params even though URLSearchParams does not exist', async () => {
+    const URLSearchParamsBackup = URLSearchParams
+    window.URLSearchParams = undefined
+
+    const api = setup({
+      cache: {
+        exclude: { query: false }
+      }
+    })
+
+    const definition = {
+      url: 'https://httpbin.org/get',
+      params: { userId: 42 },
+      method: 'get'
+    }
+
+    let response = await api(definition)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(!response.request.fromCache)
+
+    response = await api(definition)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
+
+    window.URLSearchParams = URLSearchParamsBackup
   })
 
   it('Should apply a cache size limit', async function () {
