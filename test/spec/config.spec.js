@@ -5,7 +5,7 @@ import assert from 'assert'
 import config from 'src/config'
 
 describe('Per request config', () => {
-  // const debug = () => {}
+  const debug = () => {}
   // const debug = (...args) => { console.log(...args) }
 
   const globalConfig = {
@@ -22,7 +22,7 @@ describe('Per request config', () => {
     clearOnStale: true,
     clearOnError: true,
     readOnError: false,
-    debug: false
+    debug
   }
   const fakeRequest = {
     url: 'https://fake-url.com'

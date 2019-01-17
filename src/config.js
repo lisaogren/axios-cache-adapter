@@ -57,11 +57,10 @@ const makeConfig = function (override = {}) {
     config.debug = noop
   }
 
-  // Watch out for configuration conflicts
-  // if (config.readOnError && config.clearOnStale) config.debug('Conflicting configuration')
-
   // Create an in memory store if none was given
   if (!config.store) config.store = new MemoryStore()
+
+  config.debug('Global cache config', config)
 
   return config
 }
@@ -88,6 +87,8 @@ const mergeRequestConfig = function (config, req) {
 
   // Generate request UUID
   mergedConfig.uuid = config.key(req)
+
+  config.debug(`Request config for ${req.url}`, mergedConfig)
 
   return mergedConfig
 }

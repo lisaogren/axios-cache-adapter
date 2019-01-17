@@ -192,7 +192,7 @@ const api = setup({
     readOnError: (error, request) => {
       return error.response.status >= 400 && error.response.status < 600
     },
-    // Deactivate `clearOnStale` option so that we can actually read state cache data
+    // Deactivate `clearOnStale` option so that we can actually read stale cache data
     clearOnStale: false
   }
 })
@@ -209,7 +209,7 @@ api.get('https://httpbin.org/get').then(response => {
   // Response is served from cache
   assert.ok(response.request.fromCache === true)
   // We can check that it actually served stale cache data
-  assert.ok(response.request.state === true)
+  assert.ok(response.request.stale === true)
 }).catch(err => {
   // Will not execute this because stale cache data was returned
   // If the attempt at reading stale cache fails, the network error will be thrown and this method executed
@@ -239,7 +239,7 @@ where they will be stored, etc.
 * `clearOnError {Boolean}`: Clear all cache when a write error occurs (prevents size quota problems with `localStorage`)
 * `readOnError {Mixed}`: Can be a `Boolean` or a `Function` which receives `err`, the `axios` network error object, and `request`, the attempted request object, as parameters.
 If `readOnError` is `true` or the passed function returns `true`, the adapter will attempt to provide stale cache data and
-mark the response object by providing `response.request.state === true`. Defaults to `false`.
+mark the response object by providing `response.request.stale === true`. Defaults to `false`.
 * `debug {Boolean}`: Print some logs to console, defaults to `false`
 
 #### Returns
