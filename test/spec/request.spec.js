@@ -73,8 +73,29 @@ describe('Request', () => {
     assert.equal(length, 0)
   })
 
-  // Helpers
+  it('Should clear based on new invalidate function', async () => {
+    config.invalidate = async (cfg, req) => {
+      const method = req.method.toLowerCase()
+      const prefix = 'deleteme'
+      if (method === 'get') return
+      await cfg.store.iterate(async (_, key) => {
+        if (key.startsWith(prefix)) {
+          await config.store.removeItem(key)
+        }
+      })
+    }
+    req.method = 'POST'
+    await store.setItem('deleteme', res)
+    await store.setItem('url', res)
 
+    await request(config, req)
+
+    const length = await store.length()
+
+    assert.equal(length, 1)
+  })
+
+  // Helpers
   function testExclusion ({ next, config }) {
     assert.ok(isFunction(next))
     assert.ok(config.excludeFromCache)
