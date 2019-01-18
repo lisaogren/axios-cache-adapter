@@ -79,7 +79,7 @@ function invalidate (config = {}) {
   if (isFunction(config.invalidate)) return config.invalidate
 
   return async (cfg, req) => {
-    const uuid = cfg.key(req)
+    const uuid = cfg.uuid
     const method = req.method.toLowerCase()
     if (method !== 'get') {
       await cfg.store.removeItem(uuid)
