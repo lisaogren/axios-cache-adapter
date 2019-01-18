@@ -24,6 +24,7 @@ const defaults = {
     adapter: axios.defaults.adapter,
     clearOnStale: true,
     clearOnError: true,
+    readOnError: false,
     debug: false
   },
 
@@ -36,7 +37,7 @@ const defaults = {
 }
 
 // List of disallowed in the per-request config.
-const disallowedPerRequestKeys = ['limit', 'store', 'adapter']
+const disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'uuid', 'acceptStale']
 
 /**
  * Make a global config object.
@@ -60,6 +61,8 @@ const makeConfig = function (override = {}) {
   // Create an in memory store if none was given
   if (!config.store) config.store = new MemoryStore()
 
+  config.debug('Global cache config', config)
+
   return config
 }
 
@@ -72,15 +75,21 @@ const makeConfig = function (override = {}) {
  * axios, or the adapter, should be used.
  *
  * @param {Object} config Config object.
- * @param {Object} [requestConfig={}] The per-request config.
+ * @param {Object} req    The current axios request
  * @return {Object}
  */
-const mergeRequestConfig = function (config, requestConfig = {}) {
-  let mergedConfig = merge({}, config, omit(requestConfig, disallowedPerRequestKeys))
+const mergeRequestConfig = function (config, req) {
+  const requestConfig = req.cache
+  const mergedConfig = merge({}, config, omit(requestConfig, disallowedPerRequestKeys))
 
   if (mergedConfig.debug === true) {
     mergedConfig.debug = debug
   }
+
+  // Generate request UUID
+  mergedConfig.uuid = config.key(req)
+
+  config.debug(`Request config for ${req.url}`, mergedConfig)
 
   return mergedConfig
 }

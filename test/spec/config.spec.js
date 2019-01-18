@@ -1,19 +1,18 @@
 /* globals describe it */
 
 import assert from 'assert'
-import isEqual from 'lodash/isEqual'
 
 import config from 'src/config'
 
 describe('Per request config', () => {
-  // const debug = () => {}
+  const debug = () => {}
   // const debug = (...args) => { console.log(...args) }
 
   const globalConfig = {
     maxAge: 0,
     limit: false,
     store: null,
-    key: null,
+    key: req => req.url,
     exclude: {
       paths: [],
       query: true,
@@ -22,20 +21,21 @@ describe('Per request config', () => {
     adapter: null,
     clearOnStale: true,
     clearOnError: true,
-    debug: false
+    readOnError: false,
+    debug
+  }
+  const fakeRequest = {
+    url: 'https://fake-url.com'
   }
 
   it('Should merge per-request keys in a new object', () => {
     let requestConfig = { maxAge: 1000 }
-    let mergedConfig = config.mergeRequestConfig(globalConfig, requestConfig)
+    fakeRequest.cache = requestConfig
+
+    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+
     assert.notStrictEqual(globalConfig, mergedConfig)
     assert.notStrictEqual(requestConfig, mergedConfig)
-  })
-
-  it('Should accept an optional per-request config', () => {
-    let mergedConfig = config.mergeRequestConfig(globalConfig)
-    assert.notStrictEqual(globalConfig, mergedConfig)
-    assert.ok(isEqual(globalConfig, mergedConfig))
   })
 
   it('Should merge the permitted keys', () => {
@@ -47,7 +47,10 @@ describe('Per request config', () => {
       clearOnError: false,
       debug: () => {}
     }
-    let mergedConfig = config.mergeRequestConfig(globalConfig, requestConfig)
+    fakeRequest.cache = requestConfig
+
+    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+
     assert.equal(mergedConfig.maxAge, requestConfig.maxAge)
     assert.equal(mergedConfig.key, requestConfig.key)
     assert.equal(mergedConfig.exclude, requestConfig.exclude)
@@ -67,19 +70,29 @@ describe('Per request config', () => {
     let requestConfig = {
       limit: true,
       store: 'abc',
-      adapter: 'whoops'
+      adapter: 'whoops',
+      uuid: '1234',
+      acceptStale: true
     }
-    let mergedConfig = config.mergeRequestConfig(globalConfig, requestConfig)
+    fakeRequest.cache = requestConfig
+
+    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+
     assert.equal(mergedConfig.limit, globalConfig.limit)
     assert.equal(mergedConfig.store, globalConfig.store)
     assert.equal(mergedConfig.adapter, globalConfig.adapter)
+    assert.equal(mergedConfig.uuid, globalConfig.key(fakeRequest))
+    assert.equal(mergedConfig.acceptStale, globalConfig.acceptStale)
   })
 
   it('Should transform the debug key when true', () => {
     let requestConfig = {
       debug: true
     }
-    let mergedConfig = config.mergeRequestConfig(globalConfig, requestConfig)
+    fakeRequest.cache = requestConfig
+
+    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+
     assert.ok(typeof mergedConfig.debug === 'function')
   })
 })

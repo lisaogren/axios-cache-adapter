@@ -5,6 +5,9 @@ import has from 'lodash/has'
 import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
 
+import localforage from 'localforage'
+import memoryDriver from 'localforage-memoryStorageDriver'
+
 import { setup, setupCache } from 'src/index'
 import MemoryStore from 'src/memory'
 
@@ -101,22 +104,60 @@ describe('Integration', function () {
       url: 'https://httpbin.org/get?userId=2',
       method: 'get'
     }
-    // const definitionWithParams = {
-    //   url: 'https://httpbin.org/get',
-    //   params: { userId: 2 },
-    //   method: 'get'
-    // }
+    const definitionWithParams = {
+      url: 'https://httpbin.org/get',
+      params: { userId: 2 },
+      method: 'get'
+    }
 
     let response = await api2(definition)
 
     assert.equal(response.status, 200)
     assert.ok(isObject(response.data))
     assert.ok(has(response.data.args, 'userId'))
+    assert.ok(!response.request.fromCache)
 
-    response = await api2(definition)
+    response = await api2(definitionWithParams)
 
     assert.ok(has(response.data.args, 'userId'))
     assert.ok(response.request.fromCache)
+
+    definitionWithParams.params = new URLSearchParams('userId=2')
+
+    response = await api2(definitionWithParams)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
+  })
+
+  it('Should cache GET requests with params even though URLSearchParams does not exist', async () => {
+    const URLSearchParamsBackup = URLSearchParams
+    window.URLSearchParams = undefined
+
+    const api = setup({
+      cache: {
+        exclude: { query: false }
+      }
+    })
+
+    const definition = {
+      url: 'https://httpbin.org/get',
+      params: { userId: 42 },
+      method: 'get'
+    }
+
+    let response = await api(definition)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(!response.request.fromCache)
+
+    response = await api(definition)
+
+    assert.ok(has(response.data.args, 'userId'))
+    assert.ok(response.request.fromCache)
+
+    window.URLSearchParams = URLSearchParamsBackup
   })
 
   it('Should apply a cache size limit', async function () {
@@ -251,6 +292,107 @@ describe('Integration', function () {
     // })
   })
 
+  it('Should read stale cache data when a request error occurs when readOnError option is activated', async () => {
+    const url = 'https://httpbin.org/status/404'
+    const api5 = setup({
+      cache: {
+        // debug: true,
+        maxAge: 1,
+        readOnError: (err, config) => {
+          return err.response.status === 404
+        },
+        clearOnStale: false
+      }
+    })
+
+    await api5.cache.setItem(url, {
+      expires: Date.now() - (60 * 1000),
+      data: {
+        data: { yay: true }
+      }
+    })
+
+    const response = await api5({ url })
+
+    assert.ok(response.data.yay)
+    assert.ok(response.request.stale)
+  })
+
+  it('Should take a localforage instance as store', async () => {
+    await localforage.defineDriver(memoryDriver)
+
+    const store = localforage.createInstance({
+      driver: memoryDriver._driver
+    })
+
+    const apiWithStore = setup({
+      cache: {
+        store
+      }
+    })
+
+    const url = 'https://httpbin.org/get'
+
+    const response = await apiWithStore({
+      url,
+      method: 'get'
+    })
+
+    assert.equal(response.status, 200)
+    assert.ok(isObject(response.data))
+
+    const { data } = await store.getItem(url)
+
+    assert.equal(data.status, 200)
+    assert.equal(data.data.url, url)
+  })
+
+  it('Should be able to set caching options per request', async function () {
+    this.timeout(REQUEST_TIMEOUT)
+
+    const api = setup({
+      cache: {
+        // debug: true,
+        maxAge: 15 * 60 * 1000
+      }
+    })
+
+    const request = (cache) => api({
+      url: 'https://httpbin.org/get',
+      method: 'get',
+      cache
+    })
+
+    let response = await request()
+    assert.ok(!response.request.fromCache)
+
+    await sleep(1000)
+
+    response = await request()
+    assert.ok(response.request.fromCache)
+
+    await api.cache.clear()
+
+    response = await request({ maxAge: 1 })
+    assert.ok(!response.request.fromCache)
+
+    await sleep(1000)
+
+    response = await request({ maxAge: 1 })
+    assert.ok(!response.request.fromCache)
+  })
+
+  it('Should throw an error when a network error occurs and readOnError option is not activated', async () => {
+    const api = setup()
+
+    assertThrowsAsync(async () => {
+      const response = await api.get('https://httpbin.org/status/500')
+
+      // Should never get here
+      assert.ok(!response.request.fromCache)
+    })
+  })
+
   // Helpers
 
   function checkStoreInterface (store) {
@@ -263,3 +405,19 @@ describe('Integration', function () {
     assert.ok(isFunction(store.length))
   }
 })
+
+function sleep (time = 0) {
+  return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+async function assertThrowsAsync (fn, regExp) {
+  let f = () => {}
+
+  try {
+    await fn()
+  } catch (e) {
+    f = () => { throw e }
+  } finally {
+    assert.throws(f, regExp)
+  }
+}

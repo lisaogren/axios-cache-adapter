@@ -11,7 +11,9 @@ function exclude (config = {}, req) {
   }
 
   // do not cache request with query
-  const hasQueryParams = req.url.match(/\?.*$/) || !isEmpty(req.params)
+  const hasQueryParams = req.url.match(/\?.*$/) ||
+    !isEmpty(req.params) ||
+    (typeof URLSearchParams !== 'undefined' && req.params instanceof URLSearchParams)
 
   if (exclude.query && hasQueryParams) {
     debug(`Excluding request by query ${req.url}`)

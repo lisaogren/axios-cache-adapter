@@ -1,12 +1,9 @@
-import extend from 'lodash/extend'
-
 import response from './response'
 import exclude from './exclude'
 import { read } from './cache'
 
 async function request (config, req) {
-  const uuid = config.key(req)
-  config = extend({}, config, { uuid })
+  config.debug('uuid', config.uuid)
 
   const next = (...args) => response(config, req, ...args)
 
@@ -17,8 +14,6 @@ async function request (config, req) {
     return excludeFromCache()
   }
 
-  // clear cache if method different from GET.
-  // We should exclude HEAD
   const method = req.method.toLowerCase()
 
   if (method === 'head' || method !== 'get') {
@@ -35,7 +30,7 @@ async function request (config, req) {
   } catch (err) {
     // clean up cache if stale
     if (config.clearOnStale && err.reason === 'cache-stale') {
-      await config.store.removeItem(uuid)
+      await config.store.removeItem(config.uuid)
     }
 
     return { config, next }

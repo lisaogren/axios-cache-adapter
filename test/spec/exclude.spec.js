@@ -15,7 +15,7 @@ describe('Cache exclusion', () => {
     assert.equal(exclude(config, { url }), false)
   })
 
-  it('Should exclude requests with query parameters', () => {
+  it('Should exclude requests with query parameters with config.exclude.query=true', () => {
     const config = {
       exclude: { query: true },
       debug
@@ -23,9 +23,26 @@ describe('Cache exclusion', () => {
 
     const reqWithQuery = { url: `${url}?with=query&params=42` }
     const reqWithParams = { url, params: { with: 'query', params: 42 } }
+    const reqWithSearchParams = { url, params: new URLSearchParams('with=query&params=42') }
 
     assert.ok(exclude(config, reqWithQuery))
     assert.ok(exclude(config, reqWithParams))
+    assert.ok(exclude(config, reqWithSearchParams))
+  })
+
+  it('Should not exclude requests with query parameters with config.exclude.query=false', () => {
+    const config = {
+      exclude: { query: false },
+      debug
+    }
+
+    const reqWithQuery = { url: `${url}?with=query&params=42` }
+    const reqWithParams = { url, params: { with: 'query', params: 42 } }
+    const reqWithSearchParams = { url, params: new URLSearchParams('with=query&params=42') }
+
+    assert.ok(!exclude(config, reqWithQuery))
+    assert.ok(!exclude(config, reqWithParams))
+    assert.ok(!exclude(config, reqWithSearchParams))
   })
 
   it('Should exclude requests that match paths', () => {

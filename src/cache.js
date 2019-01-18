@@ -1,5 +1,6 @@
 import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
+import map from 'lodash/map'
 
 import serialize from './serialize'
 
@@ -48,7 +49,7 @@ async function read (config, req) {
   // Do not check for stale cache if offline on client-side
   const offline = typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine
 
-  if (!offline && expires !== 0 && (expires < Date.now())) {
+  if (!offline && !config.acceptStale && expires !== 0 && (expires < Date.now())) {
     config.debug('cache-stale', req.url)
     const error = new Error()
 
@@ -58,7 +59,7 @@ async function read (config, req) {
     throw error
   }
 
-  config.debug('cache-hit', req.url)
+  config.debug(config.acceptStale ? 'cache-hit-stale' : 'cache-hit', req.url)
 
   return data
 }
@@ -68,8 +69,8 @@ function key (config) {
 
   let cacheKey
 
-  if (isString(config.key)) cacheKey = req => `${config.key}/${req.url}`
-  else cacheKey = req => req.url
+  if (isString(config.key)) cacheKey = req => `${config.key}/${req.url}${serializeQuery(req)}`
+  else cacheKey = req => req.url + serializeQuery(req)
 
   return cacheKey
 }
@@ -84,6 +85,27 @@ function invalidate (config = {}) {
       await cfg.store.removeItem(uuid)
     }
   }
+}
+
+function serializeQuery (req) {
+  if (!req.params) return ''
+
+  // Probably server-side, just stringify the object
+  if (typeof URLSearchParams === 'undefined') return JSON.stringify(req.params)
+
+  const isInstanceOfURLSearchParams = req.params instanceof URLSearchParams
+
+  // Convert to an instance of URLSearchParams so it get serialized the same way
+  if (!isInstanceOfURLSearchParams) {
+    const params = req.params
+
+    req.params = new URLSearchParams()
+
+    // Using lodash/map even though we don't listen to output so we don't have to bundle lodash/forEach
+    map(params, (value, key) => req.params.append(key, value))
+  }
+
+  return `?${req.params.toString()}`
 }
 
 export { read, write, key, invalidate }

@@ -23,7 +23,6 @@ const dependencies = [
   'lodash/size',
   'lodash/find',
   'lodash/map',
-  'lodash/extend',
   'lodash/merge',
   'lodash/omit',
   'axios'

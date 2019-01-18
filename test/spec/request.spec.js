@@ -31,6 +31,8 @@ describe('Request', () => {
       method: 'GET'
     }
 
+    config.uuid = config.key(req)
+
     res = { data: { youhou: true }, request: { fake: true }, config }
   })
 
