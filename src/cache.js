@@ -75,16 +75,17 @@ function key (config) {
   return cacheKey
 }
 
+async function defaultInvalidate (cfg, req) {
+  const uuid = cfg.uuid
+  const method = req.method.toLowerCase()
+  if (method !== 'get') {
+    await cfg.store.removeItem(uuid)
+  }
+}
+
 function invalidate (config = {}) {
   if (isFunction(config.invalidate)) return config.invalidate
-
-  return async (cfg, req) => {
-    const uuid = cfg.uuid
-    const method = req.method.toLowerCase()
-    if (method !== 'get') {
-      await cfg.store.removeItem(uuid)
-    }
-  }
+  return defaultInvalidate
 }
 
 function serializeQuery (req) {
