@@ -3,7 +3,7 @@ import merge from 'lodash/merge'
 import omit from 'lodash/omit'
 
 import MemoryStore from './memory'
-import { key } from './cache'
+import { key, invalidate } from './cache'
 
 const noop = () => {}
 const debug = (...args) => console.log('[axios-cache-adapter]', ...args)
@@ -15,6 +15,7 @@ const defaults = {
     limit: false,
     store: null,
     key: null,
+    invalidate: null,
     exclude: {
       paths: [],
       query: true,
@@ -49,7 +50,7 @@ const makeConfig = function (override = {}) {
 
   // Create a cache key method
   config.key = key(config)
-
+  config.invalidate = invalidate(config)
   // If debug mode is on, create a simple logger method
   if (config.debug !== false) {
     config.debug = typeof config.debug === 'function' ? config.debug : debug

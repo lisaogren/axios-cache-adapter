@@ -75,6 +75,18 @@ function key (config) {
   return cacheKey
 }
 
+async function defaultInvalidate (cfg, req) {
+  const method = req.method.toLowerCase()
+  if (method !== 'get') {
+    await cfg.store.removeItem(cfg.uuid)
+  }
+}
+
+function invalidate (config = {}) {
+  if (isFunction(config.invalidate)) return config.invalidate
+  return defaultInvalidate
+}
+
 function serializeQuery (req) {
   if (!req.params) return ''
 
@@ -96,5 +108,5 @@ function serializeQuery (req) {
   return `?${req.params.toString()}`
 }
 
-export { read, write, key }
-export default { read, write, key }
+export { read, write, key, invalidate }
+export default { read, write, key, invalidate }

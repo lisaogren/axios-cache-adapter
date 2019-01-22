@@ -7,21 +7,16 @@ async function request (config, req) {
 
   const next = (...args) => response(config, req, ...args)
 
+  // run invalidate function to check if any cache items need to be invalidated.
+  await config.invalidate(config, req)
+
   if (exclude(config, req)) {
     return excludeFromCache()
   }
 
   const method = req.method.toLowerCase()
 
-  // We should exclude HEAD
-  if (method === 'head') {
-    return excludeFromCache()
-  }
-
-  // clear cache if method different from GET.
-  if (method !== 'get') {
-    await config.store.removeItem(config.uuid)
-
+  if (method === 'head' || method !== 'get') {
     return excludeFromCache()
   }
 

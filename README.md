@@ -218,6 +218,51 @@ api.get('https://httpbin.org/get').then(response => {
 
 _Note: Passing a function to `readOnError` is a smarter thing to do as you get to choose when a stale cache read should be attempted instead of doing it on all kind of errors_
 
+### Invalidate cache entries
+
+By default, a cache entry will be invalidated when a `POST`, `PUT`, `PATCH` or `DELETE` request is made to the same URL using the following method:
+
+```js
+async defaultInvalidate (config, request) {
+  const method = request.method.toLowerCase()
+
+  if (method !== 'get') {
+    await config.store.removeItem(config.uuid)
+  }
+}
+```
+
+You can customize how `axios-cache-adapter` invalidates stored cache entries by providing a custom `invalidate` function.
+
+```js
+import { setup } from 'axios-cache-adapter'
+
+// Create cached axios instance with custom invalidate method
+const api = setup({
+  cache: {
+    // Invalidate only when a specific option is passed through config
+    invalidate: async (config, request) => {
+      if (config.clearCacheEntry) {
+        await config.store.removeItem(config.uuid)
+      }
+    }
+  }
+})
+
+// Make a request that will get stored into cache
+api.get('https://httpbin.org/get').then(response => {
+  assert.ok(response.request.fromCache === false)
+})
+
+// Wait some time
+
+// Make another request to same end point but force cache invalidation
+api.get('https://httpbin.org/get', { clearCacheEntry: true }).then(response => {
+  // Response should not come from cache
+  assert.ok(response.request.fromCache === false)
+})
+```
+
 ## API
 
 ### setupCache(options)
@@ -227,20 +272,43 @@ where they will be stored, etc.
 
 #### Options
 
-* `maxAge {Number}`: Maximum time for storing each request in milliseconds, defaults to 15 minutes (`15 * 60 * 1000`)
-* `limit {Number}`: Maximum number of cached request (last in, first out queue system), no limit by default
-* `store {Object}`: An instance of [`localForage`](https://github.com/localForage/localForage), defaults to a custom in memory store
-* `key {Mixed}`: Can either be a `String` or a `Function` which receives the `request` object as first parameter to return a unique cache key for each request. Defaults to `req => req.url`
-* `exclude {Object}`: Object defining which kind of requests should be excluded from cache
-  * `filter {Function}`: A method which receives the request and returns `true` to exclude request from cache, defaults to `null`
-  * `query {Boolean}`: If `true` all requests containing a query will be excluded, defaults to `true`
-  * `paths {Array}`: An `Array` of regular expressions to match against request URLs, if a match is found it will be excluded, defaults to `[]`
-* `clearOnStale {Boolean}`: Clear cached item when it is stale, defaults to `true`
-* `clearOnError {Boolean}`: Clear all cache when a write error occurs (prevents size quota problems with `localStorage`)
-* `readOnError {Mixed}`: Can be a `Boolean` or a `Function` which receives `err`, the `axios` network error object, and `request`, the attempted request object, as parameters.
-If `readOnError` is `true` or the passed function returns `true`, the adapter will attempt to provide stale cache data and
-mark the response object by providing `response.request.stale === true`. Defaults to `false`.
-* `debug {Boolean}`: Print some logs to console, defaults to `false`
+```js
+// Options passed to `setupCache()`.
+{
+  // {Number} Maximum time for storing each request in milliseconds, default to 15 minutes when using `setup()`.
+  maxAge: 0,
+  // {Number} Maximum number of cached request (last in, first out queue system), set `false` for no limit.
+  limit: false,
+  // {Object} An instance of localforage, defaults to a custom in memory store.
+  store: new MemoryStore(),
+  // {String|Function} Generate a unique cache key for the request. Will use request url and serialized params by default.
+  key: req => req.url + serializeQuery(req.params),
+  // {Function} Invalidate stored cache. By default will remove cache when making a `POST`, `PUT`, `PATCH` or `DELETE` query.
+  invalidate: async (cfg, req) => {
+    const method = req.method.toLowerCase()
+    if (method !== 'get') {
+      await cfg.store.removeItem(cfg.uuid)
+    }
+  },
+  // {Object} Define which kind of requests should be excluded from cache.
+  exclude: {
+    // {Array} List of regular expressions to match against request URLs.
+    paths: [],
+    // {Boolean} Exclude requests with query parameters.
+    query: true,
+    // {Function} Method which returns a `Boolean` to determine if request should be excluded from cache.
+    filter: null
+  },
+  // {Boolean} Clear cached item when it is stale.
+  clearOnStale: true,
+  // {Boolean} Clear all cache when a cache write error occurs (prevents size quota problems in `localStorage`).
+  clearOnError: true,
+  // {Function|Boolean} Determine if stale cache should be read when a network error occurs.
+  readOnError: false,
+  // {Function|Boolean} Print out debug log to console.
+  debug: false
+}
+```
 
 #### Returns
 
@@ -253,9 +321,17 @@ axios at the same time.
 
 #### Options
 
-* `cache {Object}`: Same options as the `setupCache` method
+```js
+{
+  cache: {
+    // Options passed to the `setupCache()` method
+  }
 
-All the other parameters passed in the `options` will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#creating-an-instance) method.
+  // Options passed to `axios.create()` method
+}
+```
+
+All the other parameters will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#creating-an-instance) method.
 
 #### Returns
 
