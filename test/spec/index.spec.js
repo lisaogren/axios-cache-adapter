@@ -393,6 +393,17 @@ describe('Integration', function () {
     })
   })
 
+  // it('Should read response cache-control header', async () => {
+  //   const api = setup({
+  //     baseURL: 'https://httpbin.org',
+  //     cache: { readCacheControl: true }
+  //   })
+
+  //   const response = await api.get('/cache/1234')
+
+  //   console.log(response.headers)
+  // })
+
   // Helpers
 
   function checkStoreInterface (store) {

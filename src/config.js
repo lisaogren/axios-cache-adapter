@@ -25,6 +25,7 @@ const defaults = {
     clearOnStale: true,
     clearOnError: true,
     readOnError: false,
+    readCacheControl: false,
     debug: false
   },
 
