@@ -263,6 +263,40 @@ api.get('https://httpbin.org/get', { clearCacheEntry: true }).then(response => {
 })
 ```
 
+### Use response headers to automatically set `maxAge`
+
+When you set the `readHeaders` option to `true`, the adapter will try to read `cache-control` or `expires` headers to automatically set the `maxAge` option for the given request.
+
+```js
+import assert from 'assert'
+import { setup } from 'axios-cache-adapter'
+
+const api = setup({
+  cache: {
+    // Tell adapter to attempt using response headers
+    readHeaders: true,
+    // For this example to work we disable query exclusion
+    exclude: { query: false }
+  }
+})
+
+// Make a request which will respond with header `cache-control: max-age=60`
+api.get('https://httpbin.org/cache/60').then(response => {
+  // Cached `response` will expire one minute later
+})
+
+// Make a request which responds with header `cache-control: no-cache`
+api.get('https://httpbin.org/response-headers?cache-control=no-cache').then(response => {
+  // Response will not come from cache
+  assert.ok(response.request.fromCache === false)
+
+  // Check that query was excluded from cache
+  assert.ok(response.request.excludedFromCache === true)
+})
+```
+
+_Note: For the `cache-control` header, only the `max-age`, `no-cache` and `no-store` values are interpreted._
+
 ## API
 
 ### setupCache(options)
@@ -275,15 +309,19 @@ where they will be stored, etc.
 ```js
 // Options passed to `setupCache()`.
 {
-  // {Number} Maximum time for storing each request in milliseconds, default to 15 minutes when using `setup()`.
+  // {Number} Maximum time for storing each request in milliseconds,
+  // defaults to 15 minutes when using `setup()`.
   maxAge: 0,
-  // {Number} Maximum number of cached request (last in, first out queue system), set `false` for no limit.
+  // {Number} Maximum number of cached request (last in, first out queue system),
+  // defaults to `false` for no limit.
   limit: false,
   // {Object} An instance of localforage, defaults to a custom in memory store.
   store: new MemoryStore(),
-  // {String|Function} Generate a unique cache key for the request. Will use request url and serialized params by default.
+  // {String|Function} Generate a unique cache key for the request.
+  // Will use request url and serialized params by default.
   key: req => req.url + serializeQuery(req.params),
-  // {Function} Invalidate stored cache. By default will remove cache when making a `POST`, `PUT`, `PATCH` or `DELETE` query.
+  // {Function} Invalidate stored cache. By default will remove cache when
+  // making a `POST`, `PUT`, `PATCH` or `DELETE` query.
   invalidate: async (cfg, req) => {
     const method = req.method.toLowerCase()
     if (method !== 'get') {
@@ -296,15 +334,20 @@ where they will be stored, etc.
     paths: [],
     // {Boolean} Exclude requests with query parameters.
     query: true,
-    // {Function} Method which returns a `Boolean` to determine if request should be excluded from cache.
+    // {Function} Method which returns a `Boolean` to determine if request
+    // should be excluded from cache.
     filter: null
   },
   // {Boolean} Clear cached item when it is stale.
   clearOnStale: true,
-  // {Boolean} Clear all cache when a cache write error occurs (prevents size quota problems in `localStorage`).
+  // {Boolean} Clear all cache when a cache write error occurs
+  // (prevents size quota problems in `localStorage`).
   clearOnError: true,
   // {Function|Boolean} Determine if stale cache should be read when a network error occurs.
   readOnError: false,
+  // {Boolean} Determine if response headers should be read to set `maxAge` automatically.
+  // Will try to parse `cache-control` or `expires` headers.
+  readHeaders: false,
   // {Function|Boolean} Print out debug log to console.
   debug: false
 }
