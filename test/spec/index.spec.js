@@ -4,6 +4,7 @@ import assert from 'assert'
 import has from 'lodash/has'
 import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
+import MockDate from 'mockdate'
 
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
@@ -393,16 +394,48 @@ describe('Integration', function () {
     })
   })
 
-  // it('Should read response cache-control header', async () => {
-  //   const api = setup({
-  //     baseURL: 'https://httpbin.org',
-  //     cache: { readCacheControl: true }
-  //   })
+  it('Should read max-age from cache-control header', async () => {
+    MockDate.set(10000000)
 
-  //   const response = await api.get('/cache/1234')
+    const api = setup({
+      baseURL: 'https://httpbin.org',
+      cache: { readCacheControl: true }
+    })
 
-  //   console.log(response.headers)
-  // })
+    const response = await api.get('/cache/2345')
+
+    assert.ok(!response.request.fromCache)
+
+    const item = await api.cache.getItem('https://httpbin.org/cache/2345')
+
+    assert.equal(item.expires, 12345000)
+
+    MockDate.reset()
+  })
+
+  it('Should exclude from cache when reading no-cache or must-revalidate from cache-control', async () => {
+    const baseURL = 'https://httpbin.org'
+    const noCacheRoute = '/response-headers?cache-control=no-cache'
+    const noStoreRoute = '/response-headers?cache-control=no-store'
+
+    const api = setup({
+      baseURL,
+      cache: {
+        readCacheControl: true,
+        exclude: { query: false }
+      }
+    })
+
+    let response = await api.get(noCacheRoute)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(response.request.excludedFromCache)
+
+    response = await api.get(noStoreRoute)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(response.request.excludedFromCache)
+  })
 
   // Helpers
 

@@ -15,7 +15,7 @@ async function response (config, req, res) {
   if (config.readCacheControl && headers['cache-control']) {
     cacheControl = parse(headers['cache-control'])
 
-    if (cacheControl.mustRevalidate || cacheControl.noCache) {
+    if (cacheControl.noCache || cacheControl.noStore) {
       config.excludeFromCache = true
     }
   }
@@ -35,6 +35,8 @@ async function response (config, req, res) {
     }
 
     await write(config, req, res)
+  } else {
+    res.request.excludedFromCache = true
   }
 
   return res
