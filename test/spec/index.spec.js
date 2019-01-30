@@ -399,7 +399,7 @@ describe('Integration', function () {
 
     const api = setup({
       baseURL: 'https://httpbin.org',
-      cache: { readCacheControl: true }
+      cache: { readHeaders: true }
     })
 
     const response = await api.get('/cache/2345')
@@ -421,7 +421,7 @@ describe('Integration', function () {
     const api = setup({
       baseURL,
       cache: {
-        readCacheControl: true,
+        readHeaders: true,
         exclude: { query: false }
       }
     })
@@ -435,6 +435,34 @@ describe('Integration', function () {
 
     assert.ok(!response.request.fromCache)
     assert.ok(response.request.excludedFromCache)
+  })
+
+  it('Should read expires header', async () => {
+    const baseURL = 'https://httpbin.org'
+    const dateInThePast = 'Sun, 06 Nov 1994 08:49:37 GMT'
+    const route = '/response-headers?expires=' + encodeURIComponent(dateInThePast)
+
+    const api = setup({
+      baseURL,
+      cache: {
+        readHeaders: true,
+        exclude: { query: false }
+      }
+    })
+
+    let response = await api.get(route)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(!response.request.excludedFromCache)
+
+    const item = await api.cache.getItem(baseURL + route)
+
+    assert.equal(item.expires, new Date(dateInThePast).getTime())
+
+    response = await api.get(route)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(!response.request.excludedFromCache)
   })
 
   // Helpers
