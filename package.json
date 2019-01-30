@@ -41,7 +41,7 @@
     "@babel/core": "^7.1.2",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
-    "@tusbar/cache-control": "^0.3.1",
+    "@tusbar/cache-control": "0.3.1",
     "assert": "^1.4.1",
     "babel-loader": "^8.0.4",
     "codecov": "^3.0.0",
