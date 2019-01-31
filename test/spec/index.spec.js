@@ -4,6 +4,7 @@ import assert from 'assert'
 import has from 'lodash/has'
 import isObject from 'lodash/isObject'
 import isFunction from 'lodash/isFunction'
+import MockDate from 'mockdate'
 
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
@@ -391,6 +392,77 @@ describe('Integration', function () {
       // Should never get here
       assert.ok(!response.request.fromCache)
     })
+  })
+
+  it('Should read max-age from cache-control header', async () => {
+    MockDate.set(10000000)
+
+    const api = setup({
+      baseURL: 'https://httpbin.org',
+      cache: { readHeaders: true }
+    })
+
+    const response = await api.get('/cache/2345')
+
+    assert.ok(!response.request.fromCache)
+
+    const item = await api.cache.getItem('https://httpbin.org/cache/2345')
+
+    assert.equal(item.expires, 12345000)
+
+    MockDate.reset()
+  })
+
+  it('Should exclude from cache when reading no-cache or must-revalidate from cache-control', async () => {
+    const baseURL = 'https://httpbin.org'
+    const noCacheRoute = '/response-headers?cache-control=no-cache'
+    const noStoreRoute = '/response-headers?cache-control=no-store'
+
+    const api = setup({
+      baseURL,
+      cache: {
+        readHeaders: true,
+        exclude: { query: false }
+      }
+    })
+
+    let response = await api.get(noCacheRoute)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(response.request.excludedFromCache)
+
+    response = await api.get(noStoreRoute)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(response.request.excludedFromCache)
+  })
+
+  it('Should read expires header', async () => {
+    const baseURL = 'https://httpbin.org'
+    const dateInThePast = 'Sun, 06 Nov 1994 08:49:37 GMT'
+    const route = '/response-headers?expires=' + encodeURIComponent(dateInThePast)
+
+    const api = setup({
+      baseURL,
+      cache: {
+        readHeaders: true,
+        exclude: { query: false }
+      }
+    })
+
+    let response = await api.get(route)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(!response.request.excludedFromCache)
+
+    const item = await api.cache.getItem(baseURL + route)
+
+    assert.equal(item.expires, new Date(dateInThePast).getTime())
+
+    response = await api.get(route)
+
+    assert.ok(!response.request.fromCache)
+    assert.ok(!response.request.excludedFromCache)
   })
 
   // Helpers
