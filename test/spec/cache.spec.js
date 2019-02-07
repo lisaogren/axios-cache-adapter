@@ -120,17 +120,9 @@ describe('Cache store', () => {
 
   it('Should ignore cache', async () => {
     await cache.write(config, req, res)
-
-    const cacheData = await cache.read(config, req)
-
-    assert.ok(cacheData.data.youhou)
-
-    await cache.write(config, req, res)
     config.ignoreCache = true
     try {
-      // Not returning a variable makes the saga tests... \_()_/
-      /* eslint-disable-next-line */
-      const _ = await cache.read(config, req)
+      await cache.read(config, req)
     } catch (err) {
       assert.equal(err.reason, 'cache-miss')
     }
