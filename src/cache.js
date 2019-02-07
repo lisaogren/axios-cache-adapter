@@ -30,11 +30,11 @@ async function write (config, req, res) {
 }
 
 async function read (config, req) {
-  const { uuid } = config
+  const { uuid, ignoreCache } = config
 
   const entry = await config.store.getItem(uuid)
 
-  if (!entry || !entry.data) {
+  if (ignoreCache || !entry || !entry.data) {
     config.debug('cache-miss', req.url)
     const error = new Error()
 
