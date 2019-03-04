@@ -118,6 +118,16 @@ describe('Cache store', () => {
     assert.ok(cacheData.data.youhou)
   })
 
+  it('Should ignore cache', async () => {
+    await cache.write(config, req, res)
+    config.ignoreCache = true
+    try {
+      await cache.read(config, req)
+    } catch (err) {
+      assert.equal(err.reason, 'cache-miss')
+    }
+  })
+
   it('Should generate a cache key', () => {
     const expected = function key () {}
 

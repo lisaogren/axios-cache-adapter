@@ -26,7 +26,8 @@ const defaults = {
     clearOnError: true,
     readOnError: false,
     readHeaders: false,
-    debug: false
+    debug: false,
+    ignoreCache: false
   },
 
   // Additional defaults when creating the axios instance with the cache adapter.
