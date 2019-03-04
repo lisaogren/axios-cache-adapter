@@ -9,7 +9,7 @@ import MockDate from 'mockdate'
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
 
-import { setup, setupCache } from 'src/index'
+import { setup, setupCache, serializeQuery } from 'src/index'
 import MemoryStore from 'src/memory'
 
 const REQUEST_TIMEOUT = 10000
@@ -20,6 +20,7 @@ describe('Integration', function () {
   it('Should expose a public API', function () {
     assert.ok(isFunction(setupCache))
     assert.ok(isFunction(setup))
+    assert.ok(isFunction(serializeQuery))
 
     const cache = setupCache()
 

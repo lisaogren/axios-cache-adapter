@@ -4,6 +4,7 @@ import merge from 'lodash/merge'
 import isFunction from 'lodash/isFunction'
 
 import request from './request'
+import { serializeQuery } from './cache'
 import { defaults, makeConfig, mergeRequestConfig } from './config'
 
 /**
@@ -103,5 +104,5 @@ function setup (config = {}) {
   return api
 }
 
-export { setup, setupCache }
-export default { setup, setupCache }
+export { setup, setupCache, serializeQuery }
+export default { setup, setupCache, serializeQuery }

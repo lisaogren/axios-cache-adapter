@@ -108,5 +108,5 @@ function serializeQuery (req) {
   return `?${req.params.toString()}`
 }
 
-export { read, write, key, invalidate }
-export default { read, write, key, invalidate }
+export { read, write, key, invalidate, serializeQuery }
+export default { read, write, key, invalidate, serializeQuery }
