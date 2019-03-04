@@ -466,6 +466,37 @@ describe('Integration', function () {
     assert.ok(!response.request.excludedFromCache)
   })
 
+  it('should invalidate cache with a custom method', async () => {
+    this.timeout(REQUEST_TIMEOUT)
+
+    // Create cached axios instance with custom invalidate method
+    const api = setup({
+      cache: {
+        maxAge: 15 * 60 * 1000,
+        // Invalidate only when a specific option is passed through config
+        invalidate: async (config, request) => {
+          if (request.clearCacheEntry) {
+            await config.store.removeItem(config.uuid)
+          }
+        }
+      }
+    })
+
+    // Make a request that will get stored into cache
+    let response = await api.get('https://httpbin.org/get')
+
+    assert.ok(!response.request.fromCache)
+
+    // Wait some time
+    await sleep(1000)
+
+    // Make another request to same end point but force cache invalidation
+    response = await api.get('https://httpbin.org/get', { clearCacheEntry: true })
+
+    // Response should not come from cache
+    assert.ok(!response.request.fromCache)
+  })
+
   // Helpers
 
   function checkStoreInterface (store) {
