@@ -242,7 +242,7 @@ const api = setup({
   cache: {
     // Invalidate only when a specific option is passed through config
     invalidate: async (config, request) => {
-      if (config.clearCacheEntry) {
+      if (request.clearCacheEntry) {
         await config.store.removeItem(config.uuid)
       }
     }
