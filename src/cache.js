@@ -93,19 +93,19 @@ function serializeQuery (req) {
   // Probably server-side, just stringify the object
   if (typeof URLSearchParams === 'undefined') return JSON.stringify(req.params)
 
+  let params = req.params
+
   const isInstanceOfURLSearchParams = req.params instanceof URLSearchParams
 
   // Convert to an instance of URLSearchParams so it get serialized the same way
   if (!isInstanceOfURLSearchParams) {
-    const params = req.params
-
-    req.params = new URLSearchParams()
+    params = new URLSearchParams()
 
     // Using lodash/map even though we don't listen to output so we don't have to bundle lodash/forEach
-    map(params, (value, key) => req.params.append(key, value))
+    map(req.params, (value, key) => params.append(key, value))
   }
 
-  return `?${req.params.toString()}`
+  return `?${params.toString()}`
 }
 
 export { read, write, key, invalidate, serializeQuery }
