@@ -92,6 +92,40 @@ api.get('/url').then(async (response) => {
 })
 ```
 
+### Override instance config with per request options
+
+After setting up `axios-cache-adapter` with a specific cache configuration you can override parts of that configuration on individual requests.
+
+```js
+import { setup } from 'axios-cache-adapter'
+
+const api = setup({
+  baseURL: 'https://httpbin.org',
+
+  cache: {
+    maxAge: 15 * 60 * 1000
+  }
+})
+
+// Use global instance config
+api.get('/get').then((response) => {
+  // Do something awesome with response
+})
+
+// Override `maxAge` and cache URLs with query parameters
+api.get('/get?with=query', {
+  cache: {
+    maxAge: 2 * 60 * 1000, // 2 min instead of 15 min
+    exclude: { query: false }
+  }
+})
+  .then((response) => {
+    // Do something beautiful ;)
+  })
+```
+
+_Note: Not all instance options can be overridden per request, see the API documentation at the end of this readme_
+
 ### Use localforage as cache store
 
 You can give a `localforage` instance to `axios-cache-adapter` which will be used to store cache data instead of the default [in memory](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js) store.
@@ -251,7 +285,7 @@ const api = setup({
 
 // Make a request that will get stored into cache
 api.get('https://httpbin.org/get').then(response => {
-  assert.ok(response.request.fromCache === false)
+  assert.ok(response.request.fromCache !== true)
 })
 
 // Wait some time
@@ -259,7 +293,7 @@ api.get('https://httpbin.org/get').then(response => {
 // Make another request to same end point but force cache invalidation
 api.get('https://httpbin.org/get', { clearCacheEntry: true }).then(response => {
   // Response should not come from cache
-  assert.ok(response.request.fromCache === false)
+  assert.ok(response.request.fromCache !== true)
 })
 ```
 
@@ -288,7 +322,7 @@ api.get('https://httpbin.org/cache/60').then(response => {
 // Make a request which responds with header `cache-control: no-cache`
 api.get('https://httpbin.org/response-headers?cache-control=no-cache').then(response => {
   // Response will not come from cache
-  assert.ok(response.request.fromCache === false)
+  assert.ok(response.request.fromCache !== true)
 
   // Check that query was excluded from cache
   assert.ok(response.request.excludedFromCache === true)
@@ -313,9 +347,10 @@ where they will be stored, etc.
   // defaults to 15 minutes when using `setup()`.
   maxAge: 0,
   // {Number} Maximum number of cached request (last in, first out queue system),
-  // defaults to `false` for no limit.
+  // defaults to `false` for no limit. *Cannot be overridden per request*
   limit: false,
   // {Object} An instance of localforage, defaults to a custom in memory store.
+  // *Cannot be overridden per request*
   store: new MemoryStore(),
   // {String|Function} Generate a unique cache key for the request.
   // Will use request url and serialized params by default.
@@ -348,6 +383,9 @@ where they will be stored, etc.
   // {Boolean} Determine if response headers should be read to set `maxAge` automatically.
   // Will try to parse `cache-control` or `expires` headers.
   readHeaders: false,
+  // {Boolean} Ignore cache, will force to interpret cache reads as a `cache-miss`.
+  // Useful to bypass cache for a given request.
+  ignoreCache: false,
   // {Function|Boolean} Print out debug log to console.
   debug: false
 }
@@ -380,6 +418,22 @@ All the other parameters will be passed directly to the [`axios.create`](https:/
 
 `setup()` returns an instance of `axios` pre-configured with the cache adapter.
 The cache `store` is conveniently attached to the `axios` instance as `instance.cache` for easy access.
+
+### Per request options
+
+Using the same object definition as the `setup` method you can override cache options for individual requests.
+
+```js
+api.get('https://httpbin.org/get', {
+  cache: {
+    // Options override
+  }
+})
+```
+
+All options except `limit` and `store` can be overridden per request.
+
+Also the following keys are used internally and therefore should not be set in the options: `adapter`, `uuid`, `acceptStale`.
 
 ## Building
 
