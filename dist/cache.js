@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("lodash/isEmpty"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/find"), require("lodash/size"));
+		module.exports = factory(require("lodash/find"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/isEmpty"), require("lodash/size"));
 	else if(typeof define === 'function' && define.amd)
-		define(["lodash/isEmpty", "axios", "lodash/omit", "lodash/merge", "lodash/isFunction", "lodash/isString", "lodash/map", "lodash/find", "lodash/size"], factory);
+		define(["lodash/find", "axios", "lodash/omit", "lodash/merge", "lodash/isFunction", "lodash/isString", "lodash/map", "lodash/isEmpty", "lodash/size"], factory);
 	else if(typeof exports === 'object')
-		exports["axiosCacheAdapter"] = factory(require("lodash/isEmpty"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/find"), require("lodash/size"));
+		exports["axiosCacheAdapter"] = factory(require("lodash/find"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/isEmpty"), require("lodash/size"));
 	else
 		root["axiosCacheAdapter"] = factory(root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__, __WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_lodash_size__) {
+})(window, function(__WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__, __WEBPACK_EXTERNAL_MODULE_lodash_size__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -95,6 +95,197 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./node_modules/@tusbar/cache-control/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@tusbar/cache-control/index.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+const HEADER_REGEXP = /([a-zA-Z][a-zA-Z_-]*)\s*(?:=(?:"([^"]*)"|([^ \t",;]*)))?/g
+
+const STRINGS = {
+  maxAge: 'max-age',
+  sharedMaxAge: 's-maxage',
+  maxStale: 'max-stale',
+  minFresh: 'min-fresh',
+  immutable: 'immutable',
+  mustRevalidate: 'must-revalidate',
+  noCache: 'no-cache',
+  noStore: 'no-store',
+  noTransform: 'no-transform',
+  onlyIfCached: 'only-if-cached',
+  private: 'private',
+  proxyRevalidate: 'proxy-revalidate',
+  public: 'public'
+}
+
+function parseBooleanOnly(value) {
+  return value === null
+}
+
+function parseDuration(value) {
+  if (!value) {
+    return null
+  }
+
+  const duration = parseInt(value, 10)
+
+  if (!Number.isFinite(duration) || duration < 0) {
+    return null
+  }
+
+  return duration
+}
+
+class CacheControl {
+  constructor() {
+    this.maxAge = null
+    this.sharedMaxAge = null
+    this.maxStale = null
+    this.maxStaleDuration = null
+    this.minFresh = null
+    this.immutable = null
+    this.mustRevalidate = null
+    this.noCache = null
+    this.noStore = null
+    this.noTransform = null
+    this.onlyIfCached = null
+    this.private = null
+    this.proxyRevalidate = null
+    this.public = null
+  }
+
+  parse(header) {
+    if (!header || header.length === 0) {
+      return this
+    }
+
+    const values = {}
+    const matches = header.match(HEADER_REGEXP) || []
+
+    Array.prototype.forEach.call(matches, match => {
+      const tokens = match.split('=', 2)
+
+      const [key] = tokens
+      let value = null
+
+      if (tokens.length > 1) {
+        value = tokens[1].trim()
+      }
+
+      values[key.toLowerCase()] = value
+    })
+
+    this.maxAge = parseDuration(values[STRINGS.maxAge])
+    this.sharedMaxAge = parseDuration(values[STRINGS.sharedMaxAge])
+
+    this.maxStale = parseBooleanOnly(values[STRINGS.maxStale])
+    this.maxStaleDuration = parseDuration(values[STRINGS.maxStale])
+    if (this.maxStaleDuration) {
+      this.maxStale = true
+    }
+
+    this.minFresh = parseDuration(values[STRINGS.minFresh])
+
+    this.immutable = parseBooleanOnly(values[STRINGS.immutable])
+    this.mustRevalidate = parseBooleanOnly(values[STRINGS.mustRevalidate])
+    this.noCache = parseBooleanOnly(values[STRINGS.noCache])
+    this.noStore = parseBooleanOnly(values[STRINGS.noStore])
+    this.noTransform = parseBooleanOnly(values[STRINGS.noTransform])
+    this.onlyIfCached = parseBooleanOnly(values[STRINGS.onlyIfCached])
+    this.private = parseBooleanOnly(values[STRINGS.private])
+    this.proxyRevalidate = parseBooleanOnly(values[STRINGS.proxyRevalidate])
+    this.public = parseBooleanOnly(values[STRINGS.public])
+
+    return this
+  }
+
+  format() {
+    const tokens = []
+
+    if (this.maxAge) {
+      tokens.push(`${STRINGS.maxAge}=${this.maxAge}`)
+    }
+
+    if (this.sharedMaxAge) {
+      tokens.push(`${STRINGS.sharedMaxAge}=${this.sharedMaxAge}`)
+    }
+
+    if (this.maxStale) {
+      if (this.maxStaleDuration) {
+        tokens.push(`${STRINGS.maxStale}=${this.maxStaleDuration}`)
+      } else {
+        tokens.push(STRINGS.maxStale)
+      }
+    }
+
+    if (this.minFresh) {
+      tokens.push(`${STRINGS.minFresh}=${this.minFresh}`)
+    }
+
+    if (this.immutable) {
+      tokens.push(STRINGS.immutable)
+    }
+
+    if (this.mustRevalidate) {
+      tokens.push(STRINGS.mustRevalidate)
+    }
+
+    if (this.noCache) {
+      tokens.push(STRINGS.noCache)
+    }
+
+    if (this.noStore) {
+      tokens.push(STRINGS.noStore)
+    }
+
+    if (this.noTransform) {
+      tokens.push(STRINGS.noTransform)
+    }
+
+    if (this.onlyIfCached) {
+      tokens.push(STRINGS.onlyIfCached)
+    }
+
+    if (this.private) {
+      tokens.push(STRINGS.private)
+    }
+
+    if (this.proxyRevalidate) {
+      tokens.push(STRINGS.proxyRevalidate)
+    }
+
+    if (this.public) {
+      tokens.push(STRINGS.public)
+    }
+
+    return tokens.join(', ')
+  }
+}
+
+function parse(header) {
+  const cc = new CacheControl()
+  return cc.parse(header)
+}
+
+function format(cc) {
+  if (!(cc instanceof CacheControl)) {
+    return CacheControl.prototype.format.call(cc)
+  }
+
+  return cc.format()
+}
+
+module.exports = {
+  CacheControl,
+  parse,
+  format
+}
+
+
+/***/ }),
 
 /***/ "./node_modules/core-js/modules/_a-function.js":
 /*!*****************************************************!*\
@@ -1968,7 +2159,7 @@ if (__webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.j
 /*!**********************!*\
   !*** ./src/cache.js ***!
   \**********************/
-/*! exports provided: read, write, key, invalidate, default */
+/*! exports provided: read, write, key, invalidate, serializeQuery, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1977,6 +2168,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "write", function() { return write; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "key", function() { return key; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidate", function() { return invalidate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return serializeQuery; });
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es6_regexp_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.regexp.to-string */ "./node_modules/core-js/modules/es6.regexp.to-string.js");
@@ -2075,20 +2267,20 @@ function _read() {
   _read = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(config, req) {
-    var uuid, entry, error, expires, data, offline, _error;
+    var uuid, ignoreCache, entry, error, expires, data, offline, _error;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            uuid = config.uuid;
+            uuid = config.uuid, ignoreCache = config.ignoreCache;
             _context2.next = 3;
             return config.store.getItem(uuid);
 
           case 3:
             entry = _context2.sent;
 
-            if (!(!entry || !entry.data)) {
+            if (!(ignoreCache || !entry || !entry.data)) {
               _context2.next = 10;
               break;
             }
@@ -2183,18 +2375,18 @@ function serializeQuery(req) {
   if (!req.params) return ''; // Probably server-side, just stringify the object
 
   if (typeof URLSearchParams === 'undefined') return JSON.stringify(req.params);
+  var params = req.params;
   var isInstanceOfURLSearchParams = req.params instanceof URLSearchParams; // Convert to an instance of URLSearchParams so it get serialized the same way
 
   if (!isInstanceOfURLSearchParams) {
-    var params = req.params;
-    req.params = new URLSearchParams(); // Using lodash/map even though we don't listen to output so we don't have to bundle lodash/forEach
+    params = new URLSearchParams(); // Using lodash/map even though we don't listen to output so we don't have to bundle lodash/forEach
 
-    lodash_map__WEBPACK_IMPORTED_MODULE_5___default()(params, function (value, key) {
-      return req.params.append(key, value);
+    lodash_map__WEBPACK_IMPORTED_MODULE_5___default()(req.params, function (value, key) {
+      return params.append(key, value);
     });
   }
 
-  return "?".concat(req.params.toString());
+  return "?".concat(params.toString());
 }
 
 
@@ -2202,7 +2394,8 @@ function serializeQuery(req) {
   read: read,
   write: write,
   key: key,
-  invalidate: invalidate
+  invalidate: invalidate,
+  serializeQuery: serializeQuery
 });
 
 /***/ }),
@@ -2262,7 +2455,9 @@ var defaults = {
     clearOnStale: true,
     clearOnError: true,
     readOnError: false,
-    debug: false
+    readHeaders: false,
+    debug: false,
+    ignoreCache: false
   },
   // Additional defaults when creating the axios instance with the cache adapter.
   axios: {
@@ -2392,7 +2587,7 @@ function exclude() {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: setup, setupCache, default */
+/*! exports provided: setup, setupCache, serializeQuery, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2410,12 +2605,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_isFunction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/isFunction */ "lodash/isFunction");
 /* harmony import */ var lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./request */ "./src/request.js");
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./config */ "./src/config.js");
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return _cache__WEBPACK_IMPORTED_MODULE_6__["serializeQuery"]; });
+
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./config */ "./src/config.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -2433,7 +2632,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 function setupCache() {
   var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   // Extend default configuration
-  config = Object(_config__WEBPACK_IMPORTED_MODULE_6__["makeConfig"])(config); // Axios adapter. Receives the axios request configuration as only parameter
+  config = Object(_config__WEBPACK_IMPORTED_MODULE_7__["makeConfig"])(config); // Axios adapter. Receives the axios request configuration as only parameter
 
   function adapter(_x) {
     return _adapter.apply(this, arguments);
@@ -2450,7 +2649,7 @@ function setupCache() {
           switch (_context.prev = _context.next) {
             case 0:
               // Merge the per-request config with the instance config.
-              reqConfig = Object(_config__WEBPACK_IMPORTED_MODULE_6__["mergeRequestConfig"])(config, req); // Execute request against local cache
+              reqConfig = Object(_config__WEBPACK_IMPORTED_MODULE_7__["mergeRequestConfig"])(config, req); // Execute request against local cache
 
               _context.next = 3;
               return Object(_request__WEBPACK_IMPORTED_MODULE_5__["default"])(reqConfig, req);
@@ -2548,7 +2747,7 @@ function setupCache() {
 
 function setup() {
   var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  config = lodash_merge__WEBPACK_IMPORTED_MODULE_3___default()({}, _config__WEBPACK_IMPORTED_MODULE_6__["defaults"].axios, config);
+  config = lodash_merge__WEBPACK_IMPORTED_MODULE_3___default()({}, _config__WEBPACK_IMPORTED_MODULE_7__["defaults"].axios, config);
   var cache = setupCache(config.cache);
   var axiosConfig = lodash_omit__WEBPACK_IMPORTED_MODULE_2___default()(config, ['cache']);
   var api = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create(lodash_merge__WEBPACK_IMPORTED_MODULE_3___default()({}, axiosConfig, {
@@ -2561,7 +2760,8 @@ function setup() {
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   setup: setup,
-  setupCache: setupCache
+  setupCache: setupCache,
+  serializeQuery: _cache__WEBPACK_IMPORTED_MODULE_6__["serializeQuery"]
 });
 
 /***/ }),
@@ -2969,11 +3169,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _limit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./limit */ "./src/limit.js");
 /* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
+/* harmony import */ var _tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tusbar/cache-control */ "./node_modules/@tusbar/cache-control/index.js");
+/* harmony import */ var _tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -2986,13 +3189,13 @@ function _response() {
   _response = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(config, req, res) {
-    var _res$request, request;
+    var _res$request, request, _res$headers, headers, cacheControl;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _res$request = res.request, request = _res$request === void 0 ? {} : _res$request; // exclude binary response from cache
+            _res$request = res.request, request = _res$request === void 0 ? {} : _res$request, _res$headers = res.headers, headers = _res$headers === void 0 ? {} : _res$headers; // exclude binary response from cache
 
             if (!(['arraybuffer', 'blob'].indexOf(request.responseType) > -1)) {
               _context.next = 3;
@@ -3002,30 +3205,61 @@ function _response() {
             return _context.abrupt("return", res);
 
           case 3:
+            cacheControl = {}; // Should we try to determine request cache expiration from headers or not
+
+            if (config.readHeaders) {
+              if (headers['cache-control']) {
+                // Try parsing `cache-control` header from response
+                cacheControl = Object(_tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3__["parse"])(headers['cache-control']); // Force cache exlcusion for `cache-control: no-cache` and `cache-control: no-store`
+
+                if (cacheControl.noCache || cacheControl.noStore) {
+                  config.excludeFromCache = true;
+                }
+              } else if (headers.expires) {
+                // Else try reading `expires` header
+                config.expires = new Date(headers.expires).getTime();
+              }
+            }
+
             if (config.excludeFromCache) {
+              _context.next = 15;
+              break;
+            }
+
+            if (cacheControl.maxAge) {
+              // Use `cache-control` header `max-age` value and convert to milliseconds
+              config.expires = Date.now() + cacheControl.maxAge * 1000;
+            } else if (!config.readHeaders) {
+              // Use fixed `maxAge` defined in the global or per-request config
+              config.expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
+            } // Check if a cache limit has been configured
+
+
+            if (!config.limit) {
               _context.next = 11;
               break;
             }
 
-            config.expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge;
-
-            if (!config.limit) {
-              _context.next = 9;
-              break;
-            }
-
             config.debug("Detected limit: ".concat(config.limit));
-            _context.next = 9;
+            _context.next = 11;
             return Object(_limit__WEBPACK_IMPORTED_MODULE_1__["default"])(config);
 
-          case 9:
-            _context.next = 11;
+          case 11:
+            _context.next = 13;
             return Object(_cache__WEBPACK_IMPORTED_MODULE_2__["write"])(config, req, res);
 
-          case 11:
+          case 13:
+            _context.next = 16;
+            break;
+
+          case 15:
+            // Mark request as excluded from cache
+            res.request.excludedFromCache = true;
+
+          case 16:
             return _context.abrupt("return", res);
 
-          case 12:
+          case 17:
           case "end":
             return _context.stop();
         }
