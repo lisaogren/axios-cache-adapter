@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("lodash/find"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/isEmpty"), require("lodash/size"));
+		module.exports = factory(require("lodash/find"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("@tusbar/cache-control"), require("lodash/isEmpty"), require("lodash/size"));
 	else if(typeof define === 'function' && define.amd)
-		define(["lodash/find", "axios", "lodash/omit", "lodash/merge", "lodash/isFunction", "lodash/isString", "lodash/map", "lodash/isEmpty", "lodash/size"], factory);
+		define(["lodash/find", "axios", "lodash/omit", "lodash/merge", "lodash/isFunction", "lodash/isString", "lodash/map", "@tusbar/cache-control", "lodash/isEmpty", "lodash/size"], factory);
 	else if(typeof exports === 'object')
-		exports["axiosCacheAdapter"] = factory(require("lodash/find"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/isEmpty"), require("lodash/size"));
+		exports["axiosCacheAdapter"] = factory(require("lodash/find"), require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("@tusbar/cache-control"), require("lodash/isEmpty"), require("lodash/size"));
 	else
-		root["axiosCacheAdapter"] = factory(root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__, __WEBPACK_EXTERNAL_MODULE_lodash_size__) {
+		root["axiosCacheAdapter"] = factory(root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined]);
+})(window, function(__WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE__tusbar_cache_control__, __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__, __WEBPACK_EXTERNAL_MODULE_lodash_size__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -95,197 +95,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./node_modules/@tusbar/cache-control/index.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@tusbar/cache-control/index.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-const HEADER_REGEXP = /([a-zA-Z][a-zA-Z_-]*)\s*(?:=(?:"([^"]*)"|([^ \t",;]*)))?/g
-
-const STRINGS = {
-  maxAge: 'max-age',
-  sharedMaxAge: 's-maxage',
-  maxStale: 'max-stale',
-  minFresh: 'min-fresh',
-  immutable: 'immutable',
-  mustRevalidate: 'must-revalidate',
-  noCache: 'no-cache',
-  noStore: 'no-store',
-  noTransform: 'no-transform',
-  onlyIfCached: 'only-if-cached',
-  private: 'private',
-  proxyRevalidate: 'proxy-revalidate',
-  public: 'public'
-}
-
-function parseBooleanOnly(value) {
-  return value === null
-}
-
-function parseDuration(value) {
-  if (!value) {
-    return null
-  }
-
-  const duration = parseInt(value, 10)
-
-  if (!Number.isFinite(duration) || duration < 0) {
-    return null
-  }
-
-  return duration
-}
-
-class CacheControl {
-  constructor() {
-    this.maxAge = null
-    this.sharedMaxAge = null
-    this.maxStale = null
-    this.maxStaleDuration = null
-    this.minFresh = null
-    this.immutable = null
-    this.mustRevalidate = null
-    this.noCache = null
-    this.noStore = null
-    this.noTransform = null
-    this.onlyIfCached = null
-    this.private = null
-    this.proxyRevalidate = null
-    this.public = null
-  }
-
-  parse(header) {
-    if (!header || header.length === 0) {
-      return this
-    }
-
-    const values = {}
-    const matches = header.match(HEADER_REGEXP) || []
-
-    Array.prototype.forEach.call(matches, match => {
-      const tokens = match.split('=', 2)
-
-      const [key] = tokens
-      let value = null
-
-      if (tokens.length > 1) {
-        value = tokens[1].trim()
-      }
-
-      values[key.toLowerCase()] = value
-    })
-
-    this.maxAge = parseDuration(values[STRINGS.maxAge])
-    this.sharedMaxAge = parseDuration(values[STRINGS.sharedMaxAge])
-
-    this.maxStale = parseBooleanOnly(values[STRINGS.maxStale])
-    this.maxStaleDuration = parseDuration(values[STRINGS.maxStale])
-    if (this.maxStaleDuration) {
-      this.maxStale = true
-    }
-
-    this.minFresh = parseDuration(values[STRINGS.minFresh])
-
-    this.immutable = parseBooleanOnly(values[STRINGS.immutable])
-    this.mustRevalidate = parseBooleanOnly(values[STRINGS.mustRevalidate])
-    this.noCache = parseBooleanOnly(values[STRINGS.noCache])
-    this.noStore = parseBooleanOnly(values[STRINGS.noStore])
-    this.noTransform = parseBooleanOnly(values[STRINGS.noTransform])
-    this.onlyIfCached = parseBooleanOnly(values[STRINGS.onlyIfCached])
-    this.private = parseBooleanOnly(values[STRINGS.private])
-    this.proxyRevalidate = parseBooleanOnly(values[STRINGS.proxyRevalidate])
-    this.public = parseBooleanOnly(values[STRINGS.public])
-
-    return this
-  }
-
-  format() {
-    const tokens = []
-
-    if (this.maxAge) {
-      tokens.push(`${STRINGS.maxAge}=${this.maxAge}`)
-    }
-
-    if (this.sharedMaxAge) {
-      tokens.push(`${STRINGS.sharedMaxAge}=${this.sharedMaxAge}`)
-    }
-
-    if (this.maxStale) {
-      if (this.maxStaleDuration) {
-        tokens.push(`${STRINGS.maxStale}=${this.maxStaleDuration}`)
-      } else {
-        tokens.push(STRINGS.maxStale)
-      }
-    }
-
-    if (this.minFresh) {
-      tokens.push(`${STRINGS.minFresh}=${this.minFresh}`)
-    }
-
-    if (this.immutable) {
-      tokens.push(STRINGS.immutable)
-    }
-
-    if (this.mustRevalidate) {
-      tokens.push(STRINGS.mustRevalidate)
-    }
-
-    if (this.noCache) {
-      tokens.push(STRINGS.noCache)
-    }
-
-    if (this.noStore) {
-      tokens.push(STRINGS.noStore)
-    }
-
-    if (this.noTransform) {
-      tokens.push(STRINGS.noTransform)
-    }
-
-    if (this.onlyIfCached) {
-      tokens.push(STRINGS.onlyIfCached)
-    }
-
-    if (this.private) {
-      tokens.push(STRINGS.private)
-    }
-
-    if (this.proxyRevalidate) {
-      tokens.push(STRINGS.proxyRevalidate)
-    }
-
-    if (this.public) {
-      tokens.push(STRINGS.public)
-    }
-
-    return tokens.join(', ')
-  }
-}
-
-function parse(header) {
-  const cc = new CacheControl()
-  return cc.parse(header)
-}
-
-function format(cc) {
-  if (!(cc instanceof CacheControl)) {
-    return CacheControl.prototype.format.call(cc)
-  }
-
-  return cc.format()
-}
-
-module.exports = {
-  CacheControl,
-  parse,
-  format
-}
-
-
-/***/ }),
 
 /***/ "./node_modules/core-js/modules/_a-function.js":
 /*!*****************************************************!*\
@@ -3169,7 +2978,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _limit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./limit */ "./src/limit.js");
 /* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
-/* harmony import */ var _tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tusbar/cache-control */ "./node_modules/@tusbar/cache-control/index.js");
+/* harmony import */ var _tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tusbar/cache-control */ "@tusbar/cache-control");
 /* harmony import */ var _tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tusbar_cache_control__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -3312,6 +3121,17 @@ function serialize(config, req, res) {
 
 module.exports = __webpack_require__(/*! ./src/index.js */"./src/index.js");
 
+
+/***/ }),
+
+/***/ "@tusbar/cache-control":
+/*!*****************************************************************************************************************************************************!*\
+  !*** external {"umd":"@tusbar/cache-control","amd":"@tusbar/cache-control","commonjs":"@tusbar/cache-control","commonjs2":"@tusbar/cache-control"} ***!
+  \*****************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__tusbar_cache_control__;
 
 /***/ }),
 
