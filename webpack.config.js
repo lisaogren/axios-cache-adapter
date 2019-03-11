@@ -17,6 +17,7 @@ let target = 'web'
 
 // List external dependencies
 const dependencies = [
+  '@tusbar/cache-control',
   'lodash/isEmpty',
   'lodash/isString',
   'lodash/isFunction',
