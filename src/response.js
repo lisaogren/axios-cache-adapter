@@ -27,12 +27,12 @@ async function response (config, req, res) {
   }
 
   if (!config.excludeFromCache) {
-    if (cacheControl.maxAge) {
+    if (cacheControl.maxAge || cacheControl.maxAge === 0) {
       // Use `cache-control` header `max-age` value and convert to milliseconds
       config.expires = Date.now() + (cacheControl.maxAge * 1000)
     } else if (!config.readHeaders) {
       // Use fixed `maxAge` defined in the global or per-request config
-      config.expires = config.maxAge === 0 ? 0 : Date.now() + config.maxAge
+      config.expires = config.maxAge === 0 ? Date.now() : Date.now() + config.maxAge
     }
 
     // Check if a cache limit has been configured
