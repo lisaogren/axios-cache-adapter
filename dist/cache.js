@@ -140,129 +140,129 @@ function parseDuration(value) {
 }
 
 var CacheControl = {};
-    CacheControl.constructor() {
-    this.maxAge = null
-    this.sharedMaxAge = null
-    this.maxStale = null
-    this.maxStaleDuration = null
-    this.minFresh = null
-    this.immutable = null
-    this.mustRevalidate = null
-    this.noCache = null
-    this.noStore = null
-    this.noTransform = null
-    this.onlyIfCached = null
-    this.private = null
-    this.proxyRevalidate = null
-    this.public = null
-  }
 
-    CacheControl.parse(header) {
-    if (!header || header.length === 0) {
-      return this
-    }
+CacheControl.constructor() {
+  this.maxAge = null
+  this.sharedMaxAge = null
+  this.maxStale = null
+  this.maxStaleDuration = null
+  this.minFresh = null
+  this.immutable = null
+  this.mustRevalidate = null
+  this.noCache = null
+  this.noStore = null
+  this.noTransform = null
+  this.onlyIfCached = null
+  this.private = null
+  this.proxyRevalidate = null
+  this.public = null
+}
 
-    const values = {}
-    const matches = header.match(HEADER_REGEXP) || []
-
-    Array.prototype.forEach.call(matches, match => {
-      const tokens = match.split('=', 2)
-
-      const [key] = tokens
-      let value = null
-
-      if (tokens.length > 1) {
-        value = tokens[1].trim()
-      }
-
-      values[key.toLowerCase()] = value
-    })
-
-    this.maxAge = parseDuration(values[STRINGS.maxAge])
-    this.sharedMaxAge = parseDuration(values[STRINGS.sharedMaxAge])
-
-    this.maxStale = parseBooleanOnly(values[STRINGS.maxStale])
-    this.maxStaleDuration = parseDuration(values[STRINGS.maxStale])
-    if (this.maxStaleDuration) {
-      this.maxStale = true
-    }
-
-    this.minFresh = parseDuration(values[STRINGS.minFresh])
-
-    this.immutable = parseBooleanOnly(values[STRINGS.immutable])
-    this.mustRevalidate = parseBooleanOnly(values[STRINGS.mustRevalidate])
-    this.noCache = parseBooleanOnly(values[STRINGS.noCache])
-    this.noStore = parseBooleanOnly(values[STRINGS.noStore])
-    this.noTransform = parseBooleanOnly(values[STRINGS.noTransform])
-    this.onlyIfCached = parseBooleanOnly(values[STRINGS.onlyIfCached])
-    this.private = parseBooleanOnly(values[STRINGS.private])
-    this.proxyRevalidate = parseBooleanOnly(values[STRINGS.proxyRevalidate])
-    this.public = parseBooleanOnly(values[STRINGS.public])
-
+  CacheControl.parse(header) {
+  if (!header || header.length === 0) {
     return this
   }
 
-  format() {
-    const tokens = []
+  const values = {}
+  const matches = header.match(HEADER_REGEXP) || []
 
-    if (this.maxAge) {
-      tokens.push(`${STRINGS.maxAge}=${this.maxAge}`)
+  Array.prototype.forEach.call(matches, match => {
+    const tokens = match.split('=', 2)
+
+    const [key] = tokens
+    let value = null
+
+    if (tokens.length > 1) {
+      value = tokens[1].trim()
     }
 
-    if (this.sharedMaxAge) {
-      tokens.push(`${STRINGS.sharedMaxAge}=${this.sharedMaxAge}`)
-    }
+    values[key.toLowerCase()] = value
+  })
 
-    if (this.maxStale) {
-      if (this.maxStaleDuration) {
-        tokens.push(`${STRINGS.maxStale}=${this.maxStaleDuration}`)
-      } else {
-        tokens.push(STRINGS.maxStale)
-      }
-    }
+  this.maxAge = parseDuration(values[STRINGS.maxAge])
+  this.sharedMaxAge = parseDuration(values[STRINGS.sharedMaxAge])
 
-    if (this.minFresh) {
-      tokens.push(`${STRINGS.minFresh}=${this.minFresh}`)
-    }
-
-    if (this.immutable) {
-      tokens.push(STRINGS.immutable)
-    }
-
-    if (this.mustRevalidate) {
-      tokens.push(STRINGS.mustRevalidate)
-    }
-
-    if (this.noCache) {
-      tokens.push(STRINGS.noCache)
-    }
-
-    if (this.noStore) {
-      tokens.push(STRINGS.noStore)
-    }
-
-    if (this.noTransform) {
-      tokens.push(STRINGS.noTransform)
-    }
-
-    if (this.onlyIfCached) {
-      tokens.push(STRINGS.onlyIfCached)
-    }
-
-    if (this.private) {
-      tokens.push(STRINGS.private)
-    }
-
-    if (this.proxyRevalidate) {
-      tokens.push(STRINGS.proxyRevalidate)
-    }
-
-    if (this.public) {
-      tokens.push(STRINGS.public)
-    }
-
-    return tokens.join(', ')
+  this.maxStale = parseBooleanOnly(values[STRINGS.maxStale])
+  this.maxStaleDuration = parseDuration(values[STRINGS.maxStale])
+  if (this.maxStaleDuration) {
+    this.maxStale = true
   }
+
+  this.minFresh = parseDuration(values[STRINGS.minFresh])
+
+  this.immutable = parseBooleanOnly(values[STRINGS.immutable])
+  this.mustRevalidate = parseBooleanOnly(values[STRINGS.mustRevalidate])
+  this.noCache = parseBooleanOnly(values[STRINGS.noCache])
+  this.noStore = parseBooleanOnly(values[STRINGS.noStore])
+  this.noTransform = parseBooleanOnly(values[STRINGS.noTransform])
+  this.onlyIfCached = parseBooleanOnly(values[STRINGS.onlyIfCached])
+  this.private = parseBooleanOnly(values[STRINGS.private])
+  this.proxyRevalidate = parseBooleanOnly(values[STRINGS.proxyRevalidate])
+  this.public = parseBooleanOnly(values[STRINGS.public])
+
+  return this
+}
+
+format() {
+  const tokens = []
+
+  if (this.maxAge) {
+    tokens.push(`${STRINGS.maxAge}=${this.maxAge}`)
+  }
+
+  if (this.sharedMaxAge) {
+    tokens.push(`${STRINGS.sharedMaxAge}=${this.sharedMaxAge}`)
+  }
+
+  if (this.maxStale) {
+    if (this.maxStaleDuration) {
+      tokens.push(`${STRINGS.maxStale}=${this.maxStaleDuration}`)
+    } else {
+      tokens.push(STRINGS.maxStale)
+    }
+  }
+
+  if (this.minFresh) {
+    tokens.push(`${STRINGS.minFresh}=${this.minFresh}`)
+  }
+
+  if (this.immutable) {
+    tokens.push(STRINGS.immutable)
+  }
+
+  if (this.mustRevalidate) {
+    tokens.push(STRINGS.mustRevalidate)
+  }
+
+  if (this.noCache) {
+    tokens.push(STRINGS.noCache)
+  }
+
+  if (this.noStore) {
+    tokens.push(STRINGS.noStore)
+  }
+
+  if (this.noTransform) {
+    tokens.push(STRINGS.noTransform)
+  }
+
+  if (this.onlyIfCached) {
+    tokens.push(STRINGS.onlyIfCached)
+  }
+
+  if (this.private) {
+    tokens.push(STRINGS.private)
+  }
+
+  if (this.proxyRevalidate) {
+    tokens.push(STRINGS.proxyRevalidate)
+  }
+
+  if (this.public) {
+    tokens.push(STRINGS.public)
+  }
+
+  return tokens.join(', ')
 }
 
 function parse(header) {
