@@ -139,8 +139,8 @@ function parseDuration(value) {
   return duration
 }
 
-class CacheControl {
-  constructor() {
+var CacheControl = {};
+    CacheControl.constructor() {
     this.maxAge = null
     this.sharedMaxAge = null
     this.maxStale = null
@@ -157,7 +157,7 @@ class CacheControl {
     this.public = null
   }
 
-  parse(header) {
+    CacheControl.parse(header) {
     if (!header || header.length === 0) {
       return this
     }
