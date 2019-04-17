@@ -139,9 +139,7 @@ function parseDuration(value) {
   return duration
 }
 
-var CacheControl = {};
-
-CacheControl.constructor() {
+var CacheControl = function CacheControl() {
   this.maxAge = null
   this.sharedMaxAge = null
   this.maxStale = null
@@ -156,28 +154,29 @@ CacheControl.constructor() {
   this.private = null
   this.proxyRevalidate = null
   this.public = null
-}
+};
 
-  CacheControl.parse(header) {
+CacheControl.prototype.parse = function(header) {
+
   if (!header || header.length === 0) {
     return this
   }
 
-  const values = {}
-  const matches = header.match(HEADER_REGEXP) || []
+  const values = {};
+  const matches = header.match(HEADER_REGEXP) || [];
 
-  Array.prototype.forEach.call(matches, match => {
-    const tokens = match.split('=', 2)
+  for (var i = 0;  i < matches.length; i++) {
+    var tokens = matches[i].split('=', 2)
 
-    const [key] = tokens
-    let value = null
+    var key = tokens
+    var value = null
 
     if (tokens.length > 1) {
       value = tokens[1].trim()
     }
 
     values[key.toLowerCase()] = value
-  })
+  }
 
   this.maxAge = parseDuration(values[STRINGS.maxAge])
   this.sharedMaxAge = parseDuration(values[STRINGS.sharedMaxAge])
@@ -203,27 +202,27 @@ CacheControl.constructor() {
   return this
 }
 
-format() {
+CacheControl.prototype.format = function() {
   const tokens = []
 
   if (this.maxAge) {
-    tokens.push(`${STRINGS.maxAge}=${this.maxAge}`)
+    tokens.push('${STRINGS.maxAge}=${this.maxAge}')
   }
 
   if (this.sharedMaxAge) {
-    tokens.push(`${STRINGS.sharedMaxAge}=${this.sharedMaxAge}`)
+    tokens.push('${STRINGS.sharedMaxAge}=${this.sharedMaxAge}')
   }
 
   if (this.maxStale) {
     if (this.maxStaleDuration) {
-      tokens.push(`${STRINGS.maxStale}=${this.maxStaleDuration}`)
+      tokens.push('${STRINGS.maxStale}=${this.maxStaleDuration}')
     } else {
       tokens.push(STRINGS.maxStale)
     }
   }
 
   if (this.minFresh) {
-    tokens.push(`${STRINGS.minFresh}=${this.minFresh}`)
+    tokens.push('${STRINGS.minFresh}=${this.minFresh}')
   }
 
   if (this.immutable) {
