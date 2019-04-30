@@ -84,7 +84,8 @@ const build = {
                   'es6.array.filter'
                 ]
               }]
-            ]
+            ],
+            plugins: ['@babel/plugin-transform-classes']
           }
         }]
       }
