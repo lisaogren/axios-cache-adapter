@@ -74,9 +74,6 @@ const build = {
             presets: [
               ['@babel/preset-env', {
                 useBuiltIns: 'usage',
-                include: [
-                  '@babel/plugin-transform-classes'
-                ],
                 exclude: [
                   'es6.promise',
                   'web.dom.iterable',
@@ -87,7 +84,8 @@ const build = {
                   'es6.array.filter'
                 ]
               }]
-            ]
+            ],
+            plugins: ['@babel/plugin-transform-classes']
           }
         }]
       }
