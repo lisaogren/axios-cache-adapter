@@ -14,6 +14,7 @@
   ],
   "main": "dist/cache.node.js",
   "browser": "dist/cache.js",
+  "types": "axios-cache-adapter.d.ts",
   "runkitExampleFilename": "examples/basic.js",
   "keywords": [
     "axios",
