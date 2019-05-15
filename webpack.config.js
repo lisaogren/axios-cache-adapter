@@ -25,7 +25,8 @@ const dependencies = [
   'lodash/map',
   'lodash/merge',
   'lodash/omit',
-  'axios'
+  'axios',
+  '@tusbar/cache-control'
 ]
 
 dependencies.forEach(dep => {
