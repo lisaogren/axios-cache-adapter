@@ -67,7 +67,11 @@ const build = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules/cache-control-esm')
+        ],
         use: [{
           loader: 'babel-loader',
           options: {
@@ -82,10 +86,10 @@ const build = {
                   'es6.date.now',
                   'es6.regexp.match',
                   'es6.array.filter'
-                ]
+                ],
+                include: ['transform-classes']
               }]
-            ],
-            plugins: ['@babel/plugin-transform-classes']
+            ]
           }
         }]
       }
