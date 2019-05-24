@@ -1,5 +1,3 @@
-/* globals describe it beforeEach */
-
 import assert from 'assert'
 import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'

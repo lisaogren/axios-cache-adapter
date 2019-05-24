@@ -16,11 +16,7 @@ const defaults = {
     store: null,
     key: null,
     invalidate: null,
-    exclude: {
-      paths: [],
-      query: true,
-      filter: null
-    },
+    exclude: [],
     adapter: axios.defaults.adapter,
     clearOnStale: true,
     clearOnError: true,

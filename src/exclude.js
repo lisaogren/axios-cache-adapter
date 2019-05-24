@@ -1,36 +1,35 @@
 import find from 'lodash/find'
+import reduce from 'lodash/reduce'
+import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 
-function exclude (config = {}, req) {
-  const { exclude = {}, debug } = config
-
-  if ((typeof exclude.filter === 'function') && exclude.filter(req)) {
-    debug(`Excluding request by filter ${req.url}`)
-
-    return true
-  }
-
-  // do not cache request with query
-  const hasQueryParams = req.url.match(/\?.*$/) ||
+export const excludeQuery = () => (config, req) => {
+  return req.url.match(/\?.*$/) ||
     !isEmpty(req.params) ||
-    (typeof URLSearchParams !== 'undefined' && req.params instanceof URLSearchParams)
+    (
+      typeof URLSearchParams !== 'undefined' &&
+      req.params instanceof URLSearchParams
+    )
+}
 
-  if (exclude.query && hasQueryParams) {
-    debug(`Excluding request by query ${req.url}`)
+export const excludePaths = (paths = []) => (config, req) => {
+  return find(paths, regexp => req.url.match(regexp))
+}
 
-    return true
-  }
+function exclude (config = {}, req) {
+  let { exclude: middlewares = [], debug } = config
 
-  const paths = exclude.paths || []
-  const found = find(paths, regexp => req.url.match(regexp))
+  if (!isArray(middlewares)) middlewares = [middlewares]
 
-  if (found) {
-    debug(`Excluding request by url match ${req.url}`)
+  const shouldExclude = reduce(middlewares, (result, shouldExclude) => {
+    if (!result) result = Boolean(shouldExclude(config, req))
 
-    return true
-  }
+    return result
+  }, false)
 
-  return false
+  if (shouldExclude) debug('Excluding request from cache')
+
+  return shouldExclude
 }
 
 export default exclude

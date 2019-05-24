@@ -27,6 +27,12 @@
     "ignore": [
       "/dist",
       "/examples"
+    ],
+    "globals": [
+      "URLSearchParams",
+      "describe",
+      "it",
+      "beforeEach"
     ]
   },
   "scripts": {

@@ -1,5 +1,3 @@
-/* globals describe it */
-
 import assert from 'assert'
 
 import config from 'src/config'

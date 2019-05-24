@@ -1,5 +1,3 @@
-/* globals describe it */
-
 import assert from 'assert'
 
 import serialize from 'src/serialize'

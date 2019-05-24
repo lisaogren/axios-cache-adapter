@@ -1,5 +1,3 @@
-/* globals describe it beforeEach */
-
 import assert from 'assert'
 import isEmpty from 'lodash/isEmpty'
 
