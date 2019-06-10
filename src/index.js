@@ -6,6 +6,7 @@ import isFunction from 'lodash/isFunction'
 import request from './request'
 import { serializeQuery } from './cache'
 import { defaults, makeConfig, mergeRequestConfig } from './config'
+import RedisStore from './redis'
 
 /**
  * Configure cache adapter
@@ -104,5 +105,5 @@ function setup (config = {}) {
   return api
 }
 
-export { setup, setupCache, serializeQuery }
-export default { setup, setupCache, serializeQuery }
+export { setup, setupCache, serializeQuery, RedisStore }
+export default { setup, setupCache, serializeQuery, RedisStore }
