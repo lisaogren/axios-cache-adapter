@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/find"), require("lodash/isEmpty"), require("lodash/size"));
+		module.exports = factory(require("axios"), require("lodash/find"), require("lodash/isEmpty"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/merge"), require("lodash/omit"), require("lodash/size"));
 	else if(typeof define === 'function' && define.amd)
-		define(["axios", "lodash/omit", "lodash/merge", "lodash/isFunction", "lodash/isString", "lodash/map", "lodash/find", "lodash/isEmpty", "lodash/size"], factory);
+		define(["axios", "lodash/find", "lodash/isEmpty", "lodash/isFunction", "lodash/isString", "lodash/map", "lodash/merge", "lodash/omit", "lodash/size"], factory);
 	else if(typeof exports === 'object')
-		exports["axiosCacheAdapter"] = factory(require("axios"), require("lodash/omit"), require("lodash/merge"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/find"), require("lodash/isEmpty"), require("lodash/size"));
+		exports["axiosCacheAdapter"] = factory(require("axios"), require("lodash/find"), require("lodash/isEmpty"), require("lodash/isFunction"), require("lodash/isString"), require("lodash/map"), require("lodash/merge"), require("lodash/omit"), require("lodash/size"));
 	else
 		root["axiosCacheAdapter"] = factory(root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined], root[undefined]);
-})(global, function(__WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__, __WEBPACK_EXTERNAL_MODULE_lodash_size__) {
+})(global, function(__WEBPACK_EXTERNAL_MODULE_axios__, __WEBPACK_EXTERNAL_MODULE_lodash_find__, __WEBPACK_EXTERNAL_MODULE_lodash_isEmpty__, __WEBPACK_EXTERNAL_MODULE_lodash_isFunction__, __WEBPACK_EXTERNAL_MODULE_lodash_isString__, __WEBPACK_EXTERNAL_MODULE_lodash_map__, __WEBPACK_EXTERNAL_MODULE_lodash_merge__, __WEBPACK_EXTERNAL_MODULE_lodash_omit__, __WEBPACK_EXTERNAL_MODULE_lodash_size__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.node.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -3787,6 +3787,192 @@ try {
 
 /***/ }),
 
+/***/ "./src/api.js":
+/*!********************!*\
+  !*** ./src/api.js ***!
+  \********************/
+/*! exports provided: setup, setupCache, serializeQuery, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return setup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setupCache", function() { return setupCache; });
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash_omit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/omit */ "lodash/omit");
+/* harmony import */ var lodash_omit__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_omit__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/merge */ "lodash/merge");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/isFunction */ "lodash/isFunction");
+/* harmony import */ var lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./request */ "./src/request.js");
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return _cache__WEBPACK_IMPORTED_MODULE_7__["serializeQuery"]; });
+
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./config */ "./src/config.js");
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+
+
+/**
+ * Configure cache adapter
+ *
+ * @param   {object} [config={}] Cache adapter options
+ * @returns {object} Object containing cache `adapter` and `store`
+ */
+
+function setupCache() {
+  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  // Extend default configuration
+  config = Object(_config__WEBPACK_IMPORTED_MODULE_8__["makeConfig"])(config); // Axios adapter. Receives the axios request configuration as only parameter
+
+  function adapter(_x) {
+    return _adapter.apply(this, arguments);
+  } // Return adapter and store instance
+
+
+  function _adapter() {
+    _adapter = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee(req) {
+      var reqConfig, res, next, networkError, readOnError;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // Merge the per-request config with the instance config.
+              reqConfig = Object(_config__WEBPACK_IMPORTED_MODULE_8__["mergeRequestConfig"])(config, req); // Execute request against local cache
+
+              _context.next = 3;
+              return Object(_request__WEBPACK_IMPORTED_MODULE_6__["default"])(reqConfig, req);
+
+            case 3:
+              res = _context.sent;
+              next = res.next; // Response is not function, something was in cache, return it
+
+              if (lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(next)) {
+                _context.next = 7;
+                break;
+              }
+
+              return _context.abrupt("return", next);
+
+            case 7:
+              _context.prev = 7;
+              _context.next = 10;
+              return reqConfig.adapter(req);
+
+            case 10:
+              res = _context.sent;
+              _context.next = 16;
+              break;
+
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](7);
+              networkError = _context.t0;
+
+            case 16:
+              if (!networkError) {
+                _context.next = 31;
+                break;
+              }
+
+              // Check if we should attempt reading stale cache data
+              readOnError = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(reqConfig.readOnError) ? reqConfig.readOnError(networkError, req) : reqConfig.readOnError;
+
+              if (!readOnError) {
+                _context.next = 30;
+                break;
+              }
+
+              _context.prev = 19;
+              // Force cache tu return stale data
+              reqConfig.acceptStale = true; // Try to read from cache again
+
+              _context.next = 23;
+              return Object(_request__WEBPACK_IMPORTED_MODULE_6__["default"])(reqConfig, req);
+
+            case 23:
+              res = _context.sent;
+              // Signal that data is from stale cache
+              res.next.request.stale = true; // No need to check if `next` is a function just return cache data
+
+              return _context.abrupt("return", res.next);
+
+            case 28:
+              _context.prev = 28;
+              _context.t1 = _context["catch"](19);
+
+            case 30:
+              throw networkError;
+
+            case 31:
+              return _context.abrupt("return", next(res));
+
+            case 32:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[7, 13], [19, 28]]);
+    }));
+    return _adapter.apply(this, arguments);
+  }
+
+  return {
+    adapter: adapter,
+    config: config,
+    store: config.store
+  };
+} // ---------------------
+// Easy API Setup
+// ---------------------
+
+/**
+ * Setup an axios instance with the cache adapter pre-configured
+ *
+ * @param {object} [options={}] Axios and cache adapter options
+ * @returns {object} Instance of Axios
+ */
+
+
+function setup() {
+  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  config = lodash_merge__WEBPACK_IMPORTED_MODULE_4___default()({}, _config__WEBPACK_IMPORTED_MODULE_8__["defaults"].axios, config);
+  var cache = setupCache(config.cache);
+  var axiosConfig = lodash_omit__WEBPACK_IMPORTED_MODULE_3___default()(config, ['cache']);
+  var api = axios__WEBPACK_IMPORTED_MODULE_2___default.a.create(lodash_merge__WEBPACK_IMPORTED_MODULE_4___default()({}, axiosConfig, {
+    adapter: cache.adapter
+  }));
+  api.cache = cache.store;
+  return api;
+}
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  setup: setup,
+  setupCache: setupCache,
+  serializeQuery: _cache__WEBPACK_IMPORTED_MODULE_7__["serializeQuery"]
+});
+
+/***/ }),
+
 /***/ "./src/cache.js":
 /*!**********************!*\
   !*** ./src/cache.js ***!
@@ -4218,193 +4404,33 @@ function exclude() {
 
 /***/ }),
 
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
+/***/ "./src/index.node.js":
+/*!***************************!*\
+  !*** ./src/index.node.js ***!
+  \***************************/
 /*! exports provided: setup, setupCache, serializeQuery, RedisStore, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return setup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setupCache", function() { return setupCache; });
-/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
-/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var lodash_omit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/omit */ "lodash/omit");
-/* harmony import */ var lodash_omit__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_omit__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/merge */ "lodash/merge");
-/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/isFunction */ "lodash/isFunction");
-/* harmony import */ var lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./request */ "./src/request.js");
-/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return _cache__WEBPACK_IMPORTED_MODULE_7__["serializeQuery"]; });
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/api.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return _api__WEBPACK_IMPORTED_MODULE_0__["setup"]; });
 
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./config */ "./src/config.js");
-/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./redis */ "./src/redis.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RedisStore", function() { return _redis__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setupCache", function() { return _api__WEBPACK_IMPORTED_MODULE_0__["setupCache"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return _api__WEBPACK_IMPORTED_MODULE_0__["serializeQuery"]; });
+
+/* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./src/redis.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RedisStore", function() { return _redis__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
 
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-
-
-
-
-
-/**
- * Configure cache adapter
- *
- * @param   {object} [config={}] Cache adapter options
- * @returns {object} Object containing cache `adapter` and `store`
- */
-
-function setupCache() {
-  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  // Extend default configuration
-  config = Object(_config__WEBPACK_IMPORTED_MODULE_8__["makeConfig"])(config); // Axios adapter. Receives the axios request configuration as only parameter
-
-  function adapter(_x) {
-    return _adapter.apply(this, arguments);
-  } // Return adapter and store instance
-
-
-  function _adapter() {
-    _adapter = _asyncToGenerator(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee(req) {
-      var reqConfig, res, next, networkError, readOnError;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // Merge the per-request config with the instance config.
-              reqConfig = Object(_config__WEBPACK_IMPORTED_MODULE_8__["mergeRequestConfig"])(config, req); // Execute request against local cache
-
-              _context.next = 3;
-              return Object(_request__WEBPACK_IMPORTED_MODULE_6__["default"])(reqConfig, req);
-
-            case 3:
-              res = _context.sent;
-              next = res.next; // Response is not function, something was in cache, return it
-
-              if (lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(next)) {
-                _context.next = 7;
-                break;
-              }
-
-              return _context.abrupt("return", next);
-
-            case 7:
-              _context.prev = 7;
-              _context.next = 10;
-              return reqConfig.adapter(req);
-
-            case 10:
-              res = _context.sent;
-              _context.next = 16;
-              break;
-
-            case 13:
-              _context.prev = 13;
-              _context.t0 = _context["catch"](7);
-              networkError = _context.t0;
-
-            case 16:
-              if (!networkError) {
-                _context.next = 31;
-                break;
-              }
-
-              // Check if we should attempt reading stale cache data
-              readOnError = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(reqConfig.readOnError) ? reqConfig.readOnError(networkError, req) : reqConfig.readOnError;
-
-              if (!readOnError) {
-                _context.next = 30;
-                break;
-              }
-
-              _context.prev = 19;
-              // Force cache tu return stale data
-              reqConfig.acceptStale = true; // Try to read from cache again
-
-              _context.next = 23;
-              return Object(_request__WEBPACK_IMPORTED_MODULE_6__["default"])(reqConfig, req);
-
-            case 23:
-              res = _context.sent;
-              // Signal that data is from stale cache
-              res.next.request.stale = true; // No need to check if `next` is a function just return cache data
-
-              return _context.abrupt("return", res.next);
-
-            case 28:
-              _context.prev = 28;
-              _context.t1 = _context["catch"](19);
-
-            case 30:
-              throw networkError;
-
-            case 31:
-              return _context.abrupt("return", next(res));
-
-            case 32:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, null, [[7, 13], [19, 28]]);
-    }));
-    return _adapter.apply(this, arguments);
-  }
-
-  return {
-    adapter: adapter,
-    config: config,
-    store: config.store
-  };
-} // ---------------------
-// Easy API Setup
-// ---------------------
-
-/**
- * Setup an axios instance with the cache adapter pre-configured
- *
- * @param {object} [options={}] Axios and cache adapter options
- * @returns {object} Instance of Axios
- */
-
-
-function setup() {
-  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  config = lodash_merge__WEBPACK_IMPORTED_MODULE_4___default()({}, _config__WEBPACK_IMPORTED_MODULE_8__["defaults"].axios, config);
-  var cache = setupCache(config.cache);
-  var axiosConfig = lodash_omit__WEBPACK_IMPORTED_MODULE_3___default()(config, ['cache']);
-  var api = axios__WEBPACK_IMPORTED_MODULE_2___default.a.create(lodash_merge__WEBPACK_IMPORTED_MODULE_4___default()({}, axiosConfig, {
-    adapter: cache.adapter
-  }));
-  api.cache = cache.store;
-  return api;
-}
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  setup: setup,
-  setupCache: setupCache,
-  serializeQuery: _cache__WEBPACK_IMPORTED_MODULE_7__["serializeQuery"],
-  RedisStore: _redis__WEBPACK_IMPORTED_MODULE_9__["default"]
+  setup: _api__WEBPACK_IMPORTED_MODULE_0__["setup"],
+  setupCache: _api__WEBPACK_IMPORTED_MODULE_0__["setupCache"],
+  serializeQuery: _api__WEBPACK_IMPORTED_MODULE_0__["serializeQuery"],
+  RedisStore: _redis__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 
 /***/ }),
@@ -4709,12 +4735,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es6.function.bind */ "./node_modules/core-js/modules/es6.function.bind.js");
 /* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var lodash_size__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/size */ "lodash/size");
-/* harmony import */ var lodash_size__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_size__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash/map */ "lodash/map");
-/* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash_map__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! util */ "util");
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/map */ "lodash/map");
+/* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_map__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! util */ "util");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -4734,7 +4758,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
 var RedisStore =
 /*#__PURE__*/
 function () {
@@ -4745,12 +4768,12 @@ function () {
 
     this.client = client;
     this.HASH_KEY = HASH_KEY;
-    this.hgetAsync = Object(util__WEBPACK_IMPORTED_MODULE_7__["promisify"])(client.hget).bind(client);
-    this.hsetAsync = Object(util__WEBPACK_IMPORTED_MODULE_7__["promisify"])(client.hset).bind(client);
-    this.hdelAsync = Object(util__WEBPACK_IMPORTED_MODULE_7__["promisify"])(client.hdel).bind(client);
-    this.delAsync = Object(util__WEBPACK_IMPORTED_MODULE_7__["promisify"])(client.del).bind(client);
-    this.hlenAsync = Object(util__WEBPACK_IMPORTED_MODULE_7__["promisify"])(client.hlen).bind(client);
-    this.hgetallAsync = Object(util__WEBPACK_IMPORTED_MODULE_7__["promisify"])(client.hgetall).bind(client);
+    this.hgetAsync = Object(util__WEBPACK_IMPORTED_MODULE_6__["promisify"])(client.hget).bind(client);
+    this.hsetAsync = Object(util__WEBPACK_IMPORTED_MODULE_6__["promisify"])(client.hset).bind(client);
+    this.hdelAsync = Object(util__WEBPACK_IMPORTED_MODULE_6__["promisify"])(client.hdel).bind(client);
+    this.delAsync = Object(util__WEBPACK_IMPORTED_MODULE_6__["promisify"])(client.del).bind(client);
+    this.hlenAsync = Object(util__WEBPACK_IMPORTED_MODULE_6__["promisify"])(client.hlen).bind(client);
+    this.hgetallAsync = Object(util__WEBPACK_IMPORTED_MODULE_6__["promisify"])(client.hgetall).bind(client);
   }
 
   _createClass(RedisStore, [{
@@ -4917,11 +4940,11 @@ function () {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return hgetallAsync(this.HASH_KEY);
+                return this.hgetallAsync(this.HASH_KEY);
 
               case 2:
                 hashData = _context6.sent;
-                return _context6.abrupt("return", Promise.all(lodash_map__WEBPACK_IMPORTED_MODULE_6___default()(hashData, function (value, key) {
+                return _context6.abrupt("return", Promise.all(lodash_map__WEBPACK_IMPORTED_MODULE_5___default()(hashData, function (value, key) {
                   return fn(value, key);
                 })));
 
@@ -5222,18 +5245,6 @@ function serialize(config, req, res) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (serialize);
-
-/***/ }),
-
-/***/ 0:
-/*!****************************!*\
-  !*** multi ./src/index.js ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! ./src/index.js */"./src/index.js");
-
 
 /***/ }),
 
