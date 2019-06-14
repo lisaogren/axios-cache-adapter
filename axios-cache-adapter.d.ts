@@ -101,7 +101,7 @@ export interface ISetupCache
 {
 	adapter: AxiosAdapter;
 	config: IAxiosCacheAdapterOptions;
-	store;
+	store: object;
 }
 
 /**
