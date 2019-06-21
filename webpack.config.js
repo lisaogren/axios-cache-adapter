@@ -17,15 +17,18 @@ let target = 'web'
 
 // List external dependencies
 const dependencies = [
-  'lodash/isEmpty',
-  'lodash/isString',
-  'lodash/isFunction',
-  'lodash/size',
+  'axios',
   'lodash/find',
+  'lodash/forEach',
+  'lodash/isArray',
+  'lodash/isEmpty',
+  'lodash/isFunction',
+  'lodash/isString',
+  'lodash/size',
   'lodash/map',
   'lodash/merge',
   'lodash/omit',
-  'axios'
+  'lodash/reduce'
 ]
 
 dependencies.forEach(dep => {
