@@ -11,6 +11,7 @@ const debug = (...args) => console.log('[axios-cache-adapter]', ...args)
 const defaults = {
   // Default settings when solely creating the cache adapter with setupCache.
   cache: {
+    readHeaders: true,
     maxAge: 0,
     limit: false,
     store: null,
@@ -18,10 +19,9 @@ const defaults = {
     invalidate: null,
     exclude: [],
     adapter: axios.defaults.adapter,
-    clearOnStale: true,
-    clearOnError: true,
+    clearOnStale: false,
+    clearOnError: false,
     readOnError: false,
-    readHeaders: false,
     debug: false,
     ignoreCache: false
   },
