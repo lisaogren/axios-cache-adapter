@@ -1,40 +1,42 @@
-/* globals describe it beforeEach */
+/* globals describe it */
 
 import assert from 'assert'
 import isFunction from 'lodash/isFunction'
+import redis from 'redis-mock'
 
 import limit from 'src/limit'
 import MemoryStore from 'src/memory'
+import RedisStore from 'src/redis'
 
 describe('Limit', () => {
-  let store
-  let config
   const debug = () => {}
   // const debug = (...args) => { console.log(...args) }
+  const client = redis.createClient()
 
-  beforeEach(() => {
-    store = new MemoryStore()
-    config = { store, debug }
-  })
+  const stores = [new MemoryStore(), new RedisStore(client)]
 
   it('Should expose a function', () => {
     assert.ok(isFunction(limit))
   })
 
-  it('Should remove first item from store', async () => {
-    const now = Date.now()
+  stores.forEach((store) => {
+    const config = { store, debug }
 
-    await store.setItem('test', { expires: now })
-    await store.setItem('retest', { expires: now + (60 * 1000) })
+    it('Should remove first item from store', async () => {
+      const now = Date.now()
 
-    let length = await store.length()
+      await store.setItem('test', { expires: now })
+      await store.setItem('retest', { expires: now + (60 * 1000) })
 
-    assert.equal(length, 2)
+      let length = await store.length()
 
-    await limit(config)
+      assert.equal(length, 2)
 
-    length = await store.length()
+      await limit(config)
 
-    assert.equal(length, 1)
+      length = await store.length()
+
+      assert.equal(length, 1)
+    })
   })
 })

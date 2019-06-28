@@ -1,8 +1,12 @@
 import map from 'lodash/map'
+import get from 'lodash/get'
 import { promisify } from 'util'
 
 class RedisStore {
   constructor (client, HASH_KEY = 'axios-cache') {
+    if (get(client, 'constructor.name') !== 'RedisClient') {
+      throw new Error('Not valid redis client')
+    }
     this.client = client
     this.HASH_KEY = HASH_KEY
     this.hgetAsync = promisify(client.hget).bind(client)
