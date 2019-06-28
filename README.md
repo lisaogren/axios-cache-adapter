@@ -174,6 +174,35 @@ configure().then(async (api) => {
 })
 ```
 
+
+
+### Use redis as cache store
+
+You can give a `RedisStore` instance to `axios-cache-adapter` which will be used to store cache data instead of the default [in memory](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js) store.
+
+_Note: This only works server-side_
+
+```js
+const { setup, RedisStore } = require('axios-cache-adapter')
+const redis = require('redis')
+
+const client = redis.createClient({
+  url: 'REDIS_URL',
+})
+const store = new RedisStore(client)
+const api = setup({
+  // `axios` options
+  baseURL: 'http://some-rest.api',
+  // `axios-cache-adapter` options
+  cache: {
+    maxAge: 15 * 60 * 1000,
+    store // Pass `RedisStore` store to `axios-cache-adapter`
+  }
+})
+
+const response = await api.get('/url')
+```
+
 ### Check if response is served from network or from cache
 
 When a response is served from cache a custom `response.request` object is created with a `fromCache` boolean.
@@ -412,12 +441,22 @@ axios at the same time.
 }
 ```
 
-All the other parameters will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#creating-an-instance) method.
+### RedisStore(client, [, hashKey])
+
+RedisStore allow you to cache requests on server using [redis](https://redis.io/).
+Create a `RedisStore` instance. Takes `client` (`RedisClient`) and optional `hashKey` (name of hashSet to be used in redis).
+
+#### client
+
+```js
+    // Using redis client https://github.com/NodeRedis/node_redis
+    const redis = require("redis")
+    const client = redis.createClient()
+```
 
 #### Returns
 
-`setup()` returns an instance of `axios` pre-configured with the cache adapter.
-The cache `store` is conveniently attached to the `axios` instance as `instance.cache` for easy access.
+`new RedisStore()` returns an instance of `RedisStore` to be passed to setupCache() as `store` in config object.
 
 ### Per request options
 
