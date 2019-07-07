@@ -95,6 +95,11 @@ export interface IAxiosCacheAdapterOptions
 	 * {Function|Boolean} Print out debug log to console.
 	 */
 	debug?: Function | boolean;
+
+	/**
+	 * {Boolean} add headers `AXIOS_CACHE_ADAPTER` for check current response is from cache or not.
+	 */
+	addFlagToHeader?: boolean;
 }
 
 export interface ISetupCache

@@ -61,6 +61,24 @@ async function read (config, req) {
 
   config.debug(config.acceptStale ? 'cache-hit-stale' : 'cache-hit', req.url)
 
+  if (config.addFlagToHeader) {
+    let { headers } = data
+
+    let ret = {
+      ...data,
+    };
+
+    headers = {
+      ...headers,
+
+      'AXIOS_CACHE_ADAPTER': uuid,
+    };
+
+    ret.headers = headers;
+
+    return ret;
+  }
+
   return data
 }
 
