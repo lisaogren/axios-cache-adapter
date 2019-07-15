@@ -94,7 +94,8 @@ describe('Integration', function () {
     const api2 = setup({
       cache: {
         // debug: true,
-        maxAge: 15 * 60 * 1000
+        maxAge: 15 * 60 * 1000,
+        readHeaders: false
       }
     })
 
@@ -185,6 +186,7 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 15 * 60 * 1000,
+        readHeaders: false,
         limit: 3
       }
     }
@@ -219,6 +221,7 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 15 * 60 * 1000,
+        readHeaders: false,
         exclude: [
           excludePaths([
             /.+/ // Exclude everything
@@ -311,6 +314,7 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 1,
+        readHeaders: false,
         readOnError: (err, config) => {
           return err.response.status === 404
         },
@@ -366,7 +370,8 @@ describe('Integration', function () {
     const api = setup({
       cache: {
         // debug: true,
-        maxAge: 15 * 60 * 1000
+        maxAge: 15 * 60 * 1000,
+        readHeaders: false
       }
     })
 
@@ -482,6 +487,7 @@ describe('Integration', function () {
     const api = setup({
       cache: {
         maxAge: 15 * 60 * 1000,
+        readHeaders: false,
         // Invalidate only when a specific option is passed through config
         invalidate: async (config, request) => {
           if (request.clearCacheEntry) {

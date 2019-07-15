@@ -70,4 +70,16 @@ describe('Cache exclusion', () => {
     assert.ok(exclude(config, { url, params: { shouldExclude: true } }))
     assert.equal(exclude(config, { url }), false)
   })
+
+  it('Should convert exclude config to array', () => {
+    const config = {
+      exclude: excludePaths([
+        /\/users/
+      ]),
+      debug
+    }
+
+    assert.ok(exclude(config, { url }))
+    assert.equal(exclude(config, { url: 'https://some-rest.api/invoices' }), false)
+  })
 })
