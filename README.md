@@ -1,11 +1,30 @@
-# :rocket: axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# axios-cache-adapter
+[![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> Caching adapter for axios. Store request results in a configurable store to prevent unneeded network requests.
+Caching adapter for axios. Store request results in a configurable store to prevent unneeded network requests.
 
-Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache)
-by [@stephanebachelier](https://github.com/stephanebachelier)
+##### Table of contents
+* [Installation](#installation)
+* [Usage](https://github.com/RasCarlito/axios-cache-adapter#usage)
+  * [Instantiate adapter on its own](https://github.com/RasCarlito/axios-cache-adapter#instantiate-adapter-on-its-own)
+  * [Instantiate axios with bound adapter](https://github.com/RasCarlito/axios-cache-adapter#instantiate-axios-with-bound-adapter)
+  * [Override instance config with per request options](https://github.com/RasCarlito/axios-cache-adapter#override-instance-config-with-per-request-options)
+  * [Use localforage as cache store](https://github.com/RasCarlito/axios-cache-adapter#use-localforage-as-cache-store)
+  * [Check if response is served from network or from cache](https://github.com/RasCarlito/axios-cache-adapter#check-if-response-is-served-from-network-or-from-cache)
+  * [Read stale cache data on network error](https://github.com/RasCarlito/axios-cache-adapter#read-stale-cache-data-on-network-error)
+  * [Invalidate cache entries](https://github.com/RasCarlito/axios-cache-adapter#invalidate-cache-entries)
+  * [Use response headers to automatically set `maxAge`](https://github.com/RasCarlito/axios-cache-adapter#use-response-headers-to-automatically-set-maxage)
+* [API](https://github.com/RasCarlito/axios-cache-adapter#api)
+  * [setupCache(options)](https://github.com/RasCarlito/axios-cache-adapter#setupcacheoptions)
+  * [setup(options)](https://github.com/RasCarlito/axios-cache-adapter#setupoptions)
+  * [Per request options](https://github.com/RasCarlito/axios-cache-adapter#per-request-options)
+* [Building](https://github.com/RasCarlito/axios-cache-adapter#building)
+* [Testing](https://github.com/RasCarlito/axios-cache-adapter#testing)
+* [Browser vs Node.js](https://github.com/RasCarlito/axios-cache-adapter#browser-vs-nodejs)
+* [Contributors](https://github.com/RasCarlito/axios-cache-adapter#contributors)
+* [License](https://github.com/RasCarlito/axios-cache-adapter#license)
 
-## Install
+## Installation
 
 Using npm
 
@@ -27,8 +46,7 @@ Or from a CDN like unpkg.com
 
 ## Usage
 
-By default, `axios-cache-adapter` will use `cache-control` and `expires` headers to determine how long
-response should be kept in cache.
+By default, `axios-cache-adapter` will use `cache-control` and `expires` headers sent from server to determine how long response should be kept in cache. Else, you can set a fixed `maxAge` through through the options.
 
 ### Instantiate adapter on its own
 
@@ -137,7 +155,7 @@ api.get('/get?with=query', {
   })
 ```
 
-_Note: Not all instance options can be overridden per request, see the API documentation at the end of this readme_
+_Note: Not all instance options can be overridden per request, see the [per request options API documentation](https://github.com/RasCarlito/axios-cache-adapter#per-request-options)_
 
 ### Use localforage as cache store
 
@@ -454,6 +472,25 @@ You can give a `store` to override the in memory store but it has to comply with
 
 Works are in progress to connect `axios-cache-adapter` to [redis](https://redis.io/) as [you can see here](https://github.com/RasCarlito/axios-cache-adapter/pull/98).
 
+
+## Contributors
+
+[//]: contributor-faces
+<a href="https://github.com/RasCarlito"><img src="https://avatars1.githubusercontent.com/u/407268?v=4" title="RasCarlito" width="80" height="80"></a>
+<a href="https://github.com/stephanebachelier"><img src="https://avatars2.githubusercontent.com/u/172615?v=4" title="stephanebachelier" width="80" height="80"></a>
+<a href="https://github.com/jahead"><img src="https://avatars2.githubusercontent.com/u/5070464?v=4" title="jahead" width="80" height="80"></a>
+<a href="https://github.com/8enSmith"><img src="https://avatars1.githubusercontent.com/u/798183?v=4" title="8enSmith" width="80" height="80"></a>
+<a href="https://github.com/FMCorz"><img src="https://avatars3.githubusercontent.com/u/240112?v=4" title="FMCorz" width="80" height="80"></a>
+<a href="https://github.com/acidbiscuit"><img src="https://avatars2.githubusercontent.com/u/11949520?v=4" title="acidbiscuit" width="80" height="80"></a>
+<a href="https://github.com/janbaykara"><img src="https://avatars2.githubusercontent.com/u/237556?v=4" title="janbaykara" width="80" height="80"></a>
+<a href="https://github.com/charjac"><img src="https://avatars0.githubusercontent.com/u/2829504?v=4" title="charjac" width="80" height="80"></a>
+<a href="https://github.com/nolde"><img src="https://avatars2.githubusercontent.com/u/12801563?v=4" title="nolde" width="80" height="80"></a>
+<a href="https://github.com/vovk1805"><img src="https://avatars2.githubusercontent.com/u/21268247?v=4" title="vovk1805" width="80" height="80"></a>
+<a href="https://github.com/bluelovers"><img src="https://avatars0.githubusercontent.com/u/167966?v=4" title="bluelovers" width="80" height="80"></a>
+<a href="https://github.com/tejovanthWork"><img src="https://avatars1.githubusercontent.com/u/49153303?v=4" title="tejovanthWork" width="80" height="80"></a>
+
+[//]: contributor-faces
+
 ## License
 
-MIT © [Carl Ogren](https://github.com/RasCarlito)
+[MIT © Carl Ogren](https://github.com/RasCarlito/axios-cache-adapter/blob/master/LICENSE)
