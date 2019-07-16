@@ -5,24 +5,24 @@ Caching adapter for axios. Store request results in a configurable store to prev
 
 ##### Table of contents
 * [Installation](#installation)
-* [Usage](https://github.com/RasCarlito/axios-cache-adapter#usage)
-  * [Instantiate adapter on its own](https://github.com/RasCarlito/axios-cache-adapter#instantiate-adapter-on-its-own)
-  * [Instantiate axios with bound adapter](https://github.com/RasCarlito/axios-cache-adapter#instantiate-axios-with-bound-adapter)
-  * [Override instance config with per request options](https://github.com/RasCarlito/axios-cache-adapter#override-instance-config-with-per-request-options)
-  * [Use localforage as cache store](https://github.com/RasCarlito/axios-cache-adapter#use-localforage-as-cache-store)
-  * [Check if response is served from network or from cache](https://github.com/RasCarlito/axios-cache-adapter#check-if-response-is-served-from-network-or-from-cache)
-  * [Read stale cache data on network error](https://github.com/RasCarlito/axios-cache-adapter#read-stale-cache-data-on-network-error)
-  * [Invalidate cache entries](https://github.com/RasCarlito/axios-cache-adapter#invalidate-cache-entries)
-  * [Use response headers to automatically set `maxAge`](https://github.com/RasCarlito/axios-cache-adapter#use-response-headers-to-automatically-set-maxage)
-* [API](https://github.com/RasCarlito/axios-cache-adapter#api)
-  * [setupCache(options)](https://github.com/RasCarlito/axios-cache-adapter#setupcacheoptions)
-  * [setup(options)](https://github.com/RasCarlito/axios-cache-adapter#setupoptions)
-  * [Per request options](https://github.com/RasCarlito/axios-cache-adapter#per-request-options)
-* [Building](https://github.com/RasCarlito/axios-cache-adapter#building)
-* [Testing](https://github.com/RasCarlito/axios-cache-adapter#testing)
-* [Browser vs Node.js](https://github.com/RasCarlito/axios-cache-adapter#browser-vs-nodejs)
-* [Contributors](https://github.com/RasCarlito/axios-cache-adapter#contributors)
-* [License](https://github.com/RasCarlito/axios-cache-adapter#license)
+* [Usage](#usage)
+  * [Instantiate adapter on its own](#instantiate-adapter-on-its-own)
+  * [Instantiate axios with bound adapter](#instantiate-axios-with-bound-adapter)
+  * [Override instance config with per request options](#override-instance-config-with-per-request-options)
+  * [Use localforage as cache store](#use-localforage-as-cache-store)
+  * [Check if response is served from network or from cache](#check-if-response-is-served-from-network-or-from-cache)
+  * [Read stale cache data on network error](#read-stale-cache-data-on-network-error)
+  * [Invalidate cache entries](#invalidate-cache-entries)
+  * [Use response headers to automatically set `maxAge`](#use-response-headers-to-automatically-set-maxage)
+* [API](#api)
+  * [setupCache(options)](#setupcacheoptions)
+  * [setup(options)](#setupoptions)
+  * [Per request options](#per-request-options)
+* [Building](#building)
+* [Testing](#testing)
+* [Browser vs Node.js](#browser-vs-nodejs)
+* [Contributors](#contributors)
+* [License](#license)
 
 ## Installation
 
@@ -155,7 +155,7 @@ api.get('/get?with=query', {
   })
 ```
 
-_Note: Not all instance options can be overridden per request, see the [per request options API documentation](https://github.com/RasCarlito/axios-cache-adapter#per-request-options)_
+_Note: Not all instance options can be overridden per request, see the [per request options API documentation](#per-request-options)_
 
 ### Use localforage as cache store
 
