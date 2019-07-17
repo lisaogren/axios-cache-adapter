@@ -1,6 +1,6 @@
 import assert from 'assert'
 
-import exclude, { excludeQuery, excludePaths } from 'src/exclude'
+import exclude, { excludeQuery, excludePaths, excludeHttpMethods } from 'src/exclude'
 
 describe('Cache exclusion', () => {
   const url = 'https://some-rest.api/users'
@@ -73,13 +73,23 @@ describe('Cache exclusion', () => {
 
   it('Should convert exclude config to array', () => {
     const config = {
-      exclude: excludePaths([
-        /\/users/
-      ]),
+      exclude: excludePaths(/\/users/),
       debug
     }
 
     assert.ok(exclude(config, { url }))
     assert.equal(exclude(config, { url: 'https://some-rest.api/invoices' }), false)
+  })
+
+  it('Should exclude requests that match list of http methods', () => {
+    const config = {
+      exclude: excludeHttpMethods(['POST', 'patch', 'DeLetE']),
+      debug
+    }
+
+    assert.ok(!exclude(config, { url, method: 'get' }))
+    assert.ok(exclude(config, { url, method: 'post' }))
+    assert.ok(exclude(config, { url, method: 'patch' }))
+    assert.ok(exclude(config, { url, method: 'delete' }))
   })
 })

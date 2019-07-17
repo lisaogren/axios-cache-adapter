@@ -4,7 +4,7 @@ import merge from 'lodash/merge'
 
 import { makeAdapter } from './adapter'
 import { serializeQuery } from './cache'
-import { excludeQuery, excludePaths } from './exclude'
+import { excludeQuery, excludePaths, excludeHttpMethods } from './exclude'
 import { defaults, makeConfig } from './config'
 
 /**
@@ -53,5 +53,5 @@ function setup (config = {}) {
   return api
 }
 
-export { setup, setupCache, serializeQuery, excludeQuery, excludePaths }
-export default { setup, setupCache, serializeQuery, excludeQuery, excludePaths }
+export { setup, setupCache, serializeQuery, excludeQuery, excludePaths, excludeHttpMethods }
+export default { setup, setupCache, serializeQuery, excludeQuery, excludePaths, excludeHttpMethods }

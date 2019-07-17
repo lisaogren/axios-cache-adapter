@@ -7,7 +7,7 @@ import MockDate from 'mockdate'
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
 
-import { setup, setupCache, serializeQuery, excludeQuery, excludePaths } from 'src/index'
+import { setup, setupCache, serializeQuery, excludeQuery, excludePaths, excludeHttpMethods } from 'src/index'
 import MemoryStore from 'src/memory'
 
 const REQUEST_TIMEOUT = 10000
@@ -85,7 +85,7 @@ describe('Integration', function () {
     length = await api.cache.length()
 
     // Sending POST request to same URL clears the stored GET request
-    assert.equal(length, 1)
+    assert.equal(length, 0)
   })
 
   it('Should cache GET requests with params', async function () {
@@ -149,6 +149,37 @@ describe('Integration', function () {
 
     assert.equal(response.status, 200)
     assert.ok(has(response.data.args, 'user'))
+    assert.ok(response.request.excludedFromCache)
+    assert.ok(!response.request.fromCache)
+  })
+
+  it('Should exclude request with specific http method using `excludeHttpMethods` middleware', async () => {
+    const api = setup({
+      cache: {
+        exclude: excludeHttpMethods('post')
+      }
+    })
+
+    const getRequest = { url: 'https://httpbin.org/get?user=rascarlito', method: 'get' }
+    const postRequest = { url: 'https://httpbin.org/post', method: 'post' }
+
+    let response = await api(getRequest)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'user'))
+    assert.ok(!response.request.excludedFromCache)
+    assert.ok(!response.request.fromCache)
+
+    response = await api(getRequest)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'user'))
+    assert.ok(!response.request.excludedFromCache)
+    assert.ok(response.request.fromCache)
+
+    response = await api(postRequest)
+
+    assert.equal(response.status, 200)
     assert.ok(response.request.excludedFromCache)
     assert.ok(!response.request.fromCache)
   })

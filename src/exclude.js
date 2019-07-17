@@ -12,8 +12,20 @@ export const excludeQuery = () => (config, req) => {
     )
 }
 
-export const excludePaths = (paths = []) => (config, req) => {
-  return find(paths, regexp => req.url.match(regexp))
+export const excludePaths = (paths = []) => {
+  if (!isArray(paths)) paths = [paths]
+
+  return (config, req) => {
+    return find(paths, regexp => req.url.match(regexp))
+  }
+}
+
+export const excludeHttpMethods = (methods = []) => {
+  if (!isArray(methods)) methods = [methods]
+
+  return (config, req) => {
+    return find(methods, method => method.toLowerCase() === req.method.toLowerCase())
+  }
 }
 
 function exclude (config = {}, req) {

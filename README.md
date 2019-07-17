@@ -46,7 +46,7 @@ Or from a CDN like unpkg.com
 
 ## Usage
 
-By default, `axios-cache-adapter` will use `cache-control` and `expires` headers sent from server to determine how long response should be kept in cache. Else, you can set a fixed `maxAge` through through the options.
+By default, `axios-cache-adapter` will use `cache-control` and `expires` headers sent from server to determine how long response should be kept in cache. Else, you can set a fixed `maxAge` through the options.
 
 ### Instantiate adapter on its own
 
