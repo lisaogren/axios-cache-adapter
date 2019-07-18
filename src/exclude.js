@@ -1,36 +1,47 @@
 import find from 'lodash/find'
+import reduce from 'lodash/reduce'
+import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 
-function exclude (config = {}, req) {
-  const { exclude = {}, debug } = config
-
-  if ((typeof exclude.filter === 'function') && exclude.filter(req)) {
-    debug(`Excluding request by filter ${req.url}`)
-
-    return true
-  }
-
-  // do not cache request with query
-  const hasQueryParams = req.url.match(/\?.*$/) ||
+export const excludeQuery = () => (config, req) => {
+  return req.url.match(/\?.*$/) ||
     !isEmpty(req.params) ||
-    (typeof URLSearchParams !== 'undefined' && req.params instanceof URLSearchParams)
+    (
+      typeof URLSearchParams !== 'undefined' &&
+      req.params instanceof URLSearchParams
+    )
+}
 
-  if (exclude.query && hasQueryParams) {
-    debug(`Excluding request by query ${req.url}`)
+export const excludePaths = (paths = []) => {
+  if (!isArray(paths)) paths = [paths]
 
-    return true
+  return (config, req) => {
+    return find(paths, regexp => req.url.match(regexp))
   }
+}
 
-  const paths = exclude.paths || []
-  const found = find(paths, regexp => req.url.match(regexp))
+export const excludeHttpMethods = (methods = []) => {
+  if (!isArray(methods)) methods = [methods]
 
-  if (found) {
-    debug(`Excluding request by url match ${req.url}`)
-
-    return true
+  return (config, req) => {
+    return find(methods, method => method.toLowerCase() === req.method.toLowerCase())
   }
+}
 
-  return false
+function exclude (config = {}, req) {
+  let { exclude: middlewares = [], debug } = config
+
+  if (!isArray(middlewares)) middlewares = [middlewares]
+
+  const shouldExclude = reduce(middlewares, (result, shouldExclude) => {
+    if (!result) result = Boolean(shouldExclude(config, req))
+
+    return result
+  }, false)
+
+  if (shouldExclude) debug('Excluding request from cache')
+
+  return shouldExclude
 }
 
 export default exclude

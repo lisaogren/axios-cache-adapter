@@ -1,11 +1,30 @@
-# :rocket: axios-cache-adapter [![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# axios-cache-adapter
+[![Build Status](https://travis-ci.org/RasCarlito/axios-cache-adapter.svg?branch=master)](https://travis-ci.org/RasCarlito/axios-cache-adapter) [![codecov](https://codecov.io/gh/RasCarlito/axios-cache-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/RasCarlito/axios-cache-adapter) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> Caching adapter for axios. Store request results in a configurable store to prevent unneeded network requests.
+Caching adapter for axios. Store request results in a configurable store to prevent unneeded network requests.
 
-Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache)
-by [@stephanebachelier](https://github.com/stephanebachelier)
+##### Table of contents
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Instantiate adapter on its own](#instantiate-adapter-on-its-own)
+  * [Instantiate axios with bound adapter](#instantiate-axios-with-bound-adapter)
+  * [Override instance config with per request options](#override-instance-config-with-per-request-options)
+  * [Use localforage as cache store](#use-localforage-as-cache-store)
+  * [Check if response is served from network or from cache](#check-if-response-is-served-from-network-or-from-cache)
+  * [Read stale cache data on network error](#read-stale-cache-data-on-network-error)
+  * [Invalidate cache entries](#invalidate-cache-entries)
+  * [Use response headers to automatically set `maxAge`](#use-response-headers-to-automatically-set-maxage)
+* [API](#api)
+  * [setupCache(options)](#setupcacheoptions)
+  * [setup(options)](#setupoptions)
+  * [Per request options](#per-request-options)
+* [Building](#building)
+* [Testing](#testing)
+* [Browser vs Node.js](#browser-vs-nodejs)
+* [Contributors](#contributors)
+* [License](#license)
 
-## Install
+## Installation
 
 Using npm
 
@@ -27,6 +46,8 @@ Or from a CDN like unpkg.com
 
 ## Usage
 
+By default, `axios-cache-adapter` will use `cache-control` and `expires` headers sent from server to determine how long response should be kept in cache. Else, you can set a fixed `maxAge` through the options.
+
 ### Instantiate adapter on its own
 
 You can instantiate the `axios-cache-adapter` on its own using the `setupCache()` method and then attach the adapter manually to an instance of `axios`.
@@ -34,32 +55,41 @@ You can instantiate the `axios-cache-adapter` on its own using the `setupCache()
 ```js
 // Import dependencies
 import axios from 'axios'
+import assert from 'assert'
 import { setupCache } from 'axios-cache-adapter'
 
 // Create `axios-cache-adapter` instance
-const cache = setupCache({
-  maxAge: 15 * 60 * 1000
-})
+const cache = setupCache()
 
 // Create `axios` instance passing the newly created `cache.adapter`
 const api = axios.create({
   adapter: cache.adapter
 })
 
-// Send a GET request to some REST api
-api({
-  url: 'http://some-rest.api/url',
-  method: 'get'
-}).then(async (response) => {
+// Make a request which will respond with header `cache-control: max-age=60`
+api.get('https://httpbin.org/cache/60').then(response => {
+  // Cached `response` will expire one minute later
+
   // Do something fantastic with response.data \o/
   console.log('Request response:', response)
 
-  // Interacting with the store, see `localForage` API.
+  // Interacting with the store
   const length = await cache.store.length()
 
   console.log('Cache store length:', length)
 })
+
+// Make a request which responds with header `cache-control: no-cache`
+api.get('https://httpbin.org/response-headers?cache-control=no-cache').then(response => {
+  // Response will not come from cache
+  assert.ok(response.request.fromCache !== true)
+
+  // Check that query was excluded from cache
+  assert.ok(response.request.excludedFromCache === true)
+})
 ```
+
+_Note: For the `cache-control` header, only the `max-age`, `no-cache`, `no-store` and `must-revalidate` values are interpreted._
 
 ### Instantiate axios with bound adapter
 
@@ -76,6 +106,7 @@ const api = setup({
 
   // `axios-cache-adapter` options
   cache: {
+    readHeaders: false,
     maxAge: 15 * 60 * 1000
   }
 })
@@ -103,6 +134,7 @@ const api = setup({
   baseURL: 'https://httpbin.org',
 
   cache: {
+    readHeaders: false,
     maxAge: 15 * 60 * 1000
   }
 })
@@ -115,8 +147,7 @@ api.get('/get').then((response) => {
 // Override `maxAge` and cache URLs with query parameters
 api.get('/get?with=query', {
   cache: {
-    maxAge: 2 * 60 * 1000, // 2 min instead of 15 min
-    exclude: { query: false }
+    maxAge: 2 * 60 * 1000 // 2 min instead of 15 min
   }
 })
   .then((response) => {
@@ -124,7 +155,7 @@ api.get('/get?with=query', {
   })
 ```
 
-_Note: Not all instance options can be overridden per request, see the API documentation at the end of this readme_
+_Note: Not all instance options can be overridden per request, see the [per request options API documentation](#per-request-options)_
 
 ### Use localforage as cache store
 
@@ -161,6 +192,7 @@ async function configure () {
 
     // `axios-cache-adapter` options
     cache: {
+      readHeaders: false,
       maxAge: 15 * 60 * 1000,
       store: forageStore // Pass `localforage` store to `axios-cache-adapter`
     }
@@ -186,6 +218,7 @@ import { setup } from 'axios-cache-adapter'
 // Create `axios` instance with pre-configured `axios-cache-adapter`
 const api = setup({
   cache: {
+    readHeaders: false,
     maxAge: 15 * 60 * 1000
   }
 })
@@ -215,7 +248,7 @@ You can tell `axios-cache-adapter` to read stale cache data when a network error
 
 `readOnError` can either be a `Boolean` telling cache adapter to attempt reading stale cache when any network error happens or a `Function` which receives the error and request objects and then returns a `Boolean`.
 
-By default `axios-cache-adapter` clears stale cache data automatically, this would conflict with activating the `readOnError` option, so the `clearOnStale` option should be set to `false`.
+The `clearOnStale` option should be set to `false` (which is the default) for `readOnError` to work.
 
 ```js
 import { setup } from 'axios-cache-adapter'
@@ -223,11 +256,10 @@ import { setup } from 'axios-cache-adapter'
 const api = setup({
   cache: {
     // Attempt reading stale cache data when response status is either 4xx or 5xx
+    // `clearOnStale` option needs to be `false` so that we can actually read stale cache data
     readOnError: (error, request) => {
       return error.response.status >= 400 && error.response.status < 600
-    },
-    // Deactivate `clearOnStale` option so that we can actually read stale cache data
-    clearOnStale: false
+    }
   }
 })
 
@@ -297,40 +329,6 @@ api.get('https://httpbin.org/get', { clearCacheEntry: true }).then(response => {
 })
 ```
 
-### Use response headers to automatically set `maxAge`
-
-When you set the `readHeaders` option to `true`, the adapter will try to read `cache-control` or `expires` headers to automatically set the `maxAge` option for the given request.
-
-```js
-import assert from 'assert'
-import { setup } from 'axios-cache-adapter'
-
-const api = setup({
-  cache: {
-    // Tell adapter to attempt using response headers
-    readHeaders: true,
-    // For this example to work we disable query exclusion
-    exclude: { query: false }
-  }
-})
-
-// Make a request which will respond with header `cache-control: max-age=60`
-api.get('https://httpbin.org/cache/60').then(response => {
-  // Cached `response` will expire one minute later
-})
-
-// Make a request which responds with header `cache-control: no-cache`
-api.get('https://httpbin.org/response-headers?cache-control=no-cache').then(response => {
-  // Response will not come from cache
-  assert.ok(response.request.fromCache !== true)
-
-  // Check that query was excluded from cache
-  assert.ok(response.request.excludedFromCache === true)
-})
-```
-
-_Note: For the `cache-control` header, only the `max-age`, `no-cache` and `no-store` values are interpreted._
-
 ## API
 
 ### setupCache(options)
@@ -343,6 +341,11 @@ where they will be stored, etc.
 ```js
 // Options passed to `setupCache()`.
 {
+  // {Boolean} Determine if response headers should be read to set `maxAge` automatically.
+  // Will try to parse `cache-control` or `expires` headers.
+  // This is the default behavior, if you want to manually set `maxAge` then you have to
+  // set this option to `false`.
+  readHeaders: true,
   // {Number} Maximum time for storing each request in milliseconds,
   // defaults to 15 minutes when using `setup()`.
   maxAge: 0,
@@ -363,26 +366,17 @@ where they will be stored, etc.
       await cfg.store.removeItem(cfg.uuid)
     }
   },
-  // {Object} Define which kind of requests should be excluded from cache.
-  exclude: {
-    // {Array} List of regular expressions to match against request URLs.
-    paths: [],
-    // {Boolean} Exclude requests with query parameters.
-    query: true,
-    // {Function} Method which returns a `Boolean` to determine if request
-    // should be excluded from cache.
-    filter: null
-  },
+  // {Array|Function} A list of middlewares which will be executed sequentially to
+  // determine if request should be excluded from cache.
+  // The middlewares receive the cache `config` and the axios `request` object as parameters.
+  exclude: [],
   // {Boolean} Clear cached item when it is stale.
-  clearOnStale: true,
+  clearOnStale: false,
   // {Boolean} Clear all cache when a cache write error occurs
   // (prevents size quota problems in `localStorage`).
-  clearOnError: true,
+  clearOnError: false,
   // {Function|Boolean} Determine if stale cache should be read when a network error occurs.
   readOnError: false,
-  // {Boolean} Determine if response headers should be read to set `maxAge` automatically.
-  // Will try to parse `cache-control` or `expires` headers.
-  readHeaders: false,
   // {Boolean} Ignore cache, will force to interpret cache reads as a `cache-miss`.
   // Useful to bypass cache for a given request.
   ignoreCache: false,
@@ -435,6 +429,8 @@ All options except `limit` and `store` can be overridden per request.
 
 Also the following keys are used internally and therefore should not be set in the options: `adapter`, `uuid`, `acceptStale`.
 
+*Note: Per request override does not work with `axios@0.19.0` as mentioned in [this issue](https://github.com/RasCarlito/axios-cache-adapter/issues/99). Until it is fixed, `axios-cache-adapter` locks the `axios` version to `0.18.1`*
+
 ## Building
 
 ```sh
@@ -470,14 +466,31 @@ npm run watch
 
 ## Browser vs Node.js
 
-`axios-cache-adapter` was designed to run in the browser. It does work in nodejs using the [in memory store](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js). But storing data in memory is not the greatests idea ever.
+`axios-cache-adapter` was designed to run in the browser. It does work in nodejs using the [in memory store](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js). But storing data in memory is not the best idea.
 
 You can give a `store` to override the in memory store but it has to comply with the [`localForage`](https://github.com/localForage/localForage) API and `localForage` does not work in nodejs for very good reasons that are better explained in [this issue](https://github.com/localForage/localForage/issues/57).
 
-Maybe it should be possible to connect `axios-cache-adapter` to a [redis](https://redis.io/) store or something equivalent.
+Works are in progress to connect `axios-cache-adapter` to [redis](https://redis.io/) as [you can see here](https://github.com/RasCarlito/axios-cache-adapter/pull/98).
 
-If you have any suggestions for a better way to work in nodejs please open an issue or submit a pull request.
+
+## Contributors
+
+[//]: contributor-faces
+<a href="https://github.com/RasCarlito"><img src="https://avatars1.githubusercontent.com/u/407268?v=4" title="RasCarlito" width="80" height="80"></a>
+<a href="https://github.com/stephanebachelier"><img src="https://avatars2.githubusercontent.com/u/172615?v=4" title="stephanebachelier" width="80" height="80"></a>
+<a href="https://github.com/jahead"><img src="https://avatars2.githubusercontent.com/u/5070464?v=4" title="jahead" width="80" height="80"></a>
+<a href="https://github.com/8enSmith"><img src="https://avatars1.githubusercontent.com/u/798183?v=4" title="8enSmith" width="80" height="80"></a>
+<a href="https://github.com/FMCorz"><img src="https://avatars3.githubusercontent.com/u/240112?v=4" title="FMCorz" width="80" height="80"></a>
+<a href="https://github.com/acidbiscuit"><img src="https://avatars2.githubusercontent.com/u/11949520?v=4" title="acidbiscuit" width="80" height="80"></a>
+<a href="https://github.com/janbaykara"><img src="https://avatars2.githubusercontent.com/u/237556?v=4" title="janbaykara" width="80" height="80"></a>
+<a href="https://github.com/charjac"><img src="https://avatars0.githubusercontent.com/u/2829504?v=4" title="charjac" width="80" height="80"></a>
+<a href="https://github.com/nolde"><img src="https://avatars2.githubusercontent.com/u/12801563?v=4" title="nolde" width="80" height="80"></a>
+<a href="https://github.com/vovk1805"><img src="https://avatars2.githubusercontent.com/u/21268247?v=4" title="vovk1805" width="80" height="80"></a>
+<a href="https://github.com/bluelovers"><img src="https://avatars0.githubusercontent.com/u/167966?v=4" title="bluelovers" width="80" height="80"></a>
+<a href="https://github.com/tejovanthWork"><img src="https://avatars1.githubusercontent.com/u/49153303?v=4" title="tejovanthWork" width="80" height="80"></a>
+
+[//]: contributor-faces
 
 ## License
 
-MIT © [Carl Ogren](https://github.com/RasCarlito)
+[MIT © Carl Ogren](https://github.com/RasCarlito/axios-cache-adapter/blob/master/LICENSE)

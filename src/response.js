@@ -3,12 +3,7 @@ import { write } from './cache'
 import { parse } from 'cache-control-esm'
 
 async function response (config, req, res) {
-  const { request = {}, headers = {} } = res
-
-  // exclude binary response from cache
-  if (['arraybuffer', 'blob'].indexOf(request.responseType) > -1) {
-    return res
-  }
+  const { headers = {} } = res
 
   let cacheControl = {}
 
@@ -27,9 +22,10 @@ async function response (config, req, res) {
   }
 
   if (!config.excludeFromCache) {
-    if (cacheControl.maxAge || cacheControl.maxAge === 0) {
+    if (cacheControl.mustRevalidate || cacheControl.maxAge || cacheControl.maxAge === 0) {
       // Use `cache-control` header `max-age` value and convert to milliseconds
-      config.expires = Date.now() + (cacheControl.maxAge * 1000)
+      const maxAge = cacheControl.maxAge || 0
+      config.expires = Date.now() + (maxAge * 1000)
     } else if (!config.readHeaders) {
       // Use fixed `maxAge` defined in the global or per-request config
       config.expires = config.maxAge === 0 ? Date.now() : Date.now() + config.maxAge

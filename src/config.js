@@ -4,6 +4,7 @@ import omit from 'lodash/omit'
 
 import MemoryStore from './memory'
 import { key, invalidate } from './cache'
+import { excludeHttpMethods } from './exclude'
 
 const noop = () => {}
 const debug = (...args) => console.log('[axios-cache-adapter]', ...args)
@@ -11,21 +12,17 @@ const debug = (...args) => console.log('[axios-cache-adapter]', ...args)
 const defaults = {
   // Default settings when solely creating the cache adapter with setupCache.
   cache: {
+    readHeaders: true,
     maxAge: 0,
     limit: false,
     store: null,
     key: null,
     invalidate: null,
-    exclude: {
-      paths: [],
-      query: true,
-      filter: null
-    },
+    exclude: [excludeHttpMethods(['post', 'patch', 'put', 'delete'])],
     adapter: axios.defaults.adapter,
-    clearOnStale: true,
-    clearOnError: true,
+    clearOnStale: false,
+    clearOnError: false,
     readOnError: false,
-    readHeaders: false,
     debug: false,
     ignoreCache: false
   },

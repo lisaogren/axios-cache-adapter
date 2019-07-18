@@ -1,11 +1,11 @@
-/* globals describe it beforeEach */
-
 import assert from 'assert'
 import { isFunction } from 'lodash'
 
 import request from 'src/request'
 import { key, invalidate } from 'src/cache'
 import MemoryStore from 'src/memory'
+import { excludePaths } from 'src/exclude'
+
 describe('Request', () => {
   const debug = () => {}
   // const debug = (...args) => { console.log(...args) }
@@ -42,9 +42,9 @@ describe('Request', () => {
 
   it('Should notify an exclusion if url matches exclude params', async () => {
     // Exclude everything
-    config.exclude = {
-      paths: [/.+/]
-    }
+    config.exclude = [
+      excludePaths([/.+/])
+    ]
 
     const result = await request(config, req)
 
@@ -59,14 +59,14 @@ describe('Request', () => {
     testExclusion(result)
   })
 
-  it('Should notify an exclusion and clear cache for http methods !== get', async () => {
+  it('Should clear cache for http methods !== get using default invalidate', async () => {
     req.method = 'POST'
 
     await store.setItem('url', res)
 
     const result = await request(config, req)
 
-    testExclusion(result)
+    assert.ok(isFunction(result.next))
 
     const length = await store.length()
 

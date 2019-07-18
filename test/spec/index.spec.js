@@ -1,5 +1,3 @@
-/* globals describe it */
-
 import assert from 'assert'
 import has from 'lodash/has'
 import isObject from 'lodash/isObject'
@@ -9,7 +7,7 @@ import MockDate from 'mockdate'
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
 
-import { setup, setupCache, serializeQuery } from 'src/index'
+import { setup, setupCache, serializeQuery, excludeQuery, excludePaths, excludeHttpMethods } from 'src/index'
 import MemoryStore from 'src/memory'
 
 const REQUEST_TIMEOUT = 10000
@@ -86,6 +84,7 @@ describe('Integration', function () {
     res = await api({ url, method: 'post' })
     length = await api.cache.length()
 
+    // Sending POST request to same URL clears the stored GET request
     assert.equal(length, 0)
   })
 
@@ -96,9 +95,7 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 15 * 60 * 1000,
-        exclude: {
-          query: false
-        }
+        readHeaders: false
       }
     })
 
@@ -132,15 +129,66 @@ describe('Integration', function () {
     assert.ok(response.request.fromCache)
   })
 
+  it('Should exclude request with params when using `excludeQuery` middleware', async () => {
+    const api = setup({
+      cache: {
+        exclude: [excludeQuery()]
+      }
+    })
+
+    const request = { url: 'https://httpbin.org/get?user=rascarlito' }
+
+    let response = await api(request)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'user'))
+    assert.ok(response.request.excludedFromCache)
+    assert.ok(!response.request.fromCache)
+
+    response = await api(request)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'user'))
+    assert.ok(response.request.excludedFromCache)
+    assert.ok(!response.request.fromCache)
+  })
+
+  it('Should exclude request with specific http method using `excludeHttpMethods` middleware', async () => {
+    const api = setup({
+      cache: {
+        exclude: excludeHttpMethods('post')
+      }
+    })
+
+    const getRequest = { url: 'https://httpbin.org/get?user=rascarlito', method: 'get' }
+    const postRequest = { url: 'https://httpbin.org/post', method: 'post' }
+
+    let response = await api(getRequest)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'user'))
+    assert.ok(!response.request.excludedFromCache)
+    assert.ok(!response.request.fromCache)
+
+    response = await api(getRequest)
+
+    assert.equal(response.status, 200)
+    assert.ok(has(response.data.args, 'user'))
+    assert.ok(!response.request.excludedFromCache)
+    assert.ok(response.request.fromCache)
+
+    response = await api(postRequest)
+
+    assert.equal(response.status, 200)
+    assert.ok(response.request.excludedFromCache)
+    assert.ok(!response.request.fromCache)
+  })
+
   it('Should cache GET requests with params even though URLSearchParams does not exist', async () => {
     const URLSearchParamsBackup = URLSearchParams
     window.URLSearchParams = undefined
 
-    const api = setup({
-      cache: {
-        exclude: { query: false }
-      }
-    })
+    const api = setup()
 
     const definition = {
       url: 'https://httpbin.org/get',
@@ -169,6 +217,7 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 15 * 60 * 1000,
+        readHeaders: false,
         limit: 3
       }
     }
@@ -196,18 +245,19 @@ describe('Integration', function () {
     assert.equal(length, config.cache.limit)
   })
 
-  it('Should exclude paths', async function () {
+  it('Should exclude paths with `excludePaths` middleware', async function () {
     this.timeout(REQUEST_TIMEOUT)
 
     const api4 = setup({
       cache: {
         // debug: true,
         maxAge: 15 * 60 * 1000,
-        exclude: {
-          paths: [
+        readHeaders: false,
+        exclude: [
+          excludePaths([
             /.+/ // Exclude everything
-          ]
-        }
+          ])
+        ]
       }
     })
 
@@ -260,12 +310,7 @@ describe('Integration', function () {
         (data, header) => {
           return data.args.a + data.args.b
         }
-      ],
-      cache: {
-        exclude: {
-          query: false
-        }
-      }
+      ]
     })
 
     let response = await request()
@@ -300,6 +345,7 @@ describe('Integration', function () {
       cache: {
         // debug: true,
         maxAge: 1,
+        readHeaders: false,
         readOnError: (err, config) => {
           return err.response.status === 404
         },
@@ -355,7 +401,8 @@ describe('Integration', function () {
     const api = setup({
       cache: {
         // debug: true,
-        maxAge: 15 * 60 * 1000
+        maxAge: 15 * 60 * 1000,
+        readHeaders: false
       }
     })
 
@@ -422,8 +469,7 @@ describe('Integration', function () {
     const api = setup({
       baseURL,
       cache: {
-        readHeaders: true,
-        exclude: { query: false }
+        readHeaders: true
       }
     })
 
@@ -446,8 +492,7 @@ describe('Integration', function () {
     const api = setup({
       baseURL,
       cache: {
-        readHeaders: true,
-        exclude: { query: false }
+        readHeaders: true
       }
     })
 
@@ -473,6 +518,7 @@ describe('Integration', function () {
     const api = setup({
       cache: {
         maxAge: 15 * 60 * 1000,
+        readHeaders: false,
         // Invalidate only when a specific option is passed through config
         invalidate: async (config, request) => {
           if (request.clearCacheEntry) {

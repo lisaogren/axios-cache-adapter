@@ -1,8 +1,6 @@
-/* globals describe it */
-
 import assert from 'assert'
 
-import exclude from 'src/exclude'
+import exclude, { excludeQuery, excludePaths, excludeHttpMethods } from 'src/exclude'
 
 describe('Cache exclusion', () => {
   const url = 'https://some-rest.api/users'
@@ -15,9 +13,11 @@ describe('Cache exclusion', () => {
     assert.equal(exclude(config, { url }), false)
   })
 
-  it('Should exclude requests with query parameters with config.exclude.query=true', () => {
+  it('Should exclude requests with query parameters with `excludeQuery`', () => {
     const config = {
-      exclude: { query: true },
+      exclude: [
+        excludeQuery()
+      ],
       debug
     }
 
@@ -30,9 +30,9 @@ describe('Cache exclusion', () => {
     assert.ok(exclude(config, reqWithSearchParams))
   })
 
-  it('Should not exclude requests with query parameters with config.exclude.query=false', () => {
+  it('Should not exclude requests with query parameters without `excludeQuery`', () => {
     const config = {
-      exclude: { query: false },
+      exclude: [],
       debug
     }
 
@@ -47,7 +47,11 @@ describe('Cache exclusion', () => {
 
   it('Should exclude requests that match paths', () => {
     const config = {
-      exclude: { paths: [/\/users/] },
+      exclude: [
+        excludePaths([
+          /\/users/
+        ])
+      ],
       debug
     }
 
@@ -55,15 +59,37 @@ describe('Cache exclusion', () => {
     assert.equal(exclude(config, { url: 'https://some-rest.api/invoices' }), false)
   })
 
-  it('Should exclude filtered requests', () => {
+  it('Should exclude requests with a custom filter', () => {
     const config = {
-      exclude: {
-        filter: req => req.params && req.params.shouldExclude
-      },
+      exclude: [
+        (config, req) => req.params && req.params.shouldExclude
+      ],
       debug
     }
 
     assert.ok(exclude(config, { url, params: { shouldExclude: true } }))
     assert.equal(exclude(config, { url }), false)
+  })
+
+  it('Should convert exclude config to array', () => {
+    const config = {
+      exclude: excludePaths(/\/users/),
+      debug
+    }
+
+    assert.ok(exclude(config, { url }))
+    assert.equal(exclude(config, { url: 'https://some-rest.api/invoices' }), false)
+  })
+
+  it('Should exclude requests that match list of http methods', () => {
+    const config = {
+      exclude: excludeHttpMethods(['POST', 'patch', 'DeLetE']),
+      debug
+    }
+
+    assert.ok(!exclude(config, { url, method: 'get' }))
+    assert.ok(exclude(config, { url, method: 'post' }))
+    assert.ok(exclude(config, { url, method: 'patch' }))
+    assert.ok(exclude(config, { url, method: 'delete' }))
   })
 })

@@ -1,6 +1,6 @@
 {
   "name": "axios-cache-adapter",
-  "version": "2.3.3",
+  "version": "3.0.0-beta.0",
   "description": "Caching adapter for axios",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "author": {
@@ -27,6 +27,12 @@
     "ignore": [
       "/dist",
       "/examples"
+    ],
+    "globals": [
+      "URLSearchParams",
+      "describe",
+      "it",
+      "beforeEach"
     ]
   },
   "scripts": {
@@ -43,10 +49,11 @@
     "@babel/core": "^7.1.2",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
-    "cache-control-esm": "1.0.0",
     "assert": "^1.4.1",
     "babel-loader": "^8.0.4",
+    "cache-control-esm": "1.0.0",
     "codecov": "^3.0.0",
+    "contributor-faces": "^1.0.2",
     "html-webpack-plugin": "^3.0.6",
     "husky": "^1.1.2",
     "istanbul-instrumenter-loader": "^3.0.0",
@@ -72,7 +79,7 @@
     "webpack-cli": "^3.1.1"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "0.18.1",
     "lodash": "^4.17.11"
   },
   "size-limit": [

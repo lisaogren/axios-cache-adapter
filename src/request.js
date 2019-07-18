@@ -5,18 +5,13 @@ import { read } from './cache'
 async function request (config, req) {
   config.debug('uuid', config.uuid)
 
+  const method = req.method.toLowerCase()
   const next = (...args) => response(config, req, ...args)
 
   // run invalidate function to check if any cache items need to be invalidated.
   await config.invalidate(config, req)
 
-  if (exclude(config, req)) {
-    return excludeFromCache()
-  }
-
-  const method = req.method.toLowerCase()
-
-  if (method === 'head' || method !== 'get') {
+  if (exclude(config, req) || method === 'head') {
     return excludeFromCache()
   }
 
