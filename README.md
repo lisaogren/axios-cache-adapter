@@ -143,7 +143,7 @@ async function configure () {
   await localforage.defineDriver(memoryDriver)
 
   // Create `localforage` instance
-  const store = localforage.createInstance({
+  const forageStore = localforage.createInstance({
     // List of drivers used
     driver: [
       localforage.INDEXEDDB,
@@ -162,7 +162,7 @@ async function configure () {
     // `axios-cache-adapter` options
     cache: {
       maxAge: 15 * 60 * 1000,
-      store // Pass `localforage` store to `axios-cache-adapter`
+      store: forageStore // Pass `localforage` store to `axios-cache-adapter`
     }
   })
 }
