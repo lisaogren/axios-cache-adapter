@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "beforeStart": "npm test && npm run build"
+  },
+  "github": {
+    "release": true,
+    "tokenRef": "AXIOS_CACHE_ADAPTER_GITHUB_TOKEN"
+  }
+}
