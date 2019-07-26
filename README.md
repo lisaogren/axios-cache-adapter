@@ -441,6 +441,14 @@ axios at the same time.
 }
 ```
 
+All the other parameters will be passed directly to the [`axios.create`](https://github.com/mzabriskie/axios#creating-an-instance) method.
+
+#### Returns
+
+`setup()` returns an instance of `axios` pre-configured with the cache adapter.
+The cache `store` is conveniently attached to the `axios` instance as `instance.cache` for easy access.
+
+
 ### RedisStore(client, [, hashKey])
 
 RedisStore allow you to cache requests on server using [redis](https://redis.io/).
@@ -450,6 +458,7 @@ Create a `RedisStore` instance. Takes `client` (`RedisClient`) and optional `has
 
 ```js
     // Using redis client https://github.com/NodeRedis/node_redis
+    // We have tested it with node_redis v.2.8.0 but it's supposed to work smoothly with the comming releases.
     const redis = require("redis")
     const client = redis.createClient()
 ```
