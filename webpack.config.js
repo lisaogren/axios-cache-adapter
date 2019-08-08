@@ -14,6 +14,7 @@ let externals = {}
 
 let mode = 'development'
 let target = 'web'
+let entry = './src/index.js'
 
 // List external dependencies
 const dependencies = [
@@ -40,6 +41,7 @@ dependencies.forEach(dep => {
 if (process.env.NODE_BUILD_FOR === 'node') {
   version.push('node')
   target = 'node'
+  entry = './src/index.node.js'
 }
 
 // Check if we should make a minified version
@@ -55,7 +57,7 @@ filename = filename.replace('[version]', version.join('.'))
 
 // Webpack config
 const build = {
-  entry: ['./src/index.js'],
+  entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename,
