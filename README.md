@@ -524,9 +524,7 @@ npm run watch
 
 You can give a `store` to override the in memory store but it has to comply with the [`localForage`](https://github.com/localForage/localForage) API and `localForage` does not work in nodejs for very good reasons that are better explained in [this issue](https://github.com/localForage/localForage/issues/57).
 
-Maybe it should be possible to connect `axios-cache-adapter` to a [redis](https://redis.io/) store or something equivalent.
-
-If you have any suggestions for a better way to work in nodejs please open an issue or submit a pull request.
+The better choice if you want to use `axios-cache-adapter` server-side is to use a redis server with a `RedisStore` instance as explained above in the API section.
 
 ## License
 
