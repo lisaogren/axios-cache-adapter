@@ -73,7 +73,7 @@
     "webpack-cli": "^3.1.1"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "0.18.1",
     "cache-control-esm": "1.0.0",
     "lodash": "^4.17.11"
   },
