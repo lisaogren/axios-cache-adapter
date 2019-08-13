@@ -115,3 +115,5 @@ export declare function setup(options: AxiosRequestConfig): AxiosInstance;
  * Create a cache adapter instance. Takes an options object to configure how the cached requests will be handled, where they will be stored, etc.
  */
 export declare function setupCache(options: IAxiosCacheAdapterOptions) : ISetupCache;
+
+export class RedisStore { constructor(client: any, HASH_KEY?: string); }
