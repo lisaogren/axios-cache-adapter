@@ -15,16 +15,16 @@ class SequelizeCache {
         }
       ]
     });
-    this.store = {}
+    this.items.sync();
   }
 
   async getItem (key) {
-    const item = await this.items.findOne({key}) || null
-    return JSON.parse(item.payload)
+    const item = await this.items.findOne({where: {key}})
+    return item ? JSON.parse(item.payload) : null
   }
 
   async setItem (key, value) {
-    await this.items.create({key, payload: value})
+    await this.items.create({key, payload: JSON.stringify(value)})
     return value
   }
 
