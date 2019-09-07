@@ -21,11 +21,6 @@ const dependencies = [
   'lodash/isEmpty',
   'lodash/isString',
   'lodash/isFunction',
-  'lodash/size',
-  'lodash/find',
-  'lodash/map',
-  'lodash/merge',
-  'lodash/omit',
   'axios'
 ]
 

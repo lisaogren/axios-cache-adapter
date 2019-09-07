@@ -1,6 +1,5 @@
 import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
-import map from 'lodash/map'
 
 import serialize from './serialize'
 
@@ -100,9 +99,7 @@ function serializeQuery (req) {
   // Convert to an instance of URLSearchParams so it get serialized the same way
   if (!isInstanceOfURLSearchParams) {
     params = new URLSearchParams()
-
-    // Using lodash/map even though we don't listen to output so we don't have to bundle lodash/forEach
-    map(req.params, (value, key) => params.append(key, value))
+    req.params.map((value, key) => params.append(key, value))
   }
 
   return `?${params.toString()}`
