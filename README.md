@@ -205,6 +205,37 @@ const api = setup({
 const response = await api.get('/url')
 ```
 
+### Use SQL database as cache store (via sequelize)
+
+You can give a `SequelizeStore` instance to `axios-cache-adapter` which will be used to store cache data instead of the default [in memory](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js) store.
+
+_Note: This only works server-side_ and requires sequelize + database adapter packages to be installed
+
+#### Installation
+
+    npm install sequelize sqlite3
+
+#### Usage
+
+```js
+const { setup, SequelizeStore } = require('axios-cache-adapter')
+const Sequelize = require('sequelize')
+
+const sequelize = new Sequelize('sqlite:cache.sqlite')
+const store = new Sequelize(sequelize)
+const api = setup({
+  // `axios` options
+  baseURL: 'http://some-rest.api',
+  // `axios-cache-adapter` options
+  cache: {
+    maxAge: 15 * 60 * 1000,
+    store // Pass `SequelizeStore` store to `axios-cache-adapter`
+  }
+})
+
+const response = await api.get('/url')
+```
+
 ### Check if response is served from network or from cache
 
 When a response is served from cache a custom `response.request` object is created with a `fromCache` boolean.
