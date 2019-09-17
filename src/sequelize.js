@@ -1,9 +1,5 @@
-const Sequelize = require('sequelize');
-
-class SequelizeCache {
-  constructor (config = 'sqlite:cache.sqlite') {
-    const sequelize = new Sequelize(config, {logging: false})
-
+class SequelizeStore {
+  constructor (sequelize) {
     this.items = sequelize.define('items', {
       key: Sequelize.STRING,
       payload: Sequelize.STRING,
