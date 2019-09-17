@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 class SequelizeCache {
   constructor (config = 'sqlite:cache.sqlite') {
-    const sequelize = new Sequelize(config)
+    const sequelize = new Sequelize(config, {logging: false})
 
     this.items = sequelize.define('items', {
       key: Sequelize.STRING,
@@ -19,7 +19,7 @@ class SequelizeCache {
   }
 
   async getItem (key) {
-    const item = await this.items.findOne({where: {key}})
+    const item = await this.items.findOne({ where: {key}})
     return item ? JSON.parse(item.payload) : null
   }
 
