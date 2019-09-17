@@ -41,4 +41,4 @@ class SequelizeStore {
   }
 }
 
-module.exports = SequelizeCache
+export default SequelizeStore
