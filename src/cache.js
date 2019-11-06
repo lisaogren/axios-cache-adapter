@@ -1,8 +1,8 @@
 import isString from 'lodash/isString'
-import isFunction from 'lodash/isFunction'
 import map from 'lodash/map'
 
 import serialize from './serialize'
+import { isFunction } from './utilities'
 
 async function write (config, req, res) {
   try {

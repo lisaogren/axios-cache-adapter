@@ -1,11 +1,11 @@
 import axios from 'axios'
 import omit from 'lodash/omit'
 import merge from 'lodash/merge'
-import isFunction from 'lodash/isFunction'
 
 import request from './request'
 import { serializeQuery } from './cache'
 import { defaults, makeConfig, mergeRequestConfig } from './config'
+import { isFunction } from './utilities'
 
 /**
  * Configure cache adapter
