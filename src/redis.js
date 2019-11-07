@@ -1,6 +1,7 @@
-import map from 'lodash/map'
 import get from 'lodash/get'
 import { promisify } from 'util'
+
+import { mapObject } from './utilities'
 
 class RedisStore {
   constructor (client, HASH_KEY = 'axios-cache') {
@@ -41,9 +42,7 @@ class RedisStore {
 
   async iterate (fn) {
     const hashData = await this.hgetallAsync(this.HASH_KEY)
-    return Promise.all(
-      map(hashData, (value, key) => fn(value, key))
-    )
+    return Promise.all(mapObject(hashData, fn))
   }
 }
 

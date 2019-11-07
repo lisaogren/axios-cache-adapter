@@ -35,3 +35,10 @@ export function isString(value) {
       getTag(value) == "[object String]")
   )
 }
+
+export function mapObject(value, fn) {
+  if (!isObject(value)) {
+    return []
+  }
+  return Object.keys(value).map(key => fn(value[key], key))
+}
