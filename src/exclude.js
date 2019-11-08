@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
+import { isObject } from './utilities'
 
 function exclude (config = {}, req) {
   const { exclude = {}, debug } = config
@@ -10,8 +10,8 @@ function exclude (config = {}, req) {
   }
 
   // do not cache request with query
-  const hasQueryParams = req.url.match(/\?.*$/) ||
-    !isEmpty(req.params) ||
+  const hasQueryParams = /\?.*$/.test(req.url) ||
+    (isObject(req.params) && Object.keys(req.params).length !== 0) ||
     (typeof URLSearchParams !== 'undefined' && req.params instanceof URLSearchParams)
 
   if (exclude.query && hasQueryParams) {
