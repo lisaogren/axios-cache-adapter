@@ -119,7 +119,7 @@ const test = {
       // Transpile ES2015 to ES5
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|\utilities.spec\.js$/,
         use: [
           {
             loader: 'babel-loader',
