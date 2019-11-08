@@ -1,5 +1,3 @@
-import size from 'lodash/size'
-
 import { mapObject } from './utilities'
 
 class MemoryStore {
@@ -28,7 +26,7 @@ class MemoryStore {
   }
 
   async length () {
-    return size(this.store)
+    return Object.keys(this.store).length
   }
 
   iterate (fn) {
