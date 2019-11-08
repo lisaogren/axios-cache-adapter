@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import omit from 'lodash/omit'
 
 import MemoryStore from './memory'
 import { key, invalidate } from './cache'
