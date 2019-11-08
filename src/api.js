@@ -1,6 +1,5 @@
 import axios from 'axios'
 import omit from 'lodash/omit'
-import merge from 'lodash/merge'
 
 import request from './request'
 import { serializeQuery } from './cache'
@@ -90,13 +89,20 @@ function setupCache (config = {}) {
  * @returns {object} Instance of Axios
  */
 function setup (config = {}) {
-  config = merge({}, defaults.axios, config)
+  const instanceConfig = {
+    ...defaults.axios,
+    ...config,
+    cache: {
+      ...defaults.axios.cache,
+      ...config.cache
+    }
+  }
 
-  const cache = setupCache(config.cache)
-  const axiosConfig = omit(config, ['cache'])
+  const cache = setupCache(instanceConfig.cache)
+  const axiosConfig = omit(instanceConfig, ['cache'])
 
   const api = axios.create(
-    merge({}, axiosConfig, { adapter: cache.adapter })
+    { ...axiosConfig, adapter: cache.adapter }
   )
 
   api.cache = cache.store
