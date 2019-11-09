@@ -1,5 +1,4 @@
-import find from 'lodash/find'
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty } from './utilities'
 
 function exclude (config = {}, req) {
   const { exclude = {}, debug } = config
@@ -22,7 +21,7 @@ function exclude (config = {}, req) {
   }
 
   const paths = exclude.paths || []
-  const found = find(paths, regexp => req.url.match(regexp))
+  const found = paths.find(regexp => req.url.match(regexp))
 
   if (found) {
     debug(`Excluding request by url match ${req.url}`)

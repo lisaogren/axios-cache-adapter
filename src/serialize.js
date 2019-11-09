@@ -1,5 +1,3 @@
-import omit from 'lodash/omit'
-
 function serialize (config, req, res) {
   if (res.data) {
     // FIXME: May be useless as localForage and axios already parse automatically
@@ -10,7 +8,9 @@ function serialize (config, req, res) {
     }
   }
 
-  return omit(res, ['request', 'config'])
+  const { request, config: _, ...result } = res;
+  return result;
+  // return omit(res, ['request', 'config'])
 }
 
 export default serialize

@@ -1,6 +1,4 @@
-import isString from 'lodash/isString'
-import isFunction from 'lodash/isFunction'
-import map from 'lodash/map'
+import { isString, isFunction } from './utilities'
 
 import serialize from './serialize'
 
@@ -66,7 +64,6 @@ async function read (config, req) {
 
 function key (config) {
   if (isFunction(config.key)) return config.key
-
   let cacheKey
 
   if (isString(config.key)) cacheKey = req => `${config.key}/${req.url}${serializeQuery(req)}`
@@ -101,8 +98,8 @@ function serializeQuery (req) {
   if (!isInstanceOfURLSearchParams) {
     params = new URLSearchParams()
 
-    // Using lodash/map even though we don't listen to output so we don't have to bundle lodash/forEach
-    map(req.params, (value, key) => params.append(key, value))
+    // Using ./utilities'
+    req.params.map((value, key) => params.append(key, value))
   }
 
   return `?${params.toString()}`

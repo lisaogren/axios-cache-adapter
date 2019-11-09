@@ -1,5 +1,4 @@
-import map from 'lodash/map'
-import get from 'lodash/get'
+import { get } from './utilities'
 import { promisify } from 'util'
 
 class RedisStore {
@@ -42,7 +41,7 @@ class RedisStore {
   async iterate (fn) {
     const hashData = await this.hgetallAsync(this.HASH_KEY)
     return Promise.all(
-      map(hashData, (value, key) => fn(value, key))
+      hashData.map((value, key) => fn(value, key))
     )
   }
 }
