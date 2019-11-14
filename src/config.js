@@ -79,12 +79,19 @@ const makeConfig = function (override = {}) {
  * @return {Object}
  */
 const mergeRequestConfig = function (config, req) {
-  const requestConfig = req.cache
+  const requestConfig = req.cache || {}
   if (requestConfig) {
     disallowedPerRequestKeys.forEach(key => requestConfig[key] ? (delete requestConfig[key]) : undefined)
   }
 
-  const mergedConfig = { ...config, ...requestConfig }
+  const mergedConfig = {
+    ...config,
+    ...requestConfig,
+    exclude: {
+      ...config.exclude,
+      ...requestConfig.exclude
+    }
+  }
 
   if (mergedConfig.debug === true) {
     mergedConfig.debug = debug
