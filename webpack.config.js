@@ -49,7 +49,7 @@ const polyfillExclusions = [
   'es6.object.define-properties',
   'es6.object.define-property',
   'es6.object.keys',
-  'es6.object.to-string',
+  // 'es6.object.to-string', // Build is broken because of this exclusion on mac.. Why?!
   'es6.promise',
   // 'es6.regexp.exec',
   'es6.regexp.match',
