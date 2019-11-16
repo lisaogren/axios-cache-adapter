@@ -13,11 +13,9 @@ describe('Redis store', () => {
   })
 
   it('Should throw error if redis client is not valid', async () => {
-    assert.throws(
-      () => {
-        RedisStore()
-      }
-    )
+    assert.throws(() => new RedisStore(null))
+    assert.throws(() => new RedisStore({ constructor: null }))
+    assert.throws(() => new RedisStore({ constructor: { name: 'MongoClient' } }))
   })
 
   it('Should accept custom HASH_KEY', async () => {

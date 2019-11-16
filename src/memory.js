@@ -1,5 +1,4 @@
-import size from 'lodash/size'
-import map from 'lodash/map'
+import { mapObject } from './utilities'
 
 class MemoryStore {
   constructor () {
@@ -27,13 +26,11 @@ class MemoryStore {
   }
 
   async length () {
-    return size(this.store)
+    return Object.keys(this.store).length
   }
 
   iterate (fn) {
-    return Promise.all(
-      map(this.store, (value, key) => fn(value, key))
-    )
+    return Promise.all(mapObject(this.store, fn))
   }
 }
 

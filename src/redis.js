@@ -1,11 +1,19 @@
-import map from 'lodash/map'
-import get from 'lodash/get'
 import { promisify } from 'util'
+
+import { mapObject } from './utilities'
 
 class RedisStore {
   constructor (client, HASH_KEY = 'axios-cache') {
-    if (get(client, 'constructor.name') !== 'RedisClient') {
-      throw new Error('Not valid redis client')
+    const invalidClientError = new TypeError(
+      'First parameter must be a valid RedisClient instance.'
+    )
+
+    try {
+      if (client.constructor.name !== 'RedisClient') {
+        throw invalidClientError
+      }
+    } catch (err) {
+      throw invalidClientError
     }
     this.client = client
     this.HASH_KEY = HASH_KEY
@@ -41,9 +49,7 @@ class RedisStore {
 
   async iterate (fn) {
     const hashData = await this.hgetallAsync(this.HASH_KEY)
-    return Promise.all(
-      map(hashData, (value, key) => fn(value, key))
-    )
+    return Promise.all(mapObject(hashData, fn))
   }
 }
 

@@ -42,7 +42,9 @@ describe('Per request config', () => {
     let requestConfig = {
       maxAge: 10,
       key: 'myKey',
-      exclude: true,
+      exclude: {
+        query: false
+      },
       clearOnStale: false,
       clearOnError: false,
       debug: () => {}
@@ -53,7 +55,10 @@ describe('Per request config', () => {
 
     assert.equal(mergedConfig.maxAge, requestConfig.maxAge)
     assert.equal(mergedConfig.key, requestConfig.key)
-    assert.equal(mergedConfig.exclude, requestConfig.exclude)
+    assert.deepEqual(mergedConfig.exclude, {
+      ...globalConfig.exclude,
+      ...requestConfig.exclude
+    })
     assert.equal(mergedConfig.clearOnStale, requestConfig.clearOnStale)
     assert.equal(mergedConfig.clearOnError, requestConfig.clearOnError)
     assert.strictEqual(mergedConfig.debug, requestConfig.debug)
