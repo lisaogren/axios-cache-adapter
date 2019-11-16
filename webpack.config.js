@@ -18,14 +18,6 @@ let entry = './src/index.js'
 
 // List external dependencies
 const dependencies = [
-  'lodash/isEmpty',
-  'lodash/isString',
-  'lodash/isFunction',
-  'lodash/size',
-  'lodash/find',
-  'lodash/map',
-  'lodash/merge',
-  'lodash/omit',
   'axios'
 ]
 
@@ -43,6 +35,29 @@ if (process.env.NODE_BUILD_FOR === 'node') {
   target = 'node'
   entry = './src/index.node.js'
 }
+
+const polyfillExclusions = [
+  'es6.array.filter',
+  'es6.array.for-each',
+  'es6.array.index-of',
+  'es6.array.is-array',
+  'es6.array.map',
+  'es6.array.some',
+  'es6.date.now',
+  'es6.date.to-string',
+  'es6.number.constructor',
+  'es6.object.define-properties',
+  'es6.object.define-property',
+  'es6.object.keys',
+  'es6.object.to-string',
+  'es6.promise',
+  // 'es6.regexp.exec',
+  'es6.regexp.match',
+  'es6.regexp.to-string',
+  'es6.string.iterator',
+  'es6.string.trim',
+  'web.dom.iterable'
+]
 
 // Check if we should make a minified version
 if (process.env.NODE_ENV === 'production') {
@@ -80,15 +95,7 @@ const build = {
             presets: [
               ['@babel/preset-env', {
                 useBuiltIns: 'usage',
-                exclude: [
-                  'es6.promise',
-                  'web.dom.iterable',
-                  'es6.string.iterator',
-                  'es6.array.index-of',
-                  'es6.date.now',
-                  'es6.regexp.match',
-                  'es6.array.filter'
-                ],
+                exclude: polyfillExclusions,
                 include: ['transform-classes']
               }]
             ]
@@ -119,13 +126,14 @@ const test = {
       // Transpile ES2015 to ES5
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /node_modules|\utilities.spec\.js$/,
         use: [
           {
             loader: 'babel-loader',
             options: {
               presets: [
                 ['@babel/preset-env', {
+                  // exclude: polyfillExclusions,
                   useBuiltIns: 'usage'
                 }]
               ]

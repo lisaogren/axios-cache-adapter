@@ -1,6 +1,4 @@
 import axios from 'axios'
-import merge from 'lodash/merge'
-import omit from 'lodash/omit'
 
 import MemoryStore from './memory'
 import { key, invalidate } from './cache'
@@ -48,7 +46,7 @@ const disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'uuid', 'acceptSt
  * @return {Object}
  */
 const makeConfig = function (override = {}) {
-  let config = merge({}, defaults.cache, override)
+  const config = { ...defaults.cache, ...override }
 
   // Create a cache key method
   config.key = key(config)
@@ -81,8 +79,19 @@ const makeConfig = function (override = {}) {
  * @return {Object}
  */
 const mergeRequestConfig = function (config, req) {
-  const requestConfig = req.cache
-  const mergedConfig = merge({}, config, omit(requestConfig, disallowedPerRequestKeys))
+  const requestConfig = req.cache || {}
+  if (requestConfig) {
+    disallowedPerRequestKeys.forEach(key => requestConfig[key] ? (delete requestConfig[key]) : undefined)
+  }
+
+  const mergedConfig = {
+    ...config,
+    ...requestConfig,
+    exclude: {
+      ...config.exclude,
+      ...requestConfig.exclude
+    }
+  }
 
   if (mergedConfig.debug === true) {
     mergedConfig.debug = debug
