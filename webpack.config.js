@@ -96,7 +96,7 @@ const build = {
               ['@babel/preset-env', {
                 useBuiltIns: 'usage',
                 exclude: polyfillExclusions,
-                include: ['transform-classes']
+                include: ['transform-classes', 'proposal-object-rest-spread']
               }]
             ]
           }
