@@ -9,7 +9,15 @@ function serialize (config, req, res) {
   }
 
   const { request, config: _, ...serialized } = res
-  return serialized
+
+  return {
+    ...serialized,
+    request: {
+      res: {
+        responseUrl: request && request.res && request.res.responseUrl
+      },
+    },
+  }
 }
 
 export default serialize
