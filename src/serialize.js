@@ -10,14 +10,15 @@ function serialize (config, req, res) {
 
   const { request, config: _, ...serialized } = res
 
-  return {
-    ...serialized,
-    request: {
+  if (request && request.res && request.res.responseUrl) {
+    serialized.request = {
       res: {
         responseUrl: request && request.res && request.res.responseUrl
       },
-    },
+    }
   }
+
+  return serialized
 }
 
 export default serialize
