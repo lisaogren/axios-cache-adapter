@@ -117,3 +117,16 @@ export declare function setup(options: AxiosRequestConfig): AxiosInstance;
 export declare function setupCache(options: IAxiosCacheAdapterOptions) : ISetupCache;
 
 export class RedisStore { constructor(client: any, HASH_KEY?: string); }
+
+export interface IAxiosCacheAdapterRequest
+{
+	/**
+	 * When a response is served from cache a custom `response.request` object is created with a `fromCache` boolean.
+	 */
+	fromCache?: boolean,
+
+	/**
+	 * Check that query was excluded from cache
+	 */
+	excludedFromCache?: boolean,
+}
