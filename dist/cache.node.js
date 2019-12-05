@@ -108,16 +108,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CacheControl", function() { return CacheControl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return parse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "format", function() { return format; });
-/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es7.symbol.async-iterator */ "./node_modules/core-js/modules/es7.symbol.async-iterator.js");
-/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
-/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
-/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.regexp.split */ "./node_modules/core-js/modules/es6.regexp.split.js");
-/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es6_number_is_finite__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es6.number.is-finite */ "./node_modules/core-js/modules/es6.number.is-finite.js");
-/* harmony import */ var core_js_modules_es6_number_is_finite__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_number_is_finite__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es7.symbol.async-iterator */ "./node_modules/core-js/modules/es7.symbol.async-iterator.js");
+/* harmony import */ var core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_symbol_async_iterator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom.iterable */ "./node_modules/core-js/modules/web.dom.iterable.js");
+/* harmony import */ var core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_iterable__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es6.regexp.split */ "./node_modules/core-js/modules/es6.regexp.split.js");
+/* harmony import */ var core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_regexp_split__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es6_number_is_finite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es6.number.is-finite */ "./node_modules/core-js/modules/es6.number.is-finite.js");
+/* harmony import */ var core_js_modules_es6_number_is_finite__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_number_is_finite__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -128,7 +131,7 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -150,9 +153,9 @@ var STRINGS = {
   noStore: 'no-store',
   noTransform: 'no-transform',
   onlyIfCached: 'only-if-cached',
-  private: 'private',
+  "private": 'private',
   proxyRevalidate: 'proxy-revalidate',
-  public: 'public'
+  "public": 'public'
 };
 
 function parseBooleanOnly(value) {
@@ -190,9 +193,9 @@ function () {
     this.noStore = null;
     this.noTransform = null;
     this.onlyIfCached = null;
-    this.private = null;
+    this["private"] = null;
     this.proxyRevalidate = null;
-    this.public = null;
+    this["public"] = null;
   }
 
   _createClass(CacheControl, [{
@@ -234,9 +237,9 @@ function () {
       this.noStore = parseBooleanOnly(values[STRINGS.noStore]);
       this.noTransform = parseBooleanOnly(values[STRINGS.noTransform]);
       this.onlyIfCached = parseBooleanOnly(values[STRINGS.onlyIfCached]);
-      this.private = parseBooleanOnly(values[STRINGS.private]);
+      this["private"] = parseBooleanOnly(values[STRINGS["private"]]);
       this.proxyRevalidate = parseBooleanOnly(values[STRINGS.proxyRevalidate]);
-      this.public = parseBooleanOnly(values[STRINGS.public]);
+      this["public"] = parseBooleanOnly(values[STRINGS["public"]]);
       return this;
     }
   }, {
@@ -288,16 +291,16 @@ function () {
         tokens.push(STRINGS.onlyIfCached);
       }
 
-      if (this.private) {
-        tokens.push(STRINGS.private);
+      if (this["private"]) {
+        tokens.push(STRINGS["private"]);
       }
 
       if (this.proxyRevalidate) {
         tokens.push(STRINGS.proxyRevalidate);
       }
 
-      if (this.public) {
-        tokens.push(STRINGS.public);
+      if (this["public"]) {
+        tokens.push(STRINGS["public"]);
       }
 
       return tokens.join(', ');
@@ -357,6 +360,26 @@ var ArrayProto = Array.prototype;
 if (ArrayProto[UNSCOPABLES] == undefined) __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js")(ArrayProto, UNSCOPABLES, {});
 module.exports = function (key) {
   ArrayProto[UNSCOPABLES][key] = true;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_advance-string-index.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/modules/_advance-string-index.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var at = __webpack_require__(/*! ./_string-at */ "./node_modules/core-js/modules/_string-at.js")(true);
+
+ // `AdvanceStringIndex` abstract operation
+// https://tc39.github.io/ecma262/#sec-advancestringindex
+module.exports = function (S, index, unicode) {
+  return index + (unicode ? at(S, index).length : 1);
 };
 
 
@@ -449,6 +472,40 @@ module.exports = Function.bind || function bind(that /* , ...args */) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_classof.js":
+/*!**************************************************!*\
+  !*** ./node_modules/core-js/modules/_classof.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = __webpack_require__(/*! ./_cof */ "./node_modules/core-js/modules/_cof.js");
+var TAG = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('toStringTag');
+// ES3 wrong here
+var ARG = cof(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (e) { /* empty */ }
+};
+
+module.exports = function (it) {
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_cof.js":
 /*!**********************************************!*\
   !*** ./node_modules/core-js/modules/_cof.js ***!
@@ -472,8 +529,28 @@ module.exports = function (it) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.7' };
+var core = module.exports = { version: '2.6.10' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_create-property.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/_create-property.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $defineProperty = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js");
+var createDesc = __webpack_require__(/*! ./_property-desc */ "./node_modules/core-js/modules/_property-desc.js");
+
+module.exports = function (object, index, value) {
+  if (index in object) $defineProperty.f(object, index, createDesc(0, value));
+  else object[index] = value;
+};
 
 
 /***/ }),
@@ -680,22 +757,90 @@ module.exports = function (exec) {
 
 "use strict";
 
-var hide = __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js");
+__webpack_require__(/*! ./es6.regexp.exec */ "./node_modules/core-js/modules/es6.regexp.exec.js");
 var redefine = __webpack_require__(/*! ./_redefine */ "./node_modules/core-js/modules/_redefine.js");
+var hide = __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js");
 var fails = __webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.js");
 var defined = __webpack_require__(/*! ./_defined */ "./node_modules/core-js/modules/_defined.js");
 var wks = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js");
+var regexpExec = __webpack_require__(/*! ./_regexp-exec */ "./node_modules/core-js/modules/_regexp-exec.js");
+
+var SPECIES = wks('species');
+
+var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+  // #replace needs built-in support for named groups.
+  // #match works fine because it just return the exec results, even if it has
+  // a "grops" property.
+  var re = /./;
+  re.exec = function () {
+    var result = [];
+    result.groups = { a: '7' };
+    return result;
+  };
+  return ''.replace(re, '$<a>') !== '7';
+});
+
+var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = (function () {
+  // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+  var re = /(?:)/;
+  var originalExec = re.exec;
+  re.exec = function () { return originalExec.apply(this, arguments); };
+  var result = 'ab'.split(re);
+  return result.length === 2 && result[0] === 'a' && result[1] === 'b';
+})();
 
 module.exports = function (KEY, length, exec) {
   var SYMBOL = wks(KEY);
-  var fns = exec(defined, SYMBOL, ''[KEY]);
-  var strfn = fns[0];
-  var rxfn = fns[1];
-  if (fails(function () {
+
+  var DELEGATES_TO_SYMBOL = !fails(function () {
+    // String methods call symbol-named RegEp methods
     var O = {};
     O[SYMBOL] = function () { return 7; };
     return ''[KEY](O) != 7;
-  })) {
+  });
+
+  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL ? !fails(function () {
+    // Symbol-named RegExp methods call .exec
+    var execCalled = false;
+    var re = /a/;
+    re.exec = function () { execCalled = true; return null; };
+    if (KEY === 'split') {
+      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // a new one. We need to return the patched regex when creating the new one.
+      re.constructor = {};
+      re.constructor[SPECIES] = function () { return re; };
+    }
+    re[SYMBOL]('');
+    return !execCalled;
+  }) : undefined;
+
+  if (
+    !DELEGATES_TO_SYMBOL ||
+    !DELEGATES_TO_EXEC ||
+    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
+    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+  ) {
+    var nativeRegExpMethod = /./[SYMBOL];
+    var fns = exec(
+      defined,
+      SYMBOL,
+      ''[KEY],
+      function maybeCallNative(nativeMethod, regexp, str, arg2, forceStringMethod) {
+        if (regexp.exec === regexpExec) {
+          if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+            // The native String method already delegates to @@method (this
+            // polyfilled function), leasing to infinite recursion.
+            // We avoid it by directly calling the native @@method method.
+            return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+          }
+          return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+        }
+        return { done: false };
+      }
+    );
+    var strfn = fns[0];
+    var rxfn = fns[1];
+
     redefine(String.prototype, KEY, strfn);
     hide(RegExp.prototype, SYMBOL, length == 2
       // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
@@ -707,6 +852,43 @@ module.exports = function (KEY, length, exec) {
     );
   }
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_flags.js":
+/*!************************************************!*\
+  !*** ./node_modules/core-js/modules/_flags.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 21.2.5.3 get RegExp.prototype.flags
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_function-to-string.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/modules/_function-to-string.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./_shared */ "./node_modules/core-js/modules/_shared.js")('native-function-to-string', Function.toString);
 
 
 /***/ }),
@@ -1362,6 +1544,27 @@ exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/_own-keys.js":
+/*!***************************************************!*\
+  !*** ./node_modules/core-js/modules/_own-keys.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// all object keys, includes non-enumerable and symbols
+var gOPN = __webpack_require__(/*! ./_object-gopn */ "./node_modules/core-js/modules/_object-gopn.js");
+var gOPS = __webpack_require__(/*! ./_object-gops */ "./node_modules/core-js/modules/_object-gops.js");
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var Reflect = __webpack_require__(/*! ./_global */ "./node_modules/core-js/modules/_global.js").Reflect;
+module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
+  var keys = gOPN.f(anObject(it));
+  var getSymbols = gOPS.f;
+  return getSymbols ? keys.concat(getSymbols(it)) : keys;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/_property-desc.js":
 /*!********************************************************!*\
   !*** ./node_modules/core-js/modules/_property-desc.js ***!
@@ -1392,8 +1595,8 @@ var global = __webpack_require__(/*! ./_global */ "./node_modules/core-js/module
 var hide = __webpack_require__(/*! ./_hide */ "./node_modules/core-js/modules/_hide.js");
 var has = __webpack_require__(/*! ./_has */ "./node_modules/core-js/modules/_has.js");
 var SRC = __webpack_require__(/*! ./_uid */ "./node_modules/core-js/modules/_uid.js")('src');
+var $toString = __webpack_require__(/*! ./_function-to-string */ "./node_modules/core-js/modules/_function-to-string.js");
 var TO_STRING = 'toString';
-var $toString = Function[TO_STRING];
 var TPL = ('' + $toString).split(TO_STRING);
 
 __webpack_require__(/*! ./_core */ "./node_modules/core-js/modules/_core.js").inspectSource = function (it) {
@@ -1419,6 +1622,109 @@ __webpack_require__(/*! ./_core */ "./node_modules/core-js/modules/_core.js").in
 })(Function.prototype, TO_STRING, function toString() {
   return typeof this == 'function' && this[SRC] || $toString.call(this);
 });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_regexp-exec-abstract.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/modules/_regexp-exec-abstract.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var classof = __webpack_require__(/*! ./_classof */ "./node_modules/core-js/modules/_classof.js");
+var builtinExec = RegExp.prototype.exec;
+
+ // `RegExpExec` abstract operation
+// https://tc39.github.io/ecma262/#sec-regexpexec
+module.exports = function (R, S) {
+  var exec = R.exec;
+  if (typeof exec === 'function') {
+    var result = exec.call(R, S);
+    if (typeof result !== 'object') {
+      throw new TypeError('RegExp exec method returned something other than an Object or null');
+    }
+    return result;
+  }
+  if (classof(R) !== 'RegExp') {
+    throw new TypeError('RegExp#exec called on incompatible receiver');
+  }
+  return builtinExec.call(R, S);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_regexp-exec.js":
+/*!******************************************************!*\
+  !*** ./node_modules/core-js/modules/_regexp-exec.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var regexpFlags = __webpack_require__(/*! ./_flags */ "./node_modules/core-js/modules/_flags.js");
+
+var nativeExec = RegExp.prototype.exec;
+// This always refers to the native implementation, because the
+// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+// which loads this file before patching the method.
+var nativeReplace = String.prototype.replace;
+
+var patchedExec = nativeExec;
+
+var LAST_INDEX = 'lastIndex';
+
+var UPDATES_LAST_INDEX_WRONG = (function () {
+  var re1 = /a/,
+      re2 = /b*/g;
+  nativeExec.call(re1, 'a');
+  nativeExec.call(re2, 'a');
+  return re1[LAST_INDEX] !== 0 || re2[LAST_INDEX] !== 0;
+})();
+
+// nonparticipating capturing group, copied from es5-shim's String#split patch.
+var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
+
+if (PATCH) {
+  patchedExec = function exec(str) {
+    var re = this;
+    var lastIndex, reCopy, match, i;
+
+    if (NPCG_INCLUDED) {
+      reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
+    }
+    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re[LAST_INDEX];
+
+    match = nativeExec.call(re, str);
+
+    if (UPDATES_LAST_INDEX_WRONG && match) {
+      re[LAST_INDEX] = re.global ? match.index + match[0].length : lastIndex;
+    }
+    if (NPCG_INCLUDED && match && match.length > 1) {
+      // Fix browsers whose `exec` methods don't consistently return `undefined`
+      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+      // eslint-disable-next-line no-loop-func
+      nativeReplace.call(match[0], reCopy, function () {
+        for (i = 1; i < arguments.length - 2; i++) {
+          if (arguments[i] === undefined) match[i] = undefined;
+        }
+      });
+    }
+
+    return match;
+  };
+}
+
+module.exports = patchedExec;
 
 
 /***/ }),
@@ -1474,8 +1780,56 @@ var store = global[SHARED] || (global[SHARED] = {});
 })('versions', []).push({
   version: core.version,
   mode: __webpack_require__(/*! ./_library */ "./node_modules/core-js/modules/_library.js") ? 'pure' : 'global',
-  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_species-constructor.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/modules/_species-constructor.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var aFunction = __webpack_require__(/*! ./_a-function */ "./node_modules/core-js/modules/_a-function.js");
+var SPECIES = __webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('species');
+module.exports = function (O, D) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/_string-at.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/modules/_string-at.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(/*! ./_to-integer */ "./node_modules/core-js/modules/_to-integer.js");
+var defined = __webpack_require__(/*! ./_defined */ "./node_modules/core-js/modules/_defined.js");
+// true  -> String#at
+// false -> String#codePointAt
+module.exports = function (TO_STRING) {
+  return function (that, pos) {
+    var s = String(defined(that));
+    var i = toInteger(pos);
+    var l = s.length;
+    var a, b;
+    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
 
 
 /***/ }),
@@ -1766,6 +2120,49 @@ $export($export.S, 'Number', {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es6.object.to-string.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/modules/es6.object.to-string.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 19.1.3.6 Object.prototype.toString()
+var classof = __webpack_require__(/*! ./_classof */ "./node_modules/core-js/modules/_classof.js");
+var test = {};
+test[__webpack_require__(/*! ./_wks */ "./node_modules/core-js/modules/_wks.js")('toStringTag')] = 'z';
+if (test + '' != '[object z]') {
+  __webpack_require__(/*! ./_redefine */ "./node_modules/core-js/modules/_redefine.js")(Object.prototype, 'toString', function toString() {
+    return '[object ' + classof(this) + ']';
+  }, true);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es6.regexp.exec.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/modules/es6.regexp.exec.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var regexpExec = __webpack_require__(/*! ./_regexp-exec */ "./node_modules/core-js/modules/_regexp-exec.js");
+__webpack_require__(/*! ./_export */ "./node_modules/core-js/modules/_export.js")({
+  target: 'RegExp',
+  proto: true,
+  forced: regexpExec !== /./.exec
+}, {
+  exec: regexpExec
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es6.regexp.split.js":
 /*!**********************************************************!*\
   !*** ./node_modules/core-js/modules/es6.regexp.split.js ***!
@@ -1773,15 +2170,30 @@ $export($export.S, 'Number', {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+var isRegExp = __webpack_require__(/*! ./_is-regexp */ "./node_modules/core-js/modules/_is-regexp.js");
+var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
+var speciesConstructor = __webpack_require__(/*! ./_species-constructor */ "./node_modules/core-js/modules/_species-constructor.js");
+var advanceStringIndex = __webpack_require__(/*! ./_advance-string-index */ "./node_modules/core-js/modules/_advance-string-index.js");
+var toLength = __webpack_require__(/*! ./_to-length */ "./node_modules/core-js/modules/_to-length.js");
+var callRegExpExec = __webpack_require__(/*! ./_regexp-exec-abstract */ "./node_modules/core-js/modules/_regexp-exec-abstract.js");
+var regexpExec = __webpack_require__(/*! ./_regexp-exec */ "./node_modules/core-js/modules/_regexp-exec.js");
+var fails = __webpack_require__(/*! ./_fails */ "./node_modules/core-js/modules/_fails.js");
+var $min = Math.min;
+var $push = [].push;
+var $SPLIT = 'split';
+var LENGTH = 'length';
+var LAST_INDEX = 'lastIndex';
+var MAX_UINT32 = 0xffffffff;
+
+// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
+var SUPPORTS_Y = !fails(function () { RegExp(MAX_UINT32, 'y'); });
+
 // @@split logic
-__webpack_require__(/*! ./_fix-re-wks */ "./node_modules/core-js/modules/_fix-re-wks.js")('split', 2, function (defined, SPLIT, $split) {
-  'use strict';
-  var isRegExp = __webpack_require__(/*! ./_is-regexp */ "./node_modules/core-js/modules/_is-regexp.js");
-  var _split = $split;
-  var $push = [].push;
-  var $SPLIT = 'split';
-  var LENGTH = 'length';
-  var LAST_INDEX = 'lastIndex';
+__webpack_require__(/*! ./_fix-re-wks */ "./node_modules/core-js/modules/_fix-re-wks.js")('split', 2, function (defined, SPLIT, $split, maybeCallNative) {
+  var internalSplit;
   if (
     'abbc'[$SPLIT](/(b)*/)[1] == 'c' ||
     'test'[$SPLIT](/(?:)/, -1)[LENGTH] != 4 ||
@@ -1790,35 +2202,26 @@ __webpack_require__(/*! ./_fix-re-wks */ "./node_modules/core-js/modules/_fix-re
     '.'[$SPLIT](/()()/)[LENGTH] > 1 ||
     ''[$SPLIT](/.?/)[LENGTH]
   ) {
-    var NPCG = /()??/.exec('')[1] === undefined; // nonparticipating capturing group
     // based on es5-shim implementation, need to rework it
-    $split = function (separator, limit) {
+    internalSplit = function (separator, limit) {
       var string = String(this);
       if (separator === undefined && limit === 0) return [];
       // If `separator` is not a regex, use native split
-      if (!isRegExp(separator)) return _split.call(string, separator, limit);
+      if (!isRegExp(separator)) return $split.call(string, separator, limit);
       var output = [];
       var flags = (separator.ignoreCase ? 'i' : '') +
                   (separator.multiline ? 'm' : '') +
                   (separator.unicode ? 'u' : '') +
                   (separator.sticky ? 'y' : '');
       var lastLastIndex = 0;
-      var splitLimit = limit === undefined ? 4294967295 : limit >>> 0;
+      var splitLimit = limit === undefined ? MAX_UINT32 : limit >>> 0;
       // Make `global` and avoid `lastIndex` issues by working with a copy
       var separatorCopy = new RegExp(separator.source, flags + 'g');
-      var separator2, match, lastIndex, lastLength, i;
-      // Doesn't need flags gy, but they don't hurt
-      if (!NPCG) separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\s)', flags);
-      while (match = separatorCopy.exec(string)) {
-        // `separatorCopy.lastIndex` is not reliable cross-browser
-        lastIndex = match.index + match[0][LENGTH];
+      var match, lastIndex, lastLength;
+      while (match = regexpExec.call(separatorCopy, string)) {
+        lastIndex = separatorCopy[LAST_INDEX];
         if (lastIndex > lastLastIndex) {
           output.push(string.slice(lastLastIndex, match.index));
-          // Fix browsers whose `exec` methods don't consistently return `undefined` for NPCG
-          // eslint-disable-next-line no-loop-func
-          if (!NPCG && match[LENGTH] > 1) match[0].replace(separator2, function () {
-            for (i = 1; i < arguments[LENGTH] - 2; i++) if (arguments[i] === undefined) match[i] = undefined;
-          });
           if (match[LENGTH] > 1 && match.index < string[LENGTH]) $push.apply(output, match.slice(1));
           lastLength = match[0][LENGTH];
           lastLastIndex = lastIndex;
@@ -1833,16 +2236,74 @@ __webpack_require__(/*! ./_fix-re-wks */ "./node_modules/core-js/modules/_fix-re
     };
   // Chakra, V8
   } else if ('0'[$SPLIT](undefined, 0)[LENGTH]) {
-    $split = function (separator, limit) {
-      return separator === undefined && limit === 0 ? [] : _split.call(this, separator, limit);
+    internalSplit = function (separator, limit) {
+      return separator === undefined && limit === 0 ? [] : $split.call(this, separator, limit);
     };
+  } else {
+    internalSplit = $split;
   }
-  // 21.1.3.17 String.prototype.split(separator, limit)
-  return [function split(separator, limit) {
-    var O = defined(this);
-    var fn = separator == undefined ? undefined : separator[SPLIT];
-    return fn !== undefined ? fn.call(separator, O, limit) : $split.call(String(O), separator, limit);
-  }, $split];
+
+  return [
+    // `String.prototype.split` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.split
+    function split(separator, limit) {
+      var O = defined(this);
+      var splitter = separator == undefined ? undefined : separator[SPLIT];
+      return splitter !== undefined
+        ? splitter.call(separator, O, limit)
+        : internalSplit.call(String(O), separator, limit);
+    },
+    // `RegExp.prototype[@@split]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
+    //
+    // NOTE: This cannot be properly polyfilled in engines that don't support
+    // the 'y' flag.
+    function (regexp, limit) {
+      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== $split);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+      var C = speciesConstructor(rx, RegExp);
+
+      var unicodeMatching = rx.unicode;
+      var flags = (rx.ignoreCase ? 'i' : '') +
+                  (rx.multiline ? 'm' : '') +
+                  (rx.unicode ? 'u' : '') +
+                  (SUPPORTS_Y ? 'y' : 'g');
+
+      // ^(? + rx + ) is needed, in combination with some S slicing, to
+      // simulate the 'y' flag.
+      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
+      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+      if (lim === 0) return [];
+      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
+      var p = 0;
+      var q = 0;
+      var A = [];
+      while (q < S.length) {
+        splitter.lastIndex = SUPPORTS_Y ? q : 0;
+        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
+        var e;
+        if (
+          z === null ||
+          (e = $min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
+        ) {
+          q = advanceStringIndex(S, q, unicodeMatching);
+        } else {
+          A.push(S.slice(p, q));
+          if (A.length === lim) return A;
+          for (var i = 1; i <= z.length - 1; i++) {
+            A.push(z[i]);
+            if (A.length === lim) return A;
+          }
+          q = p = e;
+        }
+      }
+      A.push(S.slice(p));
+      return A;
+    }
+  ];
 });
 
 
@@ -1875,12 +2336,14 @@ var enumKeys = __webpack_require__(/*! ./_enum-keys */ "./node_modules/core-js/m
 var isArray = __webpack_require__(/*! ./_is-array */ "./node_modules/core-js/modules/_is-array.js");
 var anObject = __webpack_require__(/*! ./_an-object */ "./node_modules/core-js/modules/_an-object.js");
 var isObject = __webpack_require__(/*! ./_is-object */ "./node_modules/core-js/modules/_is-object.js");
+var toObject = __webpack_require__(/*! ./_to-object */ "./node_modules/core-js/modules/_to-object.js");
 var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
 var toPrimitive = __webpack_require__(/*! ./_to-primitive */ "./node_modules/core-js/modules/_to-primitive.js");
 var createDesc = __webpack_require__(/*! ./_property-desc */ "./node_modules/core-js/modules/_property-desc.js");
 var _create = __webpack_require__(/*! ./_object-create */ "./node_modules/core-js/modules/_object-create.js");
 var gOPNExt = __webpack_require__(/*! ./_object-gopn-ext */ "./node_modules/core-js/modules/_object-gopn-ext.js");
 var $GOPD = __webpack_require__(/*! ./_object-gopd */ "./node_modules/core-js/modules/_object-gopd.js");
+var $GOPS = __webpack_require__(/*! ./_object-gops */ "./node_modules/core-js/modules/_object-gops.js");
 var $DP = __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/modules/_object-dp.js");
 var $keys = __webpack_require__(/*! ./_object-keys */ "./node_modules/core-js/modules/_object-keys.js");
 var gOPD = $GOPD.f;
@@ -1897,7 +2360,7 @@ var SymbolRegistry = shared('symbol-registry');
 var AllSymbols = shared('symbols');
 var OPSymbols = shared('op-symbols');
 var ObjectProto = Object[PROTOTYPE];
-var USE_NATIVE = typeof $Symbol == 'function';
+var USE_NATIVE = typeof $Symbol == 'function' && !!$GOPS.f;
 var QObject = global.QObject;
 // Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
 var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
@@ -2007,7 +2470,7 @@ if (!USE_NATIVE) {
   $DP.f = $defineProperty;
   __webpack_require__(/*! ./_object-gopn */ "./node_modules/core-js/modules/_object-gopn.js").f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(/*! ./_object-pie */ "./node_modules/core-js/modules/_object-pie.js").f = $propertyIsEnumerable;
-  __webpack_require__(/*! ./_object-gops */ "./node_modules/core-js/modules/_object-gops.js").f = $getOwnPropertySymbols;
+  $GOPS.f = $getOwnPropertySymbols;
 
   if (DESCRIPTORS && !__webpack_require__(/*! ./_library */ "./node_modules/core-js/modules/_library.js")) {
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
@@ -2058,6 +2521,16 @@ $export($export.S + $export.F * !USE_NATIVE, 'Object', {
   getOwnPropertySymbols: $getOwnPropertySymbols
 });
 
+// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
+// https://bugs.chromium.org/p/v8/issues/detail?id=3443
+var FAILS_ON_PRIMITIVES = $fails(function () { $GOPS.f(1); });
+
+$export($export.S + $export.F * FAILS_ON_PRIMITIVES, 'Object', {
+  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
+    return $GOPS.f(toObject(it));
+  }
+});
+
 // 24.3.2 JSON.stringify(value [, replacer [, space]])
 $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   var S = $Symbol();
@@ -2090,6 +2563,39 @@ setToStringTag($Symbol, 'Symbol');
 setToStringTag(Math, 'Math', true);
 // 24.3.3 JSON[@@toStringTag]
 setToStringTag(global.JSON, 'JSON', true);
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-object-getownpropertydescriptors
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/modules/_export.js");
+var ownKeys = __webpack_require__(/*! ./_own-keys */ "./node_modules/core-js/modules/_own-keys.js");
+var toIObject = __webpack_require__(/*! ./_to-iobject */ "./node_modules/core-js/modules/_to-iobject.js");
+var gOPD = __webpack_require__(/*! ./_object-gopd */ "./node_modules/core-js/modules/_object-gopd.js");
+var createProperty = __webpack_require__(/*! ./_create-property */ "./node_modules/core-js/modules/_create-property.js");
+
+$export($export.S, 'Object', {
+  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
+    var O = toIObject(object);
+    var getDesc = gOPD.f;
+    var keys = ownKeys(O);
+    var result = {};
+    var i = 0;
+    var key, desc;
+    while (keys.length > i) {
+      desc = getDesc(O, key = keys[i++]);
+      if (desc !== undefined) createProperty(result, key, desc);
+    }
+    return result;
+  }
+});
 
 
 /***/ }),
@@ -2180,7 +2686,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -2189,7 +2695,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
  * LICENSE file in the root directory of this source tree.
  */
 
-!(function(global) {
+var runtime = (function (exports) {
   "use strict";
 
   var Op = Object.prototype;
@@ -2199,23 +2705,6 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  var inModule = typeof module === "object";
-  var runtime = global.regeneratorRuntime;
-  if (runtime) {
-    if (inModule) {
-      // If regeneratorRuntime is defined globally and we're in a module,
-      // make the exports object identical to regeneratorRuntime.
-      module.exports = runtime;
-    }
-    // Don't bother evaluating the rest of this file if the runtime was
-    // already defined globally.
-    return;
-  }
-
-  // Define the runtime globally (as expected by generated code) as either
-  // module.exports (if we're in a module) or a new, empty object.
-  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
 
   function wrap(innerFn, outerFn, self, tryLocsList) {
     // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
@@ -2229,7 +2718,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 
     return generator;
   }
-  runtime.wrap = wrap;
+  exports.wrap = wrap;
 
   // Try/catch helper to minimize deoptimizations. Returns a completion
   // record like context.tryEntries[i].completion. This interface could
@@ -2300,7 +2789,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
     });
   }
 
-  runtime.isGeneratorFunction = function(genFun) {
+  exports.isGeneratorFunction = function(genFun) {
     var ctor = typeof genFun === "function" && genFun.constructor;
     return ctor
       ? ctor === GeneratorFunction ||
@@ -2310,7 +2799,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
       : false;
   };
 
-  runtime.mark = function(genFun) {
+  exports.mark = function(genFun) {
     if (Object.setPrototypeOf) {
       Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
     } else {
@@ -2327,7 +2816,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
   // `hasOwn.call(value, "__await")` to determine if the yielded value is
   // meant to be awaited.
-  runtime.awrap = function(arg) {
+  exports.awrap = function(arg) {
     return { __await: arg };
   };
 
@@ -2352,22 +2841,14 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
         return Promise.resolve(value).then(function(unwrapped) {
           // When a yielded Promise is resolved, its final value becomes
           // the .value of the Promise<{value,done}> result for the
-          // current iteration. If the Promise is rejected, however, the
-          // result for this iteration will be rejected with the same
-          // reason. Note that rejections of yielded Promises are not
-          // thrown back into the generator function, as is the case
-          // when an awaited Promise is rejected. This difference in
-          // behavior between yield and await is important, because it
-          // allows the consumer to decide what to do with the yielded
-          // rejection (swallow it and continue, manually .throw it back
-          // into the generator, abandon iteration, whatever). With
-          // await, by contrast, there is no opportunity to examine the
-          // rejection reason outside the generator function, so the
-          // only option is to throw it from the await expression, and
-          // let the generator function handle the exception.
+          // current iteration.
           result.value = unwrapped;
           resolve(result);
-        }, reject);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
       }
     }
 
@@ -2410,17 +2891,17 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
   AsyncIterator.prototype[asyncIteratorSymbol] = function () {
     return this;
   };
-  runtime.AsyncIterator = AsyncIterator;
+  exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
   // AsyncIterator objects; they just return a Promise for the value of
   // the final result produced by the iterator.
-  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+  exports.async = function(innerFn, outerFn, self, tryLocsList) {
     var iter = new AsyncIterator(
       wrap(innerFn, outerFn, self, tryLocsList)
     );
 
-    return runtime.isGeneratorFunction(outerFn)
+    return exports.isGeneratorFunction(outerFn)
       ? iter // If outerFn is a generator, return the full iterator.
       : iter.next().then(function(result) {
           return result.done ? result.value : iter.next();
@@ -2517,7 +2998,8 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
       context.delegate = null;
 
       if (context.method === "throw") {
-        if (delegate.iterator.return) {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
           // If the delegate iterator has a return method, give it a
           // chance to clean up.
           context.method = "return";
@@ -2637,7 +3119,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
     this.reset(true);
   }
 
-  runtime.keys = function(object) {
+  exports.keys = function(object) {
     var keys = [];
     for (var key in object) {
       keys.push(key);
@@ -2698,7 +3180,7 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
     // Return an iterator with no values.
     return { next: doneResult };
   }
-  runtime.values = values;
+  exports.values = values;
 
   function doneResult() {
     return { value: undefined, done: true };
@@ -2903,12 +3385,35 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
       return ContinueSentinel;
     }
   };
-})(
-  // In sloppy mode, unbound `this` refers to the global object, fallback to
-  // Function constructor if we're in global strict mode. That is sadly a form
-  // of indirect eval which violates Content Security Policy.
-  (function() { return this })() || Function("return this")()
-);
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
 
 
 /***/ }),
@@ -2924,18 +3429,27 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return setup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setupCache", function() { return setupCache; });
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./request */ "./src/request.js");
-/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return _cache__WEBPACK_IMPORTED_MODULE_4__["serializeQuery"]; });
+/* harmony import */ var core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es7.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js");
+/* harmony import */ var core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./request */ "./src/request.js");
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return _cache__WEBPACK_IMPORTED_MODULE_7__["serializeQuery"]; });
 
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config */ "./src/config.js");
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./config */ "./src/config.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
+
+
+
 
 
 
@@ -2943,13 +3457,11 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
@@ -2966,101 +3478,92 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 function setupCache() {
   var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   // Extend default configuration
-  config = Object(_config__WEBPACK_IMPORTED_MODULE_5__["makeConfig"])(config); // Axios adapter. Receives the axios request configuration as only parameter
+  config = Object(_config__WEBPACK_IMPORTED_MODULE_8__["makeConfig"])(config); // Axios adapter. Receives the axios request configuration as only parameter
 
-  function adapter(_x) {
-    return _adapter.apply(this, arguments);
+  function adapter(req) {
+    var reqConfig, res, next, networkError, readOnError;
+    return regeneratorRuntime.async(function adapter$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            // Merge the per-request config with the instance config.
+            reqConfig = Object(_config__WEBPACK_IMPORTED_MODULE_8__["mergeRequestConfig"])(config, req); // Execute request against local cache
+
+            _context.next = 3;
+            return regeneratorRuntime.awrap(Object(_request__WEBPACK_IMPORTED_MODULE_6__["default"])(reqConfig, req));
+
+          case 3:
+            res = _context.sent;
+            next = res.next; // Response is not function, something was in cache, return it
+
+            if (Object(_utilities__WEBPACK_IMPORTED_MODULE_9__["isFunction"])(next)) {
+              _context.next = 7;
+              break;
+            }
+
+            return _context.abrupt("return", next);
+
+          case 7:
+            _context.prev = 7;
+            _context.next = 10;
+            return regeneratorRuntime.awrap(reqConfig.adapter(req));
+
+          case 10:
+            res = _context.sent;
+            _context.next = 16;
+            break;
+
+          case 13:
+            _context.prev = 13;
+            _context.t0 = _context["catch"](7);
+            networkError = _context.t0;
+
+          case 16:
+            if (!networkError) {
+              _context.next = 31;
+              break;
+            }
+
+            // Check if we should attempt reading stale cache data
+            readOnError = Object(_utilities__WEBPACK_IMPORTED_MODULE_9__["isFunction"])(reqConfig.readOnError) ? reqConfig.readOnError(networkError, req) : reqConfig.readOnError;
+
+            if (!readOnError) {
+              _context.next = 30;
+              break;
+            }
+
+            _context.prev = 19;
+            // Force cache tu return stale data
+            reqConfig.acceptStale = true; // Try to read from cache again
+
+            _context.next = 23;
+            return regeneratorRuntime.awrap(Object(_request__WEBPACK_IMPORTED_MODULE_6__["default"])(reqConfig, req));
+
+          case 23:
+            res = _context.sent;
+            // Signal that data is from stale cache
+            res.next.request.stale = true; // No need to check if `next` is a function just return cache data
+
+            return _context.abrupt("return", res.next);
+
+          case 28:
+            _context.prev = 28;
+            _context.t1 = _context["catch"](19);
+
+          case 30:
+            throw networkError;
+
+          case 31:
+            return _context.abrupt("return", next(res));
+
+          case 32:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, null, null, [[7, 13], [19, 28]]);
   } // Return adapter and store instance
 
-
-  function _adapter() {
-    _adapter = _asyncToGenerator(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee(req) {
-      var reqConfig, res, next, networkError, readOnError;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // Merge the per-request config with the instance config.
-              reqConfig = Object(_config__WEBPACK_IMPORTED_MODULE_5__["mergeRequestConfig"])(config, req); // Execute request against local cache
-
-              _context.next = 3;
-              return Object(_request__WEBPACK_IMPORTED_MODULE_3__["default"])(reqConfig, req);
-
-            case 3:
-              res = _context.sent;
-              next = res.next; // Response is not function, something was in cache, return it
-
-              if (Object(_utilities__WEBPACK_IMPORTED_MODULE_6__["isFunction"])(next)) {
-                _context.next = 7;
-                break;
-              }
-
-              return _context.abrupt("return", next);
-
-            case 7:
-              _context.prev = 7;
-              _context.next = 10;
-              return reqConfig.adapter(req);
-
-            case 10:
-              res = _context.sent;
-              _context.next = 16;
-              break;
-
-            case 13:
-              _context.prev = 13;
-              _context.t0 = _context["catch"](7);
-              networkError = _context.t0;
-
-            case 16:
-              if (!networkError) {
-                _context.next = 31;
-                break;
-              }
-
-              // Check if we should attempt reading stale cache data
-              readOnError = Object(_utilities__WEBPACK_IMPORTED_MODULE_6__["isFunction"])(reqConfig.readOnError) ? reqConfig.readOnError(networkError, req) : reqConfig.readOnError;
-
-              if (!readOnError) {
-                _context.next = 30;
-                break;
-              }
-
-              _context.prev = 19;
-              // Force cache tu return stale data
-              reqConfig.acceptStale = true; // Try to read from cache again
-
-              _context.next = 23;
-              return Object(_request__WEBPACK_IMPORTED_MODULE_3__["default"])(reqConfig, req);
-
-            case 23:
-              res = _context.sent;
-              // Signal that data is from stale cache
-              res.next.request.stale = true; // No need to check if `next` is a function just return cache data
-
-              return _context.abrupt("return", res.next);
-
-            case 28:
-              _context.prev = 28;
-              _context.t1 = _context["catch"](19);
-
-            case 30:
-              throw networkError;
-
-            case 31:
-              return _context.abrupt("return", next(res));
-
-            case 32:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, this, [[7, 13], [19, 28]]);
-    }));
-    return _adapter.apply(this, arguments);
-  }
 
   return {
     adapter: adapter,
@@ -3082,8 +3585,8 @@ function setupCache() {
 function setup() {
   var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var instanceConfig = _objectSpread({}, _config__WEBPACK_IMPORTED_MODULE_5__["defaults"].axios, config, {
-    cache: _objectSpread({}, _config__WEBPACK_IMPORTED_MODULE_5__["defaults"].axios.cache, config.cache)
+  var instanceConfig = _objectSpread({}, _config__WEBPACK_IMPORTED_MODULE_8__["defaults"].axios, {}, config, {
+    cache: _objectSpread({}, _config__WEBPACK_IMPORTED_MODULE_8__["defaults"].axios.cache, {}, config.cache)
   });
 
   var cache = setupCache(instanceConfig.cache);
@@ -3091,7 +3594,7 @@ function setup() {
   var _ = instanceConfig.cache,
       axiosConfig = _objectWithoutProperties(instanceConfig, ["cache"]);
 
-  var api = axios__WEBPACK_IMPORTED_MODULE_2___default.a.create(_objectSpread({}, axiosConfig, {
+  var api = axios__WEBPACK_IMPORTED_MODULE_5___default.a.create(_objectSpread({}, axiosConfig, {
     adapter: cache.adapter
   }));
   api.cache = cache.store;
@@ -3102,7 +3605,7 @@ function setup() {
 /* harmony default export */ __webpack_exports__["default"] = ({
   setup: setup,
   setupCache: setupCache,
-  serializeQuery: _cache__WEBPACK_IMPORTED_MODULE_4__["serializeQuery"]
+  serializeQuery: _cache__WEBPACK_IMPORTED_MODULE_7__["serializeQuery"]
 });
 
 /***/ }),
@@ -3121,152 +3624,132 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "key", function() { return key; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidate", function() { return invalidate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serializeQuery", function() { return serializeQuery; });
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _serialize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./serialize */ "./src/serialize.js");
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _serialize__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./serialize */ "./src/serialize.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
 
 
 
 
-function write(_x, _x2, _x3) {
-  return _write.apply(this, arguments);
-}
 
-function _write() {
-  _write = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(config, req, res) {
-    var entry;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            entry = {
-              expires: config.expires,
-              data: Object(_serialize__WEBPACK_IMPORTED_MODULE_2__["default"])(config, req, res)
-            };
-            _context.next = 4;
-            return config.store.setItem(config.uuid, entry);
 
-          case 4:
-            _context.next = 19;
-            break;
+function write(config, req, res) {
+  var entry;
+  return regeneratorRuntime.async(function write$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.prev = 0;
+          entry = {
+            expires: config.expires,
+            data: Object(_serialize__WEBPACK_IMPORTED_MODULE_3__["default"])(config, req, res)
+          };
+          _context.next = 4;
+          return regeneratorRuntime.awrap(config.store.setItem(config.uuid, entry));
 
-          case 6:
-            _context.prev = 6;
-            _context.t0 = _context["catch"](0);
-            config.debug('Could not store response', _context.t0);
+        case 4:
+          _context.next = 19;
+          break;
 
-            if (!config.clearOnError) {
-              _context.next = 18;
-              break;
-            }
+        case 6:
+          _context.prev = 6;
+          _context.t0 = _context["catch"](0);
+          config.debug('Could not store response', _context.t0);
 
-            _context.prev = 10;
-            _context.next = 13;
-            return config.store.clear();
-
-          case 13:
+          if (!config.clearOnError) {
             _context.next = 18;
             break;
+          }
 
-          case 15:
-            _context.prev = 15;
-            _context.t1 = _context["catch"](10);
-            config.debug('Could not clear store', _context.t1);
+          _context.prev = 10;
+          _context.next = 13;
+          return regeneratorRuntime.awrap(config.store.clear());
 
-          case 18:
-            return _context.abrupt("return", false);
+        case 13:
+          _context.next = 18;
+          break;
 
-          case 19:
-            return _context.abrupt("return", true);
+        case 15:
+          _context.prev = 15;
+          _context.t1 = _context["catch"](10);
+          config.debug('Could not clear store', _context.t1);
 
-          case 20:
-          case "end":
-            return _context.stop();
-        }
+        case 18:
+          return _context.abrupt("return", false);
+
+        case 19:
+          return _context.abrupt("return", true);
+
+        case 20:
+        case "end":
+          return _context.stop();
       }
-    }, _callee, this, [[0, 6], [10, 15]]);
-  }));
-  return _write.apply(this, arguments);
+    }
+  }, null, null, [[0, 6], [10, 15]]);
 }
 
-function read(_x4, _x5) {
-  return _read.apply(this, arguments);
-}
+function read(config, req) {
+  var uuid, ignoreCache, entry, error, expires, data, offline, _error;
 
-function _read() {
-  _read = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(config, req) {
-    var uuid, ignoreCache, entry, error, expires, data, offline, _error;
+  return regeneratorRuntime.async(function read$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          uuid = config.uuid, ignoreCache = config.ignoreCache;
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(config.store.getItem(uuid));
 
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            uuid = config.uuid, ignoreCache = config.ignoreCache;
-            _context2.next = 3;
-            return config.store.getItem(uuid);
+        case 3:
+          entry = _context2.sent;
 
-          case 3:
-            entry = _context2.sent;
+          if (!(ignoreCache || !entry || !entry.data)) {
+            _context2.next = 10;
+            break;
+          }
 
-            if (!(ignoreCache || !entry || !entry.data)) {
-              _context2.next = 10;
-              break;
-            }
+          config.debug('cache-miss', req.url);
+          error = new Error();
+          error.reason = 'cache-miss';
+          error.message = 'Entry not found from cache';
+          throw error;
 
-            config.debug('cache-miss', req.url);
-            error = new Error();
-            error.reason = 'cache-miss';
-            error.message = 'Entry not found from cache';
-            throw error;
+        case 10:
+          expires = entry.expires, data = entry.data; // Do not check for stale cache if offline on client-side
 
-          case 10:
-            expires = entry.expires, data = entry.data; // Do not check for stale cache if offline on client-side
+          offline = typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine;
 
-            offline = typeof navigator !== 'undefined' && 'onLine' in navigator && !navigator.onLine;
+          if (!(!offline && !config.acceptStale && expires !== 0 && expires < Date.now())) {
+            _context2.next = 18;
+            break;
+          }
 
-            if (!(!offline && !config.acceptStale && expires !== 0 && expires < Date.now())) {
-              _context2.next = 18;
-              break;
-            }
+          config.debug('cache-stale', req.url);
+          _error = new Error();
+          _error.reason = 'cache-stale';
+          _error.message = 'Entry is stale';
+          throw _error;
 
-            config.debug('cache-stale', req.url);
-            _error = new Error();
-            _error.reason = 'cache-stale';
-            _error.message = 'Entry is stale';
-            throw _error;
+        case 18:
+          config.debug(config.acceptStale ? 'cache-hit-stale' : 'cache-hit', req.url);
+          return _context2.abrupt("return", data);
 
-          case 18:
-            config.debug(config.acceptStale ? 'cache-hit-stale' : 'cache-hit', req.url);
-            return _context2.abrupt("return", data);
-
-          case 20:
-          case "end":
-            return _context2.stop();
-        }
+        case 20:
+        case "end":
+          return _context2.stop();
       }
-    }, _callee2, this);
-  }));
-  return _read.apply(this, arguments);
+    }
+  });
 }
 
 function key(config) {
-  if (Object(_utilities__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(config.key)) return config.key;
+  if (Object(_utilities__WEBPACK_IMPORTED_MODULE_4__["isFunction"])(config.key)) return config.key;
   var cacheKey;
-  if (Object(_utilities__WEBPACK_IMPORTED_MODULE_3__["isString"])(config.key)) cacheKey = function cacheKey(req) {
+  if (Object(_utilities__WEBPACK_IMPORTED_MODULE_4__["isString"])(config.key)) cacheKey = function cacheKey(req) {
     return "".concat(config.key, "/").concat(req.url).concat(serializeQuery(req));
   };else cacheKey = function cacheKey(req) {
     return req.url + serializeQuery(req);
@@ -3274,42 +3757,33 @@ function key(config) {
   return cacheKey;
 }
 
-function defaultInvalidate(_x6, _x7) {
-  return _defaultInvalidate.apply(this, arguments);
-}
+function defaultInvalidate(cfg, req) {
+  var method;
+  return regeneratorRuntime.async(function defaultInvalidate$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          method = req.method.toLowerCase();
 
-function _defaultInvalidate() {
-  _defaultInvalidate = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3(cfg, req) {
-    var method;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            method = req.method.toLowerCase();
-
-            if (!(method !== 'get')) {
-              _context3.next = 4;
-              break;
-            }
-
+          if (!(method !== 'get')) {
             _context3.next = 4;
-            return cfg.store.removeItem(cfg.uuid);
+            break;
+          }
 
-          case 4:
-          case "end":
-            return _context3.stop();
-        }
+          _context3.next = 4;
+          return regeneratorRuntime.awrap(cfg.store.removeItem(cfg.uuid));
+
+        case 4:
+        case "end":
+          return _context3.stop();
       }
-    }, _callee3, this);
-  }));
-  return _defaultInvalidate.apply(this, arguments);
+    }
+  });
 }
 
 function invalidate() {
   var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  if (Object(_utilities__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(config.invalidate)) return config.invalidate;
+  if (Object(_utilities__WEBPACK_IMPORTED_MODULE_4__["isFunction"])(config.invalidate)) return config.invalidate;
   return defaultInvalidate;
 }
 
@@ -3353,15 +3827,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaults", function() { return defaults; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeConfig", function() { return makeConfig; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeRequestConfig", function() { return mergeRequestConfig; });
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "axios");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _memory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./memory */ "./src/memory.js");
-/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
+/* harmony import */ var core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es7.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js");
+/* harmony import */ var core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es7_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "axios");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _memory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./memory */ "./src/memory.js");
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
 
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3394,7 +3879,7 @@ var defaults = {
       query: true,
       filter: null
     },
-    adapter: axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.adapter,
+    adapter: axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.adapter,
     clearOnStale: true,
     clearOnError: true,
     readOnError: false,
@@ -3407,9 +3892,9 @@ var defaults = {
     cache: {
       maxAge: 15 * 60 * 1000
     }
-  } // List of disallowed in the per-request config.
+  }
+}; // List of disallowed in the per-request config.
 
-};
 var disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'uuid', 'acceptStale'];
 /**
  * Make a global config object.
@@ -3421,11 +3906,11 @@ var disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'uuid', 'acceptStal
 var makeConfig = function makeConfig() {
   var override = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var config = _objectSpread({}, defaults.cache, override); // Create a cache key method
+  var config = _objectSpread({}, defaults.cache, {}, override); // Create a cache key method
 
 
-  config.key = Object(_cache__WEBPACK_IMPORTED_MODULE_3__["key"])(config);
-  config.invalidate = Object(_cache__WEBPACK_IMPORTED_MODULE_3__["invalidate"])(config); // If debug mode is on, create a simple logger method
+  config.key = Object(_cache__WEBPACK_IMPORTED_MODULE_6__["key"])(config);
+  config.invalidate = Object(_cache__WEBPACK_IMPORTED_MODULE_6__["invalidate"])(config); // If debug mode is on, create a simple logger method
 
   if (config.debug !== false) {
     config.debug = typeof config.debug === 'function' ? config.debug : debug;
@@ -3434,7 +3919,7 @@ var makeConfig = function makeConfig() {
   } // Create an in memory store if none was given
 
 
-  if (!config.store) config.store = new _memory__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  if (!config.store) config.store = new _memory__WEBPACK_IMPORTED_MODULE_5__["default"]();
   config.debug('Global cache config', config);
   return config;
 };
@@ -3461,8 +3946,8 @@ var mergeRequestConfig = function mergeRequestConfig(config, req) {
     });
   }
 
-  var mergedConfig = _objectSpread({}, config, requestConfig, {
-    exclude: _objectSpread({}, config.exclude, requestConfig.exclude)
+  var mergedConfig = _objectSpread({}, config, {}, requestConfig, {
+    exclude: _objectSpread({}, config.exclude, {}, requestConfig.exclude)
   });
 
   if (mergedConfig.debug === true) {
@@ -3495,7 +3980,10 @@ var mergeRequestConfig = function mergeRequestConfig(config, req) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
+
 
 
 
@@ -3512,7 +4000,7 @@ function exclude() {
   } // do not cache request with query
 
 
-  var hasQueryParams = /\?.*$/.test(req.url) || Object(_utilities__WEBPACK_IMPORTED_MODULE_1__["isObject"])(req.params) && Object.keys(req.params).length !== 0 || typeof URLSearchParams !== 'undefined' && req.params instanceof URLSearchParams;
+  var hasQueryParams = /\?.*$/.test(req.url) || Object(_utilities__WEBPACK_IMPORTED_MODULE_2__["isObject"])(req.params) && Object.keys(req.params).length !== 0 || typeof URLSearchParams !== 'undefined' && req.params instanceof URLSearchParams;
 
   if (exclude.query && hasQueryParams) {
     debug("Excluding request by query ".concat(req.url));
@@ -3580,68 +4068,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_0__);
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function limit(config) {
+  var length, firstItem;
+  return regeneratorRuntime.async(function limit$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return regeneratorRuntime.awrap(config.store.length());
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+        case 2:
+          length = _context.sent;
 
-function limit(_x) {
-  return _limit.apply(this, arguments);
-}
+          if (!(length < config.limit)) {
+            _context.next = 5;
+            break;
+          }
 
-function _limit() {
-  _limit = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(config) {
-    var length, firstItem;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return config.store.length();
+          return _context.abrupt("return");
 
-          case 2:
-            length = _context.sent;
+        case 5:
+          config.debug("Current store size: ".concat(length));
+          _context.next = 8;
+          return regeneratorRuntime.awrap(config.store.iterate(function (value, key) {
+            if (!firstItem) firstItem = {
+              value: value,
+              key: key
+            };
+            if (value.expires < firstItem.value.expires) firstItem = {
+              value: value,
+              key: key
+            };
+          }));
 
-            if (!(length < config.limit)) {
-              _context.next = 5;
-              break;
-            }
-
-            return _context.abrupt("return");
-
-          case 5:
-            config.debug("Current store size: ".concat(length));
-            _context.next = 8;
-            return config.store.iterate(function (value, key) {
-              if (!firstItem) firstItem = {
-                value: value,
-                key: key
-              };
-              if (value.expires < firstItem.value.expires) firstItem = {
-                value: value,
-                key: key
-              };
-            });
-
-          case 8:
-            if (!firstItem) {
-              _context.next = 12;
-              break;
-            }
-
-            config.debug("Removing item: ".concat(firstItem.key));
+        case 8:
+          if (!firstItem) {
             _context.next = 12;
-            return config.store.removeItem(firstItem.key);
+            break;
+          }
 
-          case 12:
-          case "end":
-            return _context.stop();
-        }
+          config.debug("Removing item: ".concat(firstItem.key));
+          _context.next = 12;
+          return regeneratorRuntime.awrap(config.store.removeItem(firstItem.key));
+
+        case 12:
+        case "end":
+          return _context.stop();
       }
-    }, _callee, this);
-  }));
-  return _limit.apply(this, arguments);
+    }
+  });
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (limit);
@@ -3659,15 +4134,14 @@ function _limit() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
 
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3688,131 +4162,91 @@ function () {
 
   _createClass(MemoryStore, [{
     key: "getItem",
-    value: function () {
-      var _getItem = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(key) {
-        var item;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                item = this.store[key] || null;
-                return _context.abrupt("return", JSON.parse(item));
+    value: function getItem(key) {
+      var item;
+      return regeneratorRuntime.async(function getItem$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              item = this.store[key] || null;
+              return _context.abrupt("return", JSON.parse(item));
 
-              case 2:
-              case "end":
-                return _context.stop();
-            }
+            case 2:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      return function getItem(_x) {
-        return _getItem.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setItem",
-    value: function () {
-      var _setItem = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(key, value) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.store[key] = JSON.stringify(value);
-                return _context2.abrupt("return", value);
+    value: function setItem(key, value) {
+      return regeneratorRuntime.async(function setItem$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              this.store[key] = JSON.stringify(value);
+              return _context2.abrupt("return", value);
 
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
+            case 2:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      return function setItem(_x2, _x3) {
-        return _setItem.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "removeItem",
-    value: function () {
-      var _removeItem = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(key) {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                delete this.store[key];
+    value: function removeItem(key) {
+      return regeneratorRuntime.async(function removeItem$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              delete this.store[key];
 
-              case 1:
-              case "end":
-                return _context3.stop();
-            }
+            case 1:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      return function removeItem(_x4) {
-        return _removeItem.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "clear",
-    value: function () {
-      var _clear = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.store = {};
+    value: function clear() {
+      return regeneratorRuntime.async(function clear$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              this.store = {};
 
-              case 1:
-              case "end":
-                return _context4.stop();
-            }
+            case 1:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      return function clear() {
-        return _clear.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "length",
-    value: function () {
-      var _length = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                return _context5.abrupt("return", Object.keys(this.store).length);
+    value: function length() {
+      return regeneratorRuntime.async(function length$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              return _context5.abrupt("return", Object.keys(this.store).length);
 
-              case 1:
-              case "end":
-                return _context5.stop();
-            }
+            case 1:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee5, this);
-      }));
-
-      return function length() {
-        return _length.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "iterate",
     value: function iterate(fn) {
-      return Promise.all(Object(_utilities__WEBPACK_IMPORTED_MODULE_2__["mapObject"])(this.store, fn));
+      return Promise.all(Object(_utilities__WEBPACK_IMPORTED_MODULE_3__["mapObject"])(this.store, fn));
     }
   }]);
 
@@ -3834,23 +4268,22 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.function.bind */ "./node_modules/core-js/modules/es6.function.bind.js");
-/* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.function.name */ "./node_modules/core-js/modules/es6.function.name.js");
-/* harmony import */ var core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! util */ "util");
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.function.bind */ "./node_modules/core-js/modules/es6.function.bind.js");
+/* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es6.function.name */ "./node_modules/core-js/modules/es6.function.name.js");
+/* harmony import */ var core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! util */ "util");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utilities */ "./src/utilities.js");
 
 
 
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3881,186 +4314,138 @@ function () {
 
     this.client = client;
     this.HASH_KEY = HASH_KEY;
-    this.hgetAsync = Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(client.hget).bind(client);
-    this.hsetAsync = Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(client.hset).bind(client);
-    this.hdelAsync = Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(client.hdel).bind(client);
-    this.delAsync = Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(client.del).bind(client);
-    this.hlenAsync = Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(client.hlen).bind(client);
-    this.hgetallAsync = Object(util__WEBPACK_IMPORTED_MODULE_4__["promisify"])(client.hgetall).bind(client);
+    this.hgetAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.hget).bind(client);
+    this.hsetAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.hset).bind(client);
+    this.hdelAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.hdel).bind(client);
+    this.delAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.del).bind(client);
+    this.hlenAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.hlen).bind(client);
+    this.hgetallAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.hgetall).bind(client);
   }
 
   _createClass(RedisStore, [{
     key: "getItem",
-    value: function () {
-      var _getItem = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(key) {
-        var item;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return this.hgetAsync(this.HASH_KEY, key);
+    value: function getItem(key) {
+      var item;
+      return regeneratorRuntime.async(function getItem$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return regeneratorRuntime.awrap(this.hgetAsync(this.HASH_KEY, key));
 
-              case 2:
-                _context.t0 = _context.sent;
+            case 2:
+              _context.t0 = _context.sent;
 
-                if (_context.t0) {
-                  _context.next = 5;
-                  break;
-                }
+              if (_context.t0) {
+                _context.next = 5;
+                break;
+              }
 
-                _context.t0 = null;
+              _context.t0 = null;
 
-              case 5:
-                item = _context.t0;
-                return _context.abrupt("return", JSON.parse(item));
+            case 5:
+              item = _context.t0;
+              return _context.abrupt("return", JSON.parse(item));
 
-              case 7:
-              case "end":
-                return _context.stop();
-            }
+            case 7:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
-
-      return function getItem(_x) {
-        return _getItem.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "setItem",
-    value: function () {
-      var _setItem = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(key, value) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return this.hsetAsync(this.HASH_KEY, key, JSON.stringify(value));
+    value: function setItem(key, value) {
+      return regeneratorRuntime.async(function setItem$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return regeneratorRuntime.awrap(this.hsetAsync(this.HASH_KEY, key, JSON.stringify(value)));
 
-              case 2:
-                return _context2.abrupt("return", value);
+            case 2:
+              return _context2.abrupt("return", value);
 
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
+            case 3:
+            case "end":
+              return _context2.stop();
           }
-        }, _callee2, this);
-      }));
-
-      return function setItem(_x2, _x3) {
-        return _setItem.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "removeItem",
-    value: function () {
-      var _removeItem = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(key) {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return this.hdelAsync(this.HASH_KEY, key);
+    value: function removeItem(key) {
+      return regeneratorRuntime.async(function removeItem$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return regeneratorRuntime.awrap(this.hdelAsync(this.HASH_KEY, key));
 
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
+            case 2:
+            case "end":
+              return _context3.stop();
           }
-        }, _callee3, this);
-      }));
-
-      return function removeItem(_x4) {
-        return _removeItem.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "clear",
-    value: function () {
-      var _clear = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return this.delAsync(this.HASH_KEY);
+    value: function clear() {
+      return regeneratorRuntime.async(function clear$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return regeneratorRuntime.awrap(this.delAsync(this.HASH_KEY));
 
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
+            case 2:
+            case "end":
+              return _context4.stop();
           }
-        }, _callee4, this);
-      }));
-
-      return function clear() {
-        return _clear.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "length",
-    value: function () {
-      var _length = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                return _context5.abrupt("return", this.hlenAsync(this.HASH_KEY));
+    value: function length() {
+      return regeneratorRuntime.async(function length$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              return _context5.abrupt("return", this.hlenAsync(this.HASH_KEY));
 
-              case 1:
-              case "end":
-                return _context5.stop();
-            }
+            case 1:
+            case "end":
+              return _context5.stop();
           }
-        }, _callee5, this);
-      }));
-
-      return function length() {
-        return _length.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }, {
     key: "iterate",
-    value: function () {
-      var _iterate = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6(fn) {
-        var hashData;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return this.hgetallAsync(this.HASH_KEY);
+    value: function iterate(fn) {
+      var hashData;
+      return regeneratorRuntime.async(function iterate$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return regeneratorRuntime.awrap(this.hgetallAsync(this.HASH_KEY));
 
-              case 2:
-                hashData = _context6.sent;
-                return _context6.abrupt("return", Promise.all(Object(_utilities__WEBPACK_IMPORTED_MODULE_5__["mapObject"])(hashData, fn)));
+            case 2:
+              hashData = _context6.sent;
+              return _context6.abrupt("return", Promise.all(Object(_utilities__WEBPACK_IMPORTED_MODULE_6__["mapObject"])(hashData, fn)));
 
-              case 4:
-              case "end":
-                return _context6.stop();
-            }
+            case 4:
+            case "end":
+              return _context6.stop();
           }
-        }, _callee6, this);
-      }));
-
-      return function iterate(_x5) {
-        return _iterate.apply(this, arguments);
-      };
-    }()
+        }
+      }, null, this);
+    }
   }]);
 
   return RedisStore;
@@ -4086,109 +4471,95 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cache */ "./src/cache.js");
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
-
-
-function request(_x, _x2) {
-  return _request.apply(this, arguments);
-}
-
-function _request() {
-  _request = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(config, req) {
-    var next, method, res, excludeFromCache;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            excludeFromCache = function _ref() {
-              config.excludeFromCache = true;
-              return {
-                config: config,
-                next: next
-              };
-            };
-
-            config.debug('uuid', config.uuid);
-
-            next = function next() {
-              for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-              }
-
-              return _response__WEBPACK_IMPORTED_MODULE_1__["default"].apply(void 0, [config, req].concat(args));
-            }; // run invalidate function to check if any cache items need to be invalidated.
-
-
-            _context.next = 5;
-            return config.invalidate(config, req);
-
-          case 5:
-            if (!Object(_exclude__WEBPACK_IMPORTED_MODULE_2__["default"])(config, req)) {
-              _context.next = 7;
-              break;
-            }
-
-            return _context.abrupt("return", excludeFromCache());
-
-          case 7:
-            method = req.method.toLowerCase();
-
-            if (!(method === 'head' || method !== 'get')) {
-              _context.next = 10;
-              break;
-            }
-
-            return _context.abrupt("return", excludeFromCache());
-
-          case 10:
-            _context.prev = 10;
-            _context.next = 13;
-            return Object(_cache__WEBPACK_IMPORTED_MODULE_3__["read"])(config, req);
-
-          case 13:
-            res = _context.sent;
-            res.config = req;
-            res.request = {
-              fromCache: true
-            };
-            return _context.abrupt("return", {
-              config: config,
-              next: res
-            });
-
-          case 19:
-            _context.prev = 19;
-            _context.t0 = _context["catch"](10);
-
-            if (!(config.clearOnStale && _context.t0.reason === 'cache-stale')) {
-              _context.next = 24;
-              break;
-            }
-
-            _context.next = 24;
-            return config.store.removeItem(config.uuid);
-
-          case 24:
-            return _context.abrupt("return", {
+function request(config, req) {
+  var next, method, res, excludeFromCache;
+  return regeneratorRuntime.async(function request$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          excludeFromCache = function _ref() {
+            config.excludeFromCache = true;
+            return {
               config: config,
               next: next
-            });
+            };
+          };
 
-          case 25:
-          case "end":
-            return _context.stop();
-        }
+          config.debug('uuid', config.uuid);
+
+          next = function next() {
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
+            }
+
+            return _response__WEBPACK_IMPORTED_MODULE_1__["default"].apply(void 0, [config, req].concat(args));
+          }; // run invalidate function to check if any cache items need to be invalidated.
+
+
+          _context.next = 5;
+          return regeneratorRuntime.awrap(config.invalidate(config, req));
+
+        case 5:
+          if (!Object(_exclude__WEBPACK_IMPORTED_MODULE_2__["default"])(config, req)) {
+            _context.next = 7;
+            break;
+          }
+
+          return _context.abrupt("return", excludeFromCache());
+
+        case 7:
+          method = req.method.toLowerCase();
+
+          if (!(method === 'head' || method !== 'get')) {
+            _context.next = 10;
+            break;
+          }
+
+          return _context.abrupt("return", excludeFromCache());
+
+        case 10:
+          _context.prev = 10;
+          _context.next = 13;
+          return regeneratorRuntime.awrap(Object(_cache__WEBPACK_IMPORTED_MODULE_3__["read"])(config, req));
+
+        case 13:
+          res = _context.sent;
+          res.config = req;
+          res.request = {
+            fromCache: true
+          };
+          return _context.abrupt("return", {
+            config: config,
+            next: res
+          });
+
+        case 19:
+          _context.prev = 19;
+          _context.t0 = _context["catch"](10);
+
+          if (!(config.clearOnStale && _context.t0.reason === 'cache-stale')) {
+            _context.next = 24;
+            break;
+          }
+
+          _context.next = 24;
+          return regeneratorRuntime.awrap(config.store.removeItem(config.uuid));
+
+        case 24:
+          return _context.abrupt("return", {
+            config: config,
+            next: next
+          });
+
+        case 25:
+        case "end":
+          return _context.stop();
       }
-    }, _callee, this, [[10, 19]]);
-  }));
-  return _request.apply(this, arguments);
+    }
+  }, null, null, [[10, 19]]);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (request);
@@ -4211,100 +4582,86 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var cache_control_esm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cache-control-esm */ "./node_modules/cache-control-esm/index.js");
 
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
+function response(config, req, res) {
+  var _res$request, request, _res$headers, headers, cacheControl;
 
+  return regeneratorRuntime.async(function response$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _res$request = res.request, request = _res$request === void 0 ? {} : _res$request, _res$headers = res.headers, headers = _res$headers === void 0 ? {} : _res$headers; // exclude binary response from cache
 
-function response(_x, _x2, _x3) {
-  return _response.apply(this, arguments);
-}
-
-function _response() {
-  _response = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(config, req, res) {
-    var _res$request, request, _res$headers, headers, cacheControl;
-
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _res$request = res.request, request = _res$request === void 0 ? {} : _res$request, _res$headers = res.headers, headers = _res$headers === void 0 ? {} : _res$headers; // exclude binary response from cache
-
-            if (!(['arraybuffer', 'blob'].indexOf(request.responseType) > -1)) {
-              _context.next = 3;
-              break;
-            }
-
-            return _context.abrupt("return", res);
-
-          case 3:
-            cacheControl = {}; // Should we try to determine request cache expiration from headers or not
-
-            if (config.readHeaders) {
-              if (headers['cache-control']) {
-                // Try parsing `cache-control` header from response
-                cacheControl = Object(cache_control_esm__WEBPACK_IMPORTED_MODULE_3__["parse"])(headers['cache-control']); // Force cache exlcusion for `cache-control: no-cache` and `cache-control: no-store`
-
-                if (cacheControl.noCache || cacheControl.noStore) {
-                  config.excludeFromCache = true;
-                }
-              } else if (headers.expires) {
-                // Else try reading `expires` header
-                config.expires = new Date(headers.expires).getTime();
-              }
-            }
-
-            if (config.excludeFromCache) {
-              _context.next = 15;
-              break;
-            }
-
-            if (cacheControl.maxAge || cacheControl.maxAge === 0) {
-              // Use `cache-control` header `max-age` value and convert to milliseconds
-              config.expires = Date.now() + cacheControl.maxAge * 1000;
-            } else if (!config.readHeaders) {
-              // Use fixed `maxAge` defined in the global or per-request config
-              config.expires = config.maxAge === 0 ? Date.now() : Date.now() + config.maxAge;
-            } // Check if a cache limit has been configured
-
-
-            if (!config.limit) {
-              _context.next = 11;
-              break;
-            }
-
-            config.debug("Detected limit: ".concat(config.limit));
-            _context.next = 11;
-            return Object(_limit__WEBPACK_IMPORTED_MODULE_1__["default"])(config);
-
-          case 11:
-            _context.next = 13;
-            return Object(_cache__WEBPACK_IMPORTED_MODULE_2__["write"])(config, req, res);
-
-          case 13:
-            _context.next = 16;
+          if (!(['arraybuffer', 'blob'].indexOf(request.responseType) > -1)) {
+            _context.next = 3;
             break;
+          }
 
-          case 15:
-            // Mark request as excluded from cache
-            res.request.excludedFromCache = true;
+          return _context.abrupt("return", res);
 
-          case 16:
-            return _context.abrupt("return", res);
+        case 3:
+          cacheControl = {}; // Should we try to determine request cache expiration from headers or not
 
-          case 17:
-          case "end":
-            return _context.stop();
-        }
+          if (config.readHeaders) {
+            if (headers['cache-control']) {
+              // Try parsing `cache-control` header from response
+              cacheControl = Object(cache_control_esm__WEBPACK_IMPORTED_MODULE_3__["parse"])(headers['cache-control']); // Force cache exlcusion for `cache-control: no-cache` and `cache-control: no-store`
+
+              if (cacheControl.noCache || cacheControl.noStore) {
+                config.excludeFromCache = true;
+              }
+            } else if (headers.expires) {
+              // Else try reading `expires` header
+              config.expires = new Date(headers.expires).getTime();
+            }
+          }
+
+          if (config.excludeFromCache) {
+            _context.next = 15;
+            break;
+          }
+
+          if (cacheControl.maxAge || cacheControl.maxAge === 0) {
+            // Use `cache-control` header `max-age` value and convert to milliseconds
+            config.expires = Date.now() + cacheControl.maxAge * 1000;
+          } else if (!config.readHeaders) {
+            // Use fixed `maxAge` defined in the global or per-request config
+            config.expires = config.maxAge === 0 ? Date.now() : Date.now() + config.maxAge;
+          } // Check if a cache limit has been configured
+
+
+          if (!config.limit) {
+            _context.next = 11;
+            break;
+          }
+
+          config.debug("Detected limit: ".concat(config.limit));
+          _context.next = 11;
+          return regeneratorRuntime.awrap(Object(_limit__WEBPACK_IMPORTED_MODULE_1__["default"])(config));
+
+        case 11:
+          _context.next = 13;
+          return regeneratorRuntime.awrap(Object(_cache__WEBPACK_IMPORTED_MODULE_2__["write"])(config, req, res));
+
+        case 13:
+          _context.next = 16;
+          break;
+
+        case 15:
+          // Mark request as excluded from cache
+          res.request.excludedFromCache = true;
+
+        case 16:
+          return _context.abrupt("return", res);
+
+        case 17:
+        case "end":
+          return _context.stop();
       }
-    }, _callee, this);
-  }));
-  return _response.apply(this, arguments);
+    }
+  });
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (response);
@@ -4320,8 +4677,14 @@ function _response() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
-/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.symbol */ "./node_modules/core-js/modules/es6.symbol.js");
+/* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_2__);
+
+
 
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
@@ -4369,6 +4732,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_symbol__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
 /* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -4383,6 +4749,8 @@ function isObject(value) {
 } // https://github.com/lodash/lodash/blob/master/.internal/getTag.js
 
 function getTag(value) {
+  var toString = Object.prototype.toString;
+
   if (value === null) {
     return value === undefined ? '[object Undefined]' : '[object Null]';
   }
