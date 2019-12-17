@@ -1,23 +1,15 @@
 /* globals describe it beforeEach */
 
 import assert from 'assert'
-import redis from 'ioredis-mock'
+import Redis from 'ioredis-mock'
 import RedisStore from 'src/ioredis'
 
 describe('Redis store', () => {
   let store
-  const client = redis.createClient()
+  const client = new Redis()
 
   beforeEach(() => {
     store = new RedisStore(client)
-  })
-
-  it('Should throw error if redis client is not valid', async () => {
-    assert.throws(() => new RedisStore(null))
-    assert.throws(() => new RedisStore({ constructor: null }))
-    assert.throws(
-      () => new RedisStore({ constructor: { name: 'MongoClient' } })
-    )
   })
 
   it('Should accept custom HASH_KEY', async () => {
@@ -52,7 +44,7 @@ describe('Redis store', () => {
     await store.removeItem('foo')
 
     const value = await store.getItem('foo')
-    assert.equal(value, undefined)
+    assert.equal(value, null)
   })
 
   it('clear(): Should clear all set values', async () => {
