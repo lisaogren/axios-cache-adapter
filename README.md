@@ -285,7 +285,7 @@ _Note: Passing a function to `readOnError` is a smarter thing to do as you get t
 
 ### Invalidate cache entries
 
-By default, a cache entry will be invalidated when a `POST`, `PUT`, `PATCH` or `DELETE` request is made to the same URL using the following method:
+By default, a cache entry will be invalidated when the request method is not `GET`, `POST`, `PUT`, `PATCH` or `DELETE` if it is made to the same URL using the following method:
 
 ```js
 async defaultInvalidate (config, request) {
@@ -387,7 +387,7 @@ where they will be stored, etc.
   // Will use request url and serialized params by default.
   key: req => req.url + serializeQuery(req.params),
   // {Function} Invalidate stored cache. By default will remove cache when
-  // making a `POST`, `PUT`, `PATCH` or `DELETE` query.
+  // making a request with method not `GET`, `POST`, `PUT`, `PATCH` or `DELETE` query.
   invalidate: async (cfg, req) => {
     const method = req.method.toLowerCase()
     if (method !== 'get') {

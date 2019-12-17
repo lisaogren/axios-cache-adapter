@@ -68,7 +68,7 @@ describe('Integration', function () {
     }
   })
 
-  it('Should bust cache when sending something else than a GET request', async function () {
+  it('Should bust cache when sending something else than a get, post, patch, put or delete request', async function () {
     this.timeout(REQUEST_TIMEOUT)
 
     await api.cache.clear()
@@ -83,7 +83,7 @@ describe('Integration', function () {
 
     assert.equal(length, 1)
 
-    res = await api({ url, method: 'post' })
+    res = await api({ url, method: 'OPTIONS' })
     length = await api.cache.length()
 
     assert.equal(length, 0)
