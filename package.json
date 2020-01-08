@@ -71,14 +71,14 @@
     "standard": "^11.0.1",
     "webpack": "^4.1.1",
     "webpack-cli": "^3.1.1",
-    "axios": "0.18.1"
+    "axios": "0.19.1"
   },
   "dependencies": {
     "cache-control-esm": "1.0.0",
     "lodash": "^4.17.11"
   },
   "peerDependencies": {
-    "axios": "0.18.1"
+    "axios": "0.19.1"
   },
   "size-limit": [
     {
