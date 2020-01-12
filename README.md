@@ -292,7 +292,7 @@ async defaultInvalidate (config, request) {
   const method = request.method.toLowerCase()
 
   if (method !== 'get') {
-    await config.store.removeItem(config.uuid)
+    await config.store.removeItem(config.url)
   }
 }
 ```
@@ -308,7 +308,7 @@ const api = setup({
     // Invalidate only when a specific option is passed through config
     invalidate: async (config, request) => {
       if (request.clearCacheEntry) {
-        await config.store.removeItem(config.uuid)
+        await config.store.removeItem(config.url)
       }
     }
   }
