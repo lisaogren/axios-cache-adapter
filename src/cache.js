@@ -1,5 +1,8 @@
+import isString from 'lodash/isString'
+import isFunction from 'lodash/isFunction'
+import md5 from 'md5'
+
 import serialize from './serialize'
-import { isFunction, isString } from './utilities'
 
 async function write (config, req, res) {
   try {
@@ -65,16 +68,24 @@ function key (config) {
   if (isFunction(config.key)) return config.key
 
   let cacheKey
-
-  if (isString(config.key)) cacheKey = req => `${config.key}/${req.url}${serializeQuery(req)}`
-  else cacheKey = req => req.url + serializeQuery(req)
+  if (isString(config.key)) {
+    cacheKey = req => {
+      const key = `${config.key}/${req.url}${serializeQuery(req)}`
+      return req.data ? key + md5(req.data) : key
+    }
+  } else {
+    cacheKey = req => {
+      const key = req.url + serializeQuery(req)
+      return req.data ? key + md5(req.data) : key
+    }
+  }
 
   return cacheKey
 }
 
 async function defaultInvalidate (cfg, req) {
   const method = req.method.toLowerCase()
-  if (method !== 'get') {
+  if (!['get', 'post', 'patch', 'put', 'delete'].includes(method)) {
     await cfg.store.removeItem(cfg.uuid)
   }
 }
