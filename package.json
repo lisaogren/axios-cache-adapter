@@ -68,7 +68,7 @@
     "rimraf": "^2.6.2",
     "size-limit": "^4.0.0",
     "snazzy": "^7.0.0",
-    "standard": "^11.0.1",
+    "standard": "^14.3.1",
     "webpack": "^4.1.1",
     "webpack-cli": "^3.1.1",
     "axios": "0.18.1"
