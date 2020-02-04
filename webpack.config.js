@@ -6,11 +6,11 @@ const cwd = process.cwd()
 
 // Base filename and version variable to store what kind of version we'll be generating
 let filename = 'cache[version].js'
-let version = ['']
+const version = ['']
 
 // Start with empty list of plugins and externals and an undefined devtool
 const plugins = []
-let externals = {}
+const externals = {}
 
 let mode = 'development'
 let target = 'web'

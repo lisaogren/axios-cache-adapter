@@ -268,9 +268,9 @@ describe('Integration', function () {
       }
     })
 
-    let response = await request()
-    let response2 = await request()
-    let response3 = await request()
+    const response = await request()
+    const response2 = await request()
+    const response3 = await request()
 
     assert.ok(!response.request.fromCache)
     assert.equal(response.data, 'foobar')

@@ -29,17 +29,17 @@ describe('Per request config', () => {
   }
 
   it('Should merge per-request keys in a new object', () => {
-    let requestConfig = { maxAge: 1000 }
+    const requestConfig = { maxAge: 1000 }
     fakeRequest.cache = requestConfig
 
-    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+    const mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
 
     assert.notStrictEqual(globalConfig, mergedConfig)
     assert.notStrictEqual(requestConfig, mergedConfig)
   })
 
   it('Should merge the permitted keys', () => {
-    let requestConfig = {
+    const requestConfig = {
       maxAge: 10,
       key: 'myKey',
       exclude: {
@@ -51,7 +51,7 @@ describe('Per request config', () => {
     }
     fakeRequest.cache = requestConfig
 
-    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+    const mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
 
     assert.equal(mergedConfig.maxAge, requestConfig.maxAge)
     assert.equal(mergedConfig.key, requestConfig.key)
@@ -72,7 +72,7 @@ describe('Per request config', () => {
   })
 
   it('Should not merge the disallowed keys', () => {
-    let requestConfig = {
+    const requestConfig = {
       limit: true,
       store: 'abc',
       adapter: 'whoops',
@@ -81,7 +81,7 @@ describe('Per request config', () => {
     }
     fakeRequest.cache = requestConfig
 
-    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+    const mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
 
     assert.equal(mergedConfig.limit, globalConfig.limit)
     assert.equal(mergedConfig.store, globalConfig.store)
@@ -91,12 +91,12 @@ describe('Per request config', () => {
   })
 
   it('Should transform the debug key when true', () => {
-    let requestConfig = {
+    const requestConfig = {
       debug: true
     }
     fakeRequest.cache = requestConfig
 
-    let mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
+    const mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
 
     assert.ok(typeof mergedConfig.debug === 'function')
   })
