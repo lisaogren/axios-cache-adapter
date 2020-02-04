@@ -19,7 +19,7 @@ describe('Memory store', () => {
 
     const value = await store.getItem('foo')
 
-    assert.equal(value, expected)
+    assert.strictEqual(value, expected)
   })
 
   it('setItem(): Should set an item', async () => {
@@ -27,7 +27,7 @@ describe('Memory store', () => {
 
     await store.setItem('foo', expected)
 
-    assert.equal(store.store.foo, JSON.stringify(expected))
+    assert.strictEqual(store.store.foo, JSON.stringify(expected))
   })
 
   it('removeItem(): Should remove an item', async () => {
@@ -35,7 +35,7 @@ describe('Memory store', () => {
 
     await store.removeItem('foo')
 
-    assert.equal(store.store.foo, undefined)
+    assert.strictEqual(store.store.foo, undefined)
   })
 
   it('clear(): Should clear all set values', async () => {
@@ -44,8 +44,8 @@ describe('Memory store', () => {
 
     await store.clear()
 
-    assert.equal(store.store.foo, undefined)
-    assert.equal(store.store.hello, undefined)
+    assert.strictEqual(store.store.foo, undefined)
+    assert.strictEqual(store.store.hello, undefined)
 
     assert.ok(isEmpty(store.store))
   })
@@ -61,6 +61,6 @@ describe('Memory store', () => {
 
     const storedData = await store.getItem('key')
 
-    assert.notEqual(data.key, storedData.key)
+    assert.notStrictEqual(data.key, storedData.key)
   })
 })

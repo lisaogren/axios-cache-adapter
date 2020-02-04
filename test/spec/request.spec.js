@@ -70,7 +70,7 @@ describe('Request', () => {
 
     const length = await store.length()
 
-    assert.equal(length, 0)
+    assert.strictEqual(length, 0)
   })
 
   it('Should clear based on new invalidate function', async () => {
@@ -92,7 +92,7 @@ describe('Request', () => {
 
     const length = await store.length()
 
-    assert.equal(length, 1)
+    assert.strictEqual(length, 1)
   })
 
   // Helpers

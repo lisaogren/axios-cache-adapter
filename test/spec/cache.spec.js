@@ -43,7 +43,7 @@ describe('Cache store', () => {
 
     const storedData = JSON.parse(store.store.test)
 
-    assert.equal(storedData.expires, expires)
+    assert.strictEqual(storedData.expires, expires)
     assert.ok(storedData.data.data.youhou)
 
     store.setItem = async () => {
@@ -52,7 +52,7 @@ describe('Cache store', () => {
 
     cacheResult = await cache.write(config, req, res)
 
-    assert.equal(cacheResult, false)
+    assert.strictEqual(cacheResult, false)
   })
 
   it('Should clear cache if a store error occurs and clearOnError option is activated', async () => {
@@ -68,11 +68,11 @@ describe('Cache store', () => {
 
     cacheResult = await cache.write(config, req, res)
 
-    assert.equal(cacheResult, false)
+    assert.strictEqual(cacheResult, false)
 
     const length = await store.length()
 
-    assert.equal(length, 0)
+    assert.strictEqual(length, 0)
   })
 
   it('Should throw when unable to clear cache after a store error occurs', async () => {
@@ -91,14 +91,14 @@ describe('Cache store', () => {
 
     cacheResult = await cache.write(config, req, res)
 
-    assert.equal(cacheResult, false)
+    assert.strictEqual(cacheResult, false)
   })
 
   it('Should read from cache', async () => {
     try {
       await cache.read(config, req)
     } catch (err) {
-      assert.equal(err.reason, 'cache-miss')
+      assert.strictEqual(err.reason, 'cache-miss')
     }
 
     await cache.write(config, req, res)
@@ -106,7 +106,7 @@ describe('Cache store', () => {
     try {
       await cache.read(config, req)
     } catch (err) {
-      assert.equal(err.reason, 'cache-stale')
+      assert.strictEqual(err.reason, 'cache-stale')
     }
 
     config.expires = Date.now() + (15 * 60 * 1000) // Add 15min to cache expiry date
@@ -124,23 +124,23 @@ describe('Cache store', () => {
     try {
       await cache.read(config, req)
     } catch (err) {
-      assert.equal(err.reason, 'cache-miss')
+      assert.strictEqual(err.reason, 'cache-miss')
     }
   })
 
   it('Should generate a cache key', () => {
     const expected = function key () {}
 
-    assert.deepEqual(cache.key({ key: expected }), expected)
+    assert.deepStrictEqual(cache.key({ key: expected }), expected)
 
     let cacheKey = cache.key({ key: 'my-key' })
 
     assert.ok(isFunction(cacheKey))
-    assert.equal(cacheKey({ url: 'url' }), 'my-key/url')
+    assert.strictEqual(cacheKey({ url: 'url' }), 'my-key/url')
 
     cacheKey = cache.key({})
 
     assert.ok(isFunction(cacheKey))
-    assert.equal(cacheKey({ url: 'url' }), 'url')
+    assert.strictEqual(cacheKey({ url: 'url' }), 'url')
   })
 })

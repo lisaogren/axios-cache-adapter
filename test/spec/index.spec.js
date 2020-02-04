@@ -42,12 +42,12 @@ describe('Integration', function () {
 
     let response = await api(definition)
 
-    assert.equal(response.status, 200)
+    assert.strictEqual(response.status, 200)
     assert.ok(isObject(response.data))
 
     response = await api(definition)
 
-    assert.equal(response.status, 200)
+    assert.strictEqual(response.status, 200)
     assert.ok(isObject(response.data))
     assert.ok(response.request.fromCache)
   })
@@ -60,11 +60,11 @@ describe('Integration', function () {
     try {
       await api({ url: 'https://httpbin.org/status/404' })
     } catch (err) {
-      assert.equal(err.response.status, 404)
+      assert.strictEqual(err.response.status, 404)
 
       const length = await api.cache.length()
 
-      assert.equal(length, 0)
+      assert.strictEqual(length, 0)
     }
   })
 
@@ -78,15 +78,15 @@ describe('Integration', function () {
     let res = await api({ url })
     let length
 
-    assert.equal(res.status, 200)
+    assert.strictEqual(res.status, 200)
     length = await api.cache.length()
 
-    assert.equal(length, 1)
+    assert.strictEqual(length, 1)
 
     res = await api({ url, method: 'OPTIONS' })
     length = await api.cache.length()
 
-    assert.equal(length, 0)
+    assert.strictEqual(length, 0)
   })
 
   it('Should cache GET requests with params', async function () {
@@ -114,7 +114,7 @@ describe('Integration', function () {
 
     let response = await api2(definition)
 
-    assert.equal(response.status, 200)
+    assert.strictEqual(response.status, 200)
     assert.ok(isObject(response.data))
     assert.ok(has(response.data.args, 'userId'))
     assert.ok(!response.request.fromCache)
@@ -150,7 +150,7 @@ describe('Integration', function () {
 
     let response = await api(definition)
 
-    assert.equal(response.status, 200)
+    assert.strictEqual(response.status, 200)
     assert.ok(has(response.data.args, 'userId'))
     assert.ok(!response.request.fromCache)
 
@@ -187,13 +187,13 @@ describe('Integration', function () {
     const responses = await send()
 
     responses.forEach(response => {
-      assert.equal(response.status, 200)
+      assert.strictEqual(response.status, 200)
       assert.ok(isObject(response.data))
     })
 
     const length = await api3.cache.length()
 
-    assert.equal(length, config.cache.limit)
+    assert.strictEqual(length, config.cache.limit)
   })
 
   it('Should exclude paths', async function () {
@@ -222,7 +222,7 @@ describe('Integration', function () {
 
     const length = await api4.cache.length()
 
-    assert.equal(length, 0)
+    assert.strictEqual(length, 0)
   })
 
   it('Should activate debugging mode or take a debug function', () => {
@@ -239,14 +239,14 @@ describe('Integration', function () {
     })
 
     assert.ok(isFunction(cache.config.debug))
-    assert.equal(cache.config.debug('test'), 'test')
+    assert.strictEqual(cache.config.debug('test'), 'test')
   })
 
   it('Should take an optional store', () => {
     const store = new MemoryStore()
     const cache = setupCache({ store })
 
-    assert.deepEqual(cache.store, store)
+    assert.deepStrictEqual(cache.store, store)
   })
 
   it('Should be able to transform response whether it comes from network or cache', async function () {
@@ -273,23 +273,23 @@ describe('Integration', function () {
     const response3 = await request()
 
     assert.ok(!response.request.fromCache)
-    assert.equal(response.data, 'foobar')
+    assert.strictEqual(response.data, 'foobar')
 
     assert.ok(response2.request.fromCache)
-    assert.equal(response2.data, 'foobar')
+    assert.strictEqual(response2.data, 'foobar')
 
     assert.ok(response3.request.fromCache)
-    assert.equal(response3.data, 'foobar')
+    assert.strictEqual(response3.data, 'foobar')
 
     // assert.doesNotThrow(async () => {
     //   response = await request()
     //   assert.ok(response.request.fromCache)
-    //   assert.equal(response.data, 'foobar')
+    //   assert.strictEqual(response.data, 'foobar')
 
     //   assert.doesNotThrow(async () => {
     //     response = await request()
     //     assert.ok(response.request.fromCache)
-    //     assert.equal(response.data, 'foobar')
+    //     assert.strictEqual(response.data, 'foobar')
     //   })
     // })
   })
@@ -340,13 +340,13 @@ describe('Integration', function () {
       method: 'get'
     })
 
-    assert.equal(response.status, 200)
+    assert.strictEqual(response.status, 200)
     assert.ok(isObject(response.data))
 
     const { data } = await store.getItem(url)
 
-    assert.equal(data.status, 200)
-    assert.equal(data.data.url, url)
+    assert.strictEqual(data.status, 200)
+    assert.strictEqual(data.data.url, url)
   })
 
   it('Should be able to set caching options per request', async function () {
@@ -409,7 +409,7 @@ describe('Integration', function () {
 
     const item = await api.cache.getItem('https://httpbin.org/cache/2345')
 
-    assert.equal(item.expires, 12345000)
+    assert.strictEqual(item.expires, 12345000)
 
     MockDate.reset()
   })
@@ -458,7 +458,7 @@ describe('Integration', function () {
 
     const item = await api.cache.getItem(baseURL + route)
 
-    assert.equal(item.expires, new Date(dateInThePast).getTime())
+    assert.strictEqual(item.expires, new Date(dateInThePast).getTime())
 
     response = await api.get(route)
 

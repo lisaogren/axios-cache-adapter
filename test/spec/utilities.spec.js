@@ -35,21 +35,21 @@ describe('Utilities', () => {
 
   describe('getTag', () => {
     it('Should identify null ', () => {
-      assert.equal(getTag(null), '[object Null]')
+      assert.strictEqual(getTag(null), '[object Null]')
     })
 
     it('Should identify undefined ', () => {
-      assert.equal(getTag(undefined), '[object Undefined]')
+      assert.strictEqual(getTag(undefined), '[object Undefined]')
     })
 
     it('Should identify strings ', () => {
-      assert.equal(getTag('foo'), '[object String]')
+      assert.strictEqual(getTag('foo'), '[object String]')
     })
 
     it('Should identify all function types ', () => {
-      assert.equal(getTag(functions[0]), '[object Function]')
-      assert.equal(getTag(functions[1]), '[object GeneratorFunction]')
-      assert.equal(getTag(functions[2]), '[object AsyncFunction]')
+      assert.strictEqual(getTag(functions[0]), '[object Function]')
+      assert.strictEqual(getTag(functions[1]), '[object GeneratorFunction]')
+      assert.strictEqual(getTag(functions[2]), '[object AsyncFunction]')
     })
   })
 
@@ -88,14 +88,14 @@ describe('Utilities', () => {
       })
       assert.ok(called)
       assert.ok(mapped instanceof Array)
-      assert.equal(mapped[0], 'n=10')
-      assert.equal(mapped[1], 'a=15')
+      assert.strictEqual(mapped[0], 'n=10')
+      assert.strictEqual(mapped[1], 'a=15')
     })
 
     it('Should return empty Array for non-object values', () => {
       const mapFn = (v, k) => `${k}=${v}`
-      notObjects.forEach(value => assert.deepEqual(mapObject(value, mapFn), []))
-      functions.forEach(value => assert.deepEqual(mapObject(value, mapFn), []))
+      notObjects.forEach(value => assert.deepStrictEqual(mapObject(value, mapFn), []))
+      functions.forEach(value => assert.deepStrictEqual(mapObject(value, mapFn), []))
     })
   })
 })

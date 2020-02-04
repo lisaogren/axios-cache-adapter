@@ -30,13 +30,13 @@ describe('Limit', () => {
 
       let length = await store.length()
 
-      assert.equal(length, 2)
+      assert.strictEqual(length, 2)
 
       await limit(config)
 
       length = await store.length()
 
-      assert.equal(length, 1)
+      assert.strictEqual(length, 1)
     })
   })
 })
