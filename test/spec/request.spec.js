@@ -59,8 +59,8 @@ describe('Request', () => {
     testExclusion(result)
   })
 
-  it('Should notify an exclusion and clear cache for http methods !== get', async () => {
-    req.method = 'POST'
+  it('Should notify an exclusion and clear cache for http methods not one of get, post, patch, put or delete', async () => {
+    req.method = 'OPTIONS'
 
     await store.setItem('url', res)
 
