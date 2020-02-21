@@ -44,11 +44,13 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "assert": "^1.4.1",
+    "axios": "0.18.1",
     "babel-loader": "^8.0.4",
     "cache-control-esm": "1.0.0",
     "codecov": "^3.0.0",
     "html-webpack-plugin": "^3.0.6",
     "husky": "^1.1.2",
+    "ioredis-mock": "^4.18.4",
     "istanbul-instrumenter-loader": "^3.0.0",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -70,8 +72,7 @@
     "snazzy": "^7.0.0",
     "standard": "^14.3.1",
     "webpack": "^4.1.1",
-    "webpack-cli": "^3.1.1",
-    "axios": "0.18.1"
+    "webpack-cli": "^3.1.1"
   },
   "dependencies": {
     "cache-control-esm": "1.0.0",
