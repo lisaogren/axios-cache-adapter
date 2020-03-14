@@ -34,7 +34,7 @@ export interface IAxiosCacheAdapterOptions
 	 * {Number} Maximum number of cached request (last in, first out queue system),
 	 * defaults to `false` for no limit. *Cannot be overridden per request*
 	 */
-	limit?: boolean;
+	limit?: number | boolean;
 	/**
 	 * {Object} An instance of localforage, defaults to a custom in memory store.
 	 * *Cannot be overridden per request*
