@@ -414,6 +414,25 @@ describe('Integration', function () {
     MockDate.reset()
   })
 
+  it("when no cache-control header", async () => {
+    MockDate.set(10000000)
+
+    const api = setup({
+      baseURL: "https://httpbin.org",
+      cache: { readHeaders: true }
+    })
+
+    const response = await api.get("/cache")
+
+    assert.ok(!response.request.fromCache)
+
+    const item = await api.cache.getItem("https://httpbin.org/cache/")
+
+    assert.equal(item.expires, 1000000)
+
+    MockDate.reset()
+  })
+
   it('Should exclude from cache when reading no-cache or must-revalidate from cache-control', async () => {
     const baseURL = 'https://httpbin.org'
     const noCacheRoute = '/response-headers?cache-control=no-cache'

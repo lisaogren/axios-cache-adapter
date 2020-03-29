@@ -23,6 +23,8 @@ async function response (config, req, res) {
       }
     } else if (headers.expires) { // Else try reading `expires` header
       config.expires = new Date(headers.expires).getTime()
+    } else {
+      config.expires = new Date().getTime()
     }
   }
 
