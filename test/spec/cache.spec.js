@@ -136,11 +136,11 @@ describe('Cache store', () => {
     let cacheKey = cache.key({ key: 'my-key' })
 
     assert.ok(isFunction(cacheKey))
-    assert.equal(cacheKey({ url: 'url' }), 'my-key/url')
+    assert.equal(cacheKey({ url: 'https://httpbin.org' }), 'my-key/https://httpbin.org/')
 
     cacheKey = cache.key({})
 
     assert.ok(isFunction(cacheKey))
-    assert.equal(cacheKey({ url: 'url' }), 'url')
+    assert.equal(cacheKey({ url: 'https://httpbin.org' }), 'https://httpbin.org/')
   })
 })
