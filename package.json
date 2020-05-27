@@ -76,7 +76,8 @@
   "dependencies": {
     "cache-control-esm": "1.0.0",
     "lodash": "^4.17.11",
-    "md5": "^2.2.1"
+    "md5": "^2.2.1",
+    "whatwg-url": "^7.1.0"
   },
   "peerDependencies": {
     "axios": "0.18.1"

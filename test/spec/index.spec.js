@@ -132,6 +132,30 @@ describe('Integration', function () {
     assert.ok(response.request.fromCache)
   })
 
+  it("Should not cache requests with same url but different baseURL", async () => {
+    const api = setup()
+
+    // https://httpbin.org/anything
+    const response = await api.get("anything", {
+      baseURL: "https://httpbin.org/",
+      cache: {
+        maxAge: 15 * 1000
+      }
+    })
+
+    assert.notEqual(response.request.fromCache, true)
+
+    // https://httpbin.org/anything/anything
+    const response2 = await api.get("anything", {
+      baseURL: "https://httpbin.org/anything/",
+      cache: {
+        maxAge: 15 * 1000
+      }
+    })
+
+    assert.notEqual(response2.request.fromCache, true)
+  })
+
   it('Should cache GET requests with params even though URLSearchParams does not exist', async () => {
     const URLSearchParamsBackup = URLSearchParams
     window.URLSearchParams = undefined

@@ -1,6 +1,7 @@
 import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
 import md5 from 'md5'
+import { URL } from 'whatwg-url'
 
 import serialize from './serialize'
 
@@ -70,12 +71,14 @@ function key (config) {
   let cacheKey
   if (isString(config.key)) {
     cacheKey = req => {
-      const key = `${config.key}/${req.url}${serializeQuery(req)}`
+      const url = new URL(req.url, req.baseURL)
+      const key = `${config.key}/${url.href}${serializeQuery(req)}`
       return req.data ? key + md5(req.data) : key
     }
   } else {
     cacheKey = req => {
-      const key = req.url + serializeQuery(req)
+      const url = new URL(req.url, req.baseURL)
+      const key = url.href + serializeQuery(req)
       return req.data ? key + md5(req.data) : key
     }
   }
