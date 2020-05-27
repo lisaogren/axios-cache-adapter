@@ -70,17 +70,16 @@
     "snazzy": "^7.0.0",
     "standard": "^14.3.1",
     "webpack": "^4.1.1",
-    "webpack-cli": "^3.1.1",
-    "axios": "0.19.2"
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-cli": "^3.1.1"
   },
   "dependencies": {
     "cache-control-esm": "1.0.0",
-    "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "whatwg-url": "^7.1.0"
   },
   "peerDependencies": {
-    "axios": "0.19.2"
+    "axios": "^0.19.2"
   },
   "size-limit": [
     {
