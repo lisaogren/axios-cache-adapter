@@ -205,6 +205,36 @@ const api = setup({
 const response = await api.get('/url')
 ```
 
+
+#### Use Redis Default Store as Cache Store 
+
+You can give a `RedisDefaultStore` instance to `axios-cache-adapter` which will be used to store cache data in Redis using the default commands instead of hash commands.
+
+_Note: This only works server-side_
+
+```js
+const { setup, RedisDefaultStore } = require('axios-cache-adapter')
+const redis = require('redis')
+
+const client = redis.createClient({
+  url: 'REDIS_URL',
+})
+const store = new RedisDefaultStore(client, {
+  prefix: 'namespace_as_prefix' // optional
+})
+const api = setup({
+  // `axios` options
+  baseURL: 'http://some-rest.api',
+  // `axios-cache-adapter` options
+  cache: {
+    maxAge: 15 * 60 * 1000,
+    store // Pass `RedisDefaultStore` store to `axios-cache-adapter`
+  }
+})
+
+const response = await api.get('/url')
+```
+
 ### Check if response is served from network or from cache
 
 When a response is served from cache a custom `response.request` object is created with a `fromCache` boolean.
