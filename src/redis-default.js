@@ -64,7 +64,7 @@ class RedisDefaultStore {
     let cursor = '0'
 
     do {
-      const reply = await this.scanAsync(cursor, 'MATCH', this.prefix + '*', 'COUNT', this.maxScanCount)
+      const reply = await this.scanAsync(cursor, 'MATCH', this.transformKey('*'), 'COUNT', this.maxScanCount)
 
       cursor = reply[0]
 
