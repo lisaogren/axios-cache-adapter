@@ -30,7 +30,7 @@ class IoRedisStore {
   }
 
   async iterate (fn) {
-    const hashData = await this.hgetallAsync(this.HASH_KEY)
+    const hashData = await this.client.hgetall(this.HASH_KEY)
     return Promise.all(mapObject(hashData, fn))
   }
 }
