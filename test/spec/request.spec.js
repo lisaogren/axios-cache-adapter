@@ -27,7 +27,7 @@ describe('Request', () => {
     }
 
     req = {
-      url: 'url',
+      url: 'https://httpbin.org/',
       method: 'GET'
     }
 
@@ -59,10 +59,10 @@ describe('Request', () => {
     testExclusion(result)
   })
 
-  it('Should notify an exclusion and clear cache for http methods !== get', async () => {
-    req.method = 'POST'
+  it('Should notify an exclusion and clear cache for http methods not one of get, post, patch, put or delete', async () => {
+    req.method = 'OPTIONS'
 
-    await store.setItem('url', res)
+    await store.setItem('https://httpbin.org/', res)
 
     const result = await request(config, req)
 
