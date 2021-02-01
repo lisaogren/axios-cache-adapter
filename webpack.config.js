@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const cwd = process.cwd()
 
@@ -9,7 +10,9 @@ let filename = 'cache[version].js'
 let version = ['']
 
 // Start with empty list of plugins and externals and an undefined devtool
-const plugins = []
+const plugins = [
+  // new BundleAnalyzerPlugin()
+]
 let externals = {}
 
 let mode = 'development'
@@ -170,7 +173,7 @@ const test = {
     port: 3000
   },
   target: 'web',
-  devtool: 'inline-source-map'
+  devtool: 'source-map'
 }
 
 module.exports = process.env.NODE_ENV === 'test' ? test : build
