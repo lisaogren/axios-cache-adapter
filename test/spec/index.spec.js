@@ -322,7 +322,7 @@ describe('Integration', function () {
     const url = 'https://httpbin.org/status/404'
     const api5 = setup({
       cache: {
-        // debug: true,
+        debug: true,
         maxAge: 1,
         readOnError: (err, config) => {
           return err.response.status === 404
