@@ -34,7 +34,7 @@ export interface IAxiosCacheAdapterOptions
 	 * {Number} Maximum number of cached request (last in, first out queue system),
 	 * defaults to `false` for no limit. *Cannot be overridden per request*
 	 */
-	limit?: boolean;
+	limit?: false | number;
 	/**
 	 * {Object} An instance of localforage, defaults to a custom in memory store.
 	 * *Cannot be overridden per request*
@@ -95,6 +95,8 @@ export interface IAxiosCacheAdapterOptions
 	 * {Function|Boolean} Print out debug log to console.
 	 */
 	debug?: Function | boolean;
+  
+  excludeFromCache?: boolean;
 }
 
 export interface ISetupCache
@@ -118,3 +120,16 @@ export declare function setupCache(options: IAxiosCacheAdapterOptions) : ISetupC
 
 export class RedisStore { constructor(client: any, HASH_KEY?: string); }
 export class IoRedisStore { constructor(client: any, HASH_KEY?: string); }
+
+export interface IAxiosCacheAdapterRequest
+{
+	/**
+	 * When a response is served from cache a custom `response.request` object is created with a `fromCache` boolean.
+	 */
+	fromCache?: boolean,
+
+	/**
+	 * Check that query was excluded from cache
+	 */
+	excludedFromCache?: boolean,
+}

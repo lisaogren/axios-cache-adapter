@@ -73,7 +73,7 @@
     "webpack": "^4.1.1",
     "webpack-cli": "^3.1.1"
     "webpack-cli": "^3.1.1",
-    "axios": "0.19.2"
+    "axios": "~0.21.1"
   },
   "dependencies": {
     "cache-control-esm": "1.0.0",
@@ -82,7 +82,7 @@
     "whatwg-url": "^7.1.0"
   },
   "peerDependencies": {
-    "axios": "0.19.2"
+    "axios": "~0.21.1"
   },
   "size-limit": [
     {

@@ -5,8 +5,6 @@
 Adapted from [superapi-cache](https://github.com/stephanebachelier/superapi-cache)
 by [@stephanebachelier](https://github.com/stephanebachelier)
 
-*Note: Per request override does not work with `axios@0.19.0` as mentioned in [this issue](https://github.com/RasCarlito/axios-cache-adapter/issues/99). Until it is fixed, `axios-cache-adapter` locks the `axios` version to `0.18.1`*
-
 ## Install
 
 Using npm
