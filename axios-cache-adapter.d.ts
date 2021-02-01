@@ -95,6 +95,8 @@ export interface IAxiosCacheAdapterOptions
 	 * {Function|Boolean} Print out debug log to console.
 	 */
 	debug?: Function | boolean;
+  
+  excludeFromCache?: boolean;
 }
 
 export interface ISetupCache
