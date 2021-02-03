@@ -9,7 +9,7 @@ export function getTag (value) {
   if (value === null) {
     return value === undefined ? '[object Undefined]' : '[object Null]'
   }
-  return toString.call(value)
+  return Object.prototype.toString.call(value)
 }
 
 // https://github.com/lodash/lodash/blob/master/isFunction.js

@@ -322,7 +322,7 @@ describe('Integration', function () {
     const url = 'https://httpbin.org/status/404'
     const api5 = setup({
       cache: {
-        // debug: true,
+        debug: true,
         maxAge: 1,
         readOnError: (err, config) => {
           return err.response.status === 404
@@ -434,6 +434,25 @@ describe('Integration', function () {
     const item = await api.cache.getItem('https://httpbin.org/cache/2345')
 
     assert.equal(item.expires, 12345000)
+
+    MockDate.reset()
+  })
+
+  it("when no cache-control header", async () => {
+    MockDate.set(10000000)
+
+    const api = setup({
+      baseURL: "https://httpbin.org",
+      cache: { readHeaders: true }
+    })
+
+    const response = await api.get("/cache")
+
+    assert.ok(!response.request.fromCache)
+
+    const item = await api.cache.getItem("https://httpbin.org/cache/")
+
+    assert.equal(item.expires, 1000000)
 
     MockDate.reset()
   })
