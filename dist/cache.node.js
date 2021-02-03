@@ -4701,7 +4701,7 @@ function exclude() {
 /*!***************************!*\
   !*** ./src/index.node.js ***!
   \***************************/
-/*! exports provided: setup, setupCache, serializeQuery, RedisStore, default */
+/*! exports provided: setup, setupCache, serializeQuery, RedisStore, RedisDefaultStore, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4716,6 +4716,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _redis__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redis */ "./src/redis.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RedisStore", function() { return _redis__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
+/* harmony import */ var _redis_default__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./redis-default */ "./src/redis-default.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RedisDefaultStore", function() { return _redis_default__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+
 
 
 
@@ -4723,7 +4727,8 @@ __webpack_require__.r(__webpack_exports__);
   setup: _api__WEBPACK_IMPORTED_MODULE_0__["setup"],
   setupCache: _api__WEBPACK_IMPORTED_MODULE_0__["setupCache"],
   serializeQuery: _api__WEBPACK_IMPORTED_MODULE_0__["serializeQuery"],
-  RedisStore: _redis__WEBPACK_IMPORTED_MODULE_1__["default"]
+  RedisStore: _redis__WEBPACK_IMPORTED_MODULE_1__["default"],
+  RedisDefaultStore: _redis_default__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 
 /***/ }),
@@ -4983,6 +4988,377 @@ var MemoryStore = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (MemoryStore);
+
+/***/ }),
+
+/***/ "./src/redis-default.js":
+/*!******************************!*\
+  !*** ./src/redis-default.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es6.array.iterator */ "./node_modules/core-js/modules/es6.array.iterator.js");
+/* harmony import */ var core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es6.object.to-string */ "./node_modules/core-js/modules/es6.object.to-string.js");
+/* harmony import */ var core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es6.function.bind */ "./node_modules/core-js/modules/es6.function.bind.js");
+/* harmony import */ var core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_bind__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es6.function.name */ "./node_modules/core-js/modules/es6.function.name.js");
+/* harmony import */ var core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es6_function_name__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! util */ "util");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var RedisDefaultStore = /*#__PURE__*/function () {
+  function RedisDefaultStore(client) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, RedisDefaultStore);
+
+    var invalidClientError = new TypeError('First parameter must be a valid RedisClient instance.');
+
+    try {
+      if (client.constructor.name !== 'RedisClient') {
+        throw invalidClientError;
+      }
+    } catch (err) {
+      throw invalidClientError;
+    }
+
+    this.client = client;
+    this.prefix = options.prefix || 'axios-cache';
+    this.maxScanCount = options.maxScanCount || 1000;
+    this.getAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.get).bind(client);
+    this.psetexAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.psetex).bind(client);
+    this.delAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.del).bind(client);
+    this.scanAsync = Object(util__WEBPACK_IMPORTED_MODULE_5__["promisify"])(client.scan).bind(client);
+  }
+
+  _createClass(RedisDefaultStore, [{
+    key: "calculateTTL",
+    value: function calculateTTL(value) {
+      var now = Date.now();
+
+      if (value.expires && value.expires > now) {
+        return value.expires - now;
+      } // If there is no expires in value or the provided expire is before the current time
+
+
+      return -1;
+    }
+  }, {
+    key: "transformKey",
+    value: function transformKey(key) {
+      return this.prefix + '_' + key;
+    }
+  }, {
+    key: "getItem",
+    value: function () {
+      var _getItem = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(key) {
+        var item;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.getAsync(this.transformKey(key));
+
+              case 2:
+                _context.t0 = _context.sent;
+
+                if (_context.t0) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.t0 = null;
+
+              case 5:
+                item = _context.t0;
+                return _context.abrupt("return", JSON.parse(item));
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getItem(_x) {
+        return _getItem.apply(this, arguments);
+      }
+
+      return getItem;
+    }()
+  }, {
+    key: "setItem",
+    value: function () {
+      var _setItem = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(key, value) {
+        var computedKey, ttl;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                computedKey = this.transformKey(key);
+                ttl = this.calculateTTL(value);
+
+                if (!(ttl > 0)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                _context2.next = 5;
+                return this.psetexAsync(computedKey, ttl, JSON.stringify(value));
+
+              case 5:
+                return _context2.abrupt("return", value);
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function setItem(_x2, _x3) {
+        return _setItem.apply(this, arguments);
+      }
+
+      return setItem;
+    }()
+  }, {
+    key: "removeItem",
+    value: function () {
+      var _removeItem = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(key) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this.delAsync(this.transformKey(key));
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function removeItem(_x4) {
+        return _removeItem.apply(this, arguments);
+      }
+
+      return removeItem;
+    }()
+  }, {
+    key: "scan",
+    value: function () {
+      var _scan = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(operation) {
+        var cursor, reply;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                cursor = '0';
+
+              case 1:
+                _context4.next = 3;
+                return this.scanAsync(cursor, 'MATCH', this.transformKey('*'), 'COUNT', this.maxScanCount);
+
+              case 3:
+                reply = _context4.sent;
+                cursor = reply[0];
+                _context4.next = 7;
+                return operation(reply[1]);
+
+              case 7:
+                if (cursor !== '0') {
+                  _context4.next = 1;
+                  break;
+                }
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function scan(_x5) {
+        return _scan.apply(this, arguments);
+      }
+
+      return scan;
+    }()
+  }, {
+    key: "clear",
+    value: function () {
+      var _clear = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var _this = this;
+
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return this.scan(function (keys) {
+                  return _this.delAsync(keys);
+                });
+
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function clear() {
+        return _clear.apply(this, arguments);
+      }
+
+      return clear;
+    }()
+  }, {
+    key: "length",
+    value: function () {
+      var _length = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        var length;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                length = 0;
+                _context6.next = 3;
+                return this.scan(function (keys) {
+                  length += keys.length;
+                });
+
+              case 3:
+                return _context6.abrupt("return", length);
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function length() {
+        return _length.apply(this, arguments);
+      }
+
+      return length;
+    }()
+  }, {
+    key: "iterate",
+    value: function () {
+      var _iterate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(fn) {
+        var _this2 = this;
+
+        var runFunction, _runFunction;
+
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _runFunction = function _runFunction3() {
+                  _runFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(key) {
+                    var item, value;
+                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                      while (1) {
+                        switch (_context7.prev = _context7.next) {
+                          case 0:
+                            _context7.next = 2;
+                            return this.getAsync(key);
+
+                          case 2:
+                            _context7.t0 = _context7.sent;
+
+                            if (_context7.t0) {
+                              _context7.next = 5;
+                              break;
+                            }
+
+                            _context7.t0 = null;
+
+                          case 5:
+                            item = _context7.t0;
+                            value = JSON.parse(item);
+                            _context7.next = 9;
+                            return fn(value, key);
+
+                          case 9:
+                            return _context7.abrupt("return", _context7.sent);
+
+                          case 10:
+                          case "end":
+                            return _context7.stop();
+                        }
+                      }
+                    }, _callee7, this);
+                  }));
+                  return _runFunction.apply(this, arguments);
+                };
+
+                runFunction = function _runFunction2(_x7) {
+                  return _runFunction.apply(this, arguments);
+                };
+
+                _context8.next = 4;
+                return this.scan(function (keys) {
+                  return Promise.all(keys.map(runFunction.bind(_this2)));
+                });
+
+              case 4:
+                return _context8.abrupt("return", Promise.resolve([]));
+
+              case 5:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function iterate(_x6) {
+        return _iterate.apply(this, arguments);
+      }
+
+      return iterate;
+    }()
+  }]);
+
+  return RedisDefaultStore;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (RedisDefaultStore);
 
 /***/ }),
 
@@ -5428,6 +5804,8 @@ function _response() {
               } else if (headers.expires) {
                 // Else try reading `expires` header
                 config.expires = new Date(headers.expires).getTime();
+              } else {
+                config.expires = new Date().getTime();
               }
             }
 

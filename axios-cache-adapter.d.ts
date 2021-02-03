@@ -120,6 +120,15 @@ export declare function setupCache(options: IAxiosCacheAdapterOptions) : ISetupC
 
 export class RedisStore { constructor(client: any, HASH_KEY?: string); }
 
+export interface RedisDefaultOptions
+{
+	prefix?: String;
+
+	maxScanCount?: number;
+}
+
+export class RedisDefaultStore { constructor(client: any, options?: RedisDefaultOptions); }
+
 export interface IAxiosCacheAdapterRequest
 {
 	/**
