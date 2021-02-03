@@ -15,12 +15,12 @@ describe('Serialize', () => {
   const expected = { data: { youhou: true } }
 
   it('Should serialize response object', () => {
-    assert.deepEqual(serialize(config, req, res), expected)
+    assert.deepStrictEqual(serialize(config, req, res), expected)
   })
 
   it('Should parse response.data if in JSON format', () => {
     res.data = '{ "youhou": true }'
 
-    assert.deepEqual(serialize(config, req, res), expected)
+    assert.deepStrictEqual(serialize(config, req, res), expected)
   })
 })
