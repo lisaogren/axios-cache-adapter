@@ -22,7 +22,7 @@ function setupCache (config = {}) {
 
     // Execute request against local cache
     let res = await request(reqConfig, req)
-    let next = res.next
+    const next = res.next
 
     // Response is not function, something was in cache, return it
     if (!isFunction(next)) return next
@@ -39,7 +39,7 @@ function setupCache (config = {}) {
 
     if (networkError) {
       // Check if we should attempt reading stale cache data
-      let readOnError = isFunction(reqConfig.readOnError)
+      const readOnError = isFunction(reqConfig.readOnError)
         ? reqConfig.readOnError(networkError, req)
         : reqConfig.readOnError
 

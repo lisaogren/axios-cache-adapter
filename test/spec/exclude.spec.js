@@ -12,7 +12,7 @@ describe('Cache exclusion', () => {
   it('Should not exclude if not configured', () => {
     const config = { debug }
 
-    assert.equal(exclude(config, { url }), false)
+    assert.strictEqual(exclude(config, { url }), false)
   })
 
   it('Should exclude requests with query parameters with config.exclude.query=true', () => {
@@ -52,7 +52,7 @@ describe('Cache exclusion', () => {
     }
 
     assert.ok(exclude(config, { url }))
-    assert.equal(exclude(config, { url: 'https://some-rest.api/invoices' }), false)
+    assert.strictEqual(exclude(config, { url: 'https://some-rest.api/invoices' }), false)
   })
 
   it('Should exclude filtered requests', () => {
@@ -64,6 +64,6 @@ describe('Cache exclusion', () => {
     }
 
     assert.ok(exclude(config, { url, params: { shouldExclude: true } }))
-    assert.equal(exclude(config, { url }), false)
+    assert.strictEqual(exclude(config, { url }), false)
   })
 })

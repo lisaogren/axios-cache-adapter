@@ -24,6 +24,7 @@ class RedisStore {
     this.hlenAsync = promisify(client.hlen).bind(client)
     this.hgetallAsync = promisify(client.hgetall).bind(client)
   }
+
   async getItem (key) {
     const item = (await this.hgetAsync(this.HASH_KEY, key)) || null
 
