@@ -450,9 +450,9 @@ describe('Integration', function () {
 
     assert.ok(!response.request.fromCache)
 
-    const item = await api.cache.getItem("https://httpbin.org/cache/")
+    const item = await api.cache.getItem("https://httpbin.org/cache")
 
-    assert.equal(item.expires, 1000000)
+    assert.equal(item.expires, 10000000)
 
     MockDate.reset()
   })
