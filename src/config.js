@@ -17,7 +17,8 @@ const defaults = {
     exclude: {
       paths: [],
       query: true,
-      filter: null
+      filter: null,
+      methods: ['post', 'patch', 'put', 'delete']
     },
     adapter: axios.defaults.adapter,
     clearOnStale: true,
@@ -46,7 +47,14 @@ const disallowedPerRequestKeys = ['limit', 'store', 'adapter', 'uuid', 'acceptSt
  * @return {Object}
  */
 const makeConfig = function (override = {}) {
-  const config = { ...defaults.cache, ...override }
+  const config = {
+    ...defaults.cache,
+    ...override,
+    exclude: {
+      ...defaults.cache.exclude,
+      ...override.exclude
+    }
+  }
 
   // Create a cache key method
   config.key = key(config)

@@ -68,7 +68,7 @@ describe('Integration', function () {
     }
   })
 
-  it('Should bust cache when sending something else than a get, post, patch, put or delete request', async function () {
+  it('Should bust cache when sending any of the configured exclude.methods while using default invalidate method', async function () {
     this.timeout(REQUEST_TIMEOUT)
 
     await api.cache.clear()
@@ -83,7 +83,7 @@ describe('Integration', function () {
 
     assert.strictEqual(length, 1)
 
-    res = await api({ url, method: 'OPTIONS' })
+    res = await api({ url, method: 'POST' })
     length = await api.cache.length()
 
     assert.strictEqual(length, 0)

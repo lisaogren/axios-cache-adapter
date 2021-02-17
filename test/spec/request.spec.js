@@ -14,6 +14,7 @@ describe('Request', () => {
   let res
   // let expires
   let store
+  const methods = ['post', 'patch', 'put', 'delete']
 
   beforeEach(() => {
     // expires = Date.now()
@@ -23,7 +24,8 @@ describe('Request', () => {
       key: key('test'),
       store,
       debug,
-      invalidate: invalidate()
+      invalidate: invalidate(),
+      exclude: { methods }
     }
 
     req = {
@@ -42,9 +44,7 @@ describe('Request', () => {
 
   it('Should notify an exclusion if url matches exclude params', async () => {
     // Exclude everything
-    config.exclude = {
-      paths: [/.+/]
-    }
+    config.exclude.paths = [/.+/]
 
     const result = await request(config, req)
 
@@ -59,8 +59,8 @@ describe('Request', () => {
     testExclusion(result)
   })
 
-  it('Should notify an exclusion and clear cache for http methods not one of get, post, patch, put or delete', async () => {
-    req.method = 'OPTIONS'
+  it('Should notify an exclusion and clear cache for http methods present in config.exclude.methods list', async () => {
+    req.method = 'POST'
 
     await store.setItem('https://httpbin.org/', res)
 

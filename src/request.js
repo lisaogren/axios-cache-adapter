@@ -14,12 +14,6 @@ async function request (config, req) {
     return excludeFromCache()
   }
 
-  const method = req.method.toLowerCase()
-
-  if (method === 'head' || !['get', 'post', 'patch', 'put', 'delete'].includes(method)) {
-    return excludeFromCache()
-  }
-
   try {
     const res = await read(config, req)
 
