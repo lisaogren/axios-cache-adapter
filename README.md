@@ -27,6 +27,8 @@ Or from a CDN like unpkg.com
 
 ## Usage
 
+**Important note:** Only `GET` request results are cached by default. Executing a request using any method listed in `exclude.methods` will invalidate the cache for the given URL.
+
 ### Instantiate adapter on its own
 
 You can instantiate the `axios-cache-adapter` on its own using the `setupCache()` method and then attach the adapter manually to an instance of `axios`.
@@ -126,6 +128,31 @@ api.get('/get?with=query', {
 
 _Note: Not all instance options can be overridden per request, see the API documentation at the end of this readme_
 
+### Cache POST request results
+
+You can allow `axios-cache-adapter` to cache the results of a request using (almost) any HTTP method by modifying the `exclude.methods` list.
+
+```js
+import { setup } from 'axios-cache-adapter
+
+const api = setup({
+  baseURL: 'https://httpbin.org',
+
+  cache: {
+    exclude: {
+      // Only exclude PUT, PATCH and DELETE methods from cache
+      methods: ['put', 'patch', 'delete']
+    }
+  }
+})
+
+api.post('/post').then((response) => {
+  // POST request has been cached \o/
+})
+```
+
+**Note:** the request method is not used in the cache store key by default, therefore with the above setup, making a `GET` or `POST` request will respond with the same cache.
+
 ### Use localforage as cache store
 
 You can give a `localforage` instance to `axios-cache-adapter` which will be used to store cache data instead of the default [in memory](https://github.com/RasCarlito/axios-cache-adapter/blob/master/src/memory.js) store.
@@ -204,7 +231,7 @@ const response = await api.get('/url')
 ```
 
 
-#### Use Redis Default Store as Cache Store 
+#### Use Redis Default Store as Cache Store
 
 You can give a `RedisDefaultStore` instance to `axios-cache-adapter` which will be used to store cache data in Redis using the default commands instead of hash commands.
 
@@ -313,13 +340,13 @@ _Note: Passing a function to `readOnError` is a smarter thing to do as you get t
 
 ### Invalidate cache entries
 
-By default, a cache entry will be invalidated when the request method is not `GET`, `POST`, `PUT`, `PATCH` or `DELETE` if it is made to the same URL using the following method:
+Using the default `invalidation` method, a cache entry will be invalidated if a request is made using one of the methods listed in `exclude.methods`.
 
 ```js
-async defaultInvalidate (config, request) {
+async function defaultInvalidate (config, request) {
   const method = request.method.toLowerCase()
 
-  if (method !== 'get') {
+  if (config.exclude.methods.includes(method)) {
     await config.store.removeItem(config.uuid)
   }
 }
@@ -430,7 +457,14 @@ where they will be stored, etc.
     query: true,
     // {Function} Method which returns a `Boolean` to determine if request
     // should be excluded from cache.
-    filter: null
+    filter: null,
+    // {Array} HTTP methods which will be excluded from cache.
+    // Defaults to `['post', 'patch', 'put', 'delete']`
+    // Any methods listed will also trigger cache invalidation while using the default `config.invalidate` method.
+    //
+    // Note: the HEAD method is always excluded (hard coded).
+    // the OPTIONS method is ignored by this library as it is automatically handled by browsers/clients to resolve cross-site request permissions
+    methods: ['post', 'patch', 'put', 'delete']
   },
   // {Boolean} Clear cached item when it is stale.
   clearOnStale: true,
