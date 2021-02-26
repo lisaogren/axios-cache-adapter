@@ -97,8 +97,13 @@ const mergeRequestConfig = function (config, req) {
     mergedConfig.debug = debug
   }
 
+  // Create a cache key method
+  if (requestConfig.key) {
+    mergedConfig.key = key(requestConfig)
+  }
+
   // Generate request UUID
-  mergedConfig.uuid = config.key(req)
+  mergedConfig.uuid = mergedConfig.key(req)
 
   config.debug(`Request config for ${req.url}`, mergedConfig)
 

@@ -1,6 +1,7 @@
 /* globals describe it */
 
 import assert from 'assert'
+import isFunction from 'lodash/isFunction'
 
 import config from 'src/config'
 
@@ -54,7 +55,8 @@ describe('Per request config', () => {
     const mergedConfig = config.mergeRequestConfig(globalConfig, fakeRequest)
 
     assert.strictEqual(mergedConfig.maxAge, requestConfig.maxAge)
-    assert.strictEqual(mergedConfig.key, requestConfig.key)
+    assert.ok(isFunction(mergedConfig.key))
+    assert.strictEqual(mergedConfig.key({ url: 'url' }), 'myKey/url')
     assert.deepStrictEqual(mergedConfig.exclude, {
       ...globalConfig.exclude,
       ...requestConfig.exclude
