@@ -67,6 +67,14 @@ export interface IAxiosCacheAdapterOptions
 		 * should be excluded from cache.
 		 */
 		filter?: Function;
+    /**
+     * {Array} HTTP methods which will be excluded from cache.
+     * Defaults to `['post', 'patch', 'put', 'delete']`
+     * Any methods listed will also trigger cache invalidation while using the default `config.invalidate` method.
+     *
+     * Note: the HEAD method is always excluded (hard coded).
+     */
+    methods: Array;
 	};
 	/**
 	 * {Boolean} Clear cached item when it is stale.
@@ -95,7 +103,7 @@ export interface IAxiosCacheAdapterOptions
 	 * {Function|Boolean} Print out debug log to console.
 	 */
 	debug?: Function | boolean;
-  
+
   excludeFromCache?: boolean;
 }
 

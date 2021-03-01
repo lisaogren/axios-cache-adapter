@@ -2,6 +2,13 @@ import { isObject } from './utilities'
 
 function exclude (config = {}, req) {
   const { exclude = {}, debug } = config
+  const method = req.method.toLowerCase()
+
+  if (method === 'head' || exclude.methods.includes(method)) {
+    debug(`Excluding request by HTTP method ${req.url}`)
+
+    return true
+  }
 
   if ((typeof exclude.filter === 'function') && exclude.filter(req)) {
     debug(`Excluding request by filter ${req.url}`)

@@ -84,10 +84,10 @@ function key (config) {
   return cacheKey
 }
 
-async function defaultInvalidate (cfg, req) {
+async function defaultInvalidate (config, req) {
   const method = req.method.toLowerCase()
-  if (!['get', 'post', 'patch', 'put', 'delete'].includes(method)) {
-    await cfg.store.removeItem(cfg.uuid)
+  if (config.exclude.methods.includes(method)) {
+    await config.store.removeItem(config.uuid)
   }
 }
 
