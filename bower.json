@@ -1,6 +1,6 @@
 {
   "name": "axios-cache-adapter",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "authors": [
     "Carl Ogren <rascarlito@gmail.com>"
