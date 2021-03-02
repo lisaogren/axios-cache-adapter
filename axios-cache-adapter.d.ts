@@ -74,7 +74,7 @@ export interface IAxiosCacheAdapterOptions
      *
      * Note: the HEAD method is always excluded (hard coded).
      */
-    methods?: Array;
+    methods?: ('get' | 'post' | 'patch' | 'put' | 'delete')[];
 	};
 	/**
 	 * {Boolean} Clear cached item when it is stale.
