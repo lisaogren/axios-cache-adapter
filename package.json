@@ -1,6 +1,6 @@
 {
   "name": "axios-cache-adapter",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "description": "Caching adapter for axios",
   "homepage": "https://github.com/RasCarlito/axios-cache-adapter",
   "author": {
