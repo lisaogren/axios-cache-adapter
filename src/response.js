@@ -21,8 +21,6 @@ async function response (config, req, res) {
       if (cacheControl.noCache || cacheControl.noStore) {
         config.excludeFromCache = true
       }
-    } else if (headers.expires) { // Else try reading `expires` header
-      config.expires = new Date(headers.expires).getTime()
     } else {
       config.expires = new Date().getTime()
     }
@@ -35,6 +33,8 @@ async function response (config, req, res) {
     } else if (!config.readHeaders) {
       // Use fixed `maxAge` defined in the global or per-request config
       config.expires = config.maxAge === 0 ? Date.now() : Date.now() + config.maxAge
+    } else if (headers.expires) { // Else try reading `expires` header
+      config.expires = new Date(headers.expires).getTime()
     }
 
     // Check if a cache limit has been configured
