@@ -49,8 +49,11 @@ class RedisStore {
   }
 
   async iterate (fn) {
+    const wrapped = (value, key) => {
+      return fn(JSON.parse(value), key)
+    }
     const hashData = await this.hgetallAsync(this.HASH_KEY)
-    return Promise.all(mapObject(hashData, fn))
+    return Promise.all(mapObject(hashData, wrapped))
   }
 }
 

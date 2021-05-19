@@ -27,16 +27,19 @@ describe('Limit', () => {
 
       await store.setItem('test', { expires: now })
       await store.setItem('retest', { expires: now + (60 * 1000) })
+      await store.setItem('oldest', { expires: now - (60 * 1000) })
 
       let length = await store.length()
 
-      assert.strictEqual(length, 2)
+      assert.strictEqual(length, 3)
 
       await limit(config)
 
       length = await store.length()
 
-      assert.strictEqual(length, 1)
+      assert.strictEqual(length, 2)
+      assert(await store.getItem('test'))
+      assert(await store.getItem('retest'))
     })
   })
 })
