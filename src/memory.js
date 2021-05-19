@@ -30,7 +30,10 @@ class MemoryStore {
   }
 
   iterate (fn) {
-    return Promise.all(mapObject(this.store, fn))
+    const wrapped = (value, key) => {
+      return fn(JSON.parse(value), key)
+    }
+    return Promise.all(mapObject(this.store, wrapped))
   }
 }
 
