@@ -69,13 +69,13 @@ function key (config) {
   let cacheKey
   if (isString(config.key)) {
     cacheKey = req => {
-      const url = `${req.baseURL ? req.baseURL : ''}${req.url}`
+      const url = `${req.baseURL ? new URL(req.url, req.baseURL).href : req.url}`
       const key = `${config.key}/${url}${serializeQuery(req)}`
       return req.data ? key + md5(req.data) : key
     }
   } else {
     cacheKey = req => {
-      const url = `${req.baseURL ? req.baseURL : ''}${req.url}`
+      const url = `${req.baseURL ? new URL(req.url, req.baseURL).href : req.url}`
       const key = url + serializeQuery(req)
       return req.data ? key + md5(req.data) : key
     }
