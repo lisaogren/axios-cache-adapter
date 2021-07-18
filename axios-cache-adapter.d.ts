@@ -126,6 +126,13 @@ export declare function setup(options: AxiosRequestConfig): AxiosInstance;
  */
 export declare function setupCache(options: IAxiosCacheAdapterOptions) : ISetupCache;
 
+/**
+ * Create serialized string of request query parameters. If no parameters found in the request object, empty string will be returned.
+ * @param {AxiosRequestConfig} options
+ * @returns string
+ */
+export declare function serializeQuery(req: AxiosRequestConfig): string;
+
 export class RedisStore { constructor(client: any, HASH_KEY?: string); }
 
 export interface RedisDefaultOptions
