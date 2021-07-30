@@ -127,7 +127,7 @@ export declare function setup(options: AxiosRequestConfig): AxiosInstance;
 export declare function setupCache(options: IAxiosCacheAdapterOptions) : ISetupCache;
 
 export class RedisStore { constructor(client: any, HASH_KEY?: string); }
-
+export class IoRedisStore { constructor(client: any, HASH_KEY?: string); }
 export interface RedisDefaultOptions
 {
 	prefix?: String;
