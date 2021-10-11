@@ -28,7 +28,7 @@ function exclude (config = {}, req) {
   }
 
   const paths = exclude.paths || []
-  const found = paths.some(regexp => req.url.match(regexp))
+  const found = paths.some(regexp => req.url && req.url.match(regexp))
 
   if (found) {
     debug(`Excluding request by url match ${req.url}`)
