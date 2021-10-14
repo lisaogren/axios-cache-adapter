@@ -32,6 +32,7 @@ class RedisStore {
   }
 
   async setItem (key, value) {
+    if (value.expires >= Number.POSITIVE_INFINITY) value.expires = 0
     await this.hsetAsync(this.HASH_KEY, key, JSON.stringify(value))
     return value
   }
