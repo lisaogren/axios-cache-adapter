@@ -44,7 +44,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "assert": "^1.4.1",
-    "axios": "~0.21.1",
+    "axios": "~0.21.1 || ~0.22.0",
     "babel-loader": "^8.0.4",
     "cache-control-esm": "1.0.0",
     "codecov": "^3.0.0",
