@@ -4,17 +4,6 @@ import { mapObject } from './utilities'
 
 class RedisStore {
   constructor (client, HASH_KEY = 'axios-cache') {
-    const invalidClientError = new TypeError(
-      'First parameter must be a valid RedisClient instance.'
-    )
-
-    try {
-      if (client.constructor.name !== 'RedisClient') {
-        throw invalidClientError
-      }
-    } catch (err) {
-      throw invalidClientError
-    }
     this.client = client
     this.HASH_KEY = HASH_KEY
     this.hgetAsync = promisify(client.hget).bind(client)
